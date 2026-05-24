@@ -1728,17 +1728,24 @@ section {
         border-bottom: none;
     }
     
+    .nav-right-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
     .nav-actions {
-        display: none !important; /* Hide secondary buttons to avoid nav crowding on mobile */
+        display: flex !important; /* Make actions container visible on mobile */
+        align-items: center;
+        gap: 0;
+    }
+    
+    .nav-actions .btn {
+        display: none !important; /* Hide desktop CTA button on mobile */
     }
     
     .mobile-lang-li {
-        display: flex !important; /* Show language selector inside mobile menu drawer */
-        justify-content: center;
-        width: 100%;
-        margin-top: 12px;
-        padding-top: 16px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        display: none !important; /* Completely hide mobile selector inside drawer */
     }
     
     .mobile-cta-li {
@@ -2366,6 +2373,12 @@ section {
 
 .mobile-cta-li {
     display: none; /* Hidden by default on desktop */
+}
+
+.nav-right-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 .nav-actions {

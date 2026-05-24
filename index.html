@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="index.css?v=2.6">
+    <link rel="stylesheet" href="index.css?v=2.7">
 </head>
 <body>
 
@@ -26,53 +26,38 @@
                 <li><a href="#quiz" class="nav-link" data-translate="nav_quiz">IHK-Quiz</a></li>
                 <li><a href="#perks" class="nav-link" data-translate="nav_perks">Vorteile</a></li>
                 <li><a href="#faq" class="nav-link" data-translate="nav_faq">FAQ</a></li>
-                <!-- Mobile Language Selector inside drawer -->
-                <li class="mobile-lang-li">
-                    <div class="mobile-lang-dropdown-wrapper">
-                        <button class="mobile-lang-trigger" id="mobile-lang-trigger" onclick="toggleMobileLangDropdown(event)" aria-label="Sprache wechseln">
-                            <svg class="globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                            <span id="mobile-active-lang-label">DE</span>
-                            <span class="chevron-down">&#9662;</span>
-                        </button>
-                        <div class="mobile-lang-menu" id="mobile-lang-menu">
-                            <button class="dropdown-item active" id="mobile-lang-opt-de" onclick="switchLanguage('de'); closeAllLangDropdowns();">Deutsch</button>
-                            <button class="dropdown-item" id="mobile-lang-opt-en" onclick="switchLanguage('en'); closeAllLangDropdowns();">English</button>
-                            <button class="dropdown-item" id="mobile-lang-opt-ua" onclick="switchLanguage('ua'); closeAllLangDropdowns();">Українська</button>
-                            <button class="dropdown-item" id="mobile-lang-opt-tr" onclick="switchLanguage('tr'); closeAllLangDropdowns();">Türkçe</button>
-                            <button class="dropdown-item" id="mobile-lang-opt-ar" onclick="switchLanguage('ar'); closeAllLangDropdowns();">العربية</button>
-                            <button class="dropdown-item" id="mobile-lang-opt-ru" onclick="switchLanguage('ru'); closeAllLangDropdowns();">Русский</button>
-                            <button class="dropdown-item" id="mobile-lang-opt-fa" onclick="switchLanguage('fa'); closeAllLangDropdowns();">فارسی</button>
-                        </div>
-                    </div>
-                </li>
                 <!-- Mobile CTA inside drawer -->
                 <li class="mobile-cta-li">
                     <a href="#contact" class="btn btn-gold btn-full" data-translate="nav_cta" onclick="document.getElementById('nav-menu').classList.remove('open'); document.getElementById('menu-toggle').classList.remove('active');">Beratung buchen</a>
                 </li>
             </ul>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Menü öffnen">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-            <div class="nav-actions">
-                <div class="lang-dropdown-wrapper">
-                    <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" onclick="toggleLangDropdown(event)" aria-label="Sprache wechseln">
-                        <svg class="globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                        <span id="active-lang-label">DE</span>
-                        <span class="chevron-down">&#9662;</span>
-                    </button>
-                    <div class="lang-dropdown-menu" id="lang-dropdown-menu">
-                        <button class="dropdown-item active" id="lang-opt-de" onclick="switchLanguage('de'); closeAllLangDropdowns();">Deutsch</button>
-                        <button class="dropdown-item" id="lang-opt-en" onclick="switchLanguage('en'); closeAllLangDropdowns();">English</button>
-                        <button class="dropdown-item" id="lang-opt-ua" onclick="switchLanguage('ua'); closeAllLangDropdowns();">Українська</button>
-                        <button class="dropdown-item" id="lang-opt-tr" onclick="switchLanguage('tr'); closeAllLangDropdowns();">Türkçe</button>
-                        <button class="dropdown-item" id="lang-opt-ar" onclick="switchLanguage('ar'); closeAllLangDropdowns();">العربية</button>
-                        <button class="dropdown-item" id="lang-opt-ru" onclick="switchLanguage('ru'); closeAllLangDropdowns();">Русский</button>
-                        <button class="dropdown-item" id="lang-opt-fa" onclick="switchLanguage('fa'); closeAllLangDropdowns();">فارسی</button>
+            
+            <div class="nav-right-container">
+                <div class="nav-actions">
+                    <div class="lang-dropdown-wrapper">
+                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" onclick="toggleLangDropdown(event)" aria-label="Sprache wechseln">
+                            <svg class="globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                            <span id="active-lang-label">DE</span>
+                            <span class="chevron-down">&#9662;</span>
+                        </button>
+                        <div class="lang-dropdown-menu" id="lang-dropdown-menu">
+                            <button class="dropdown-item active" id="lang-opt-de" onclick="switchLanguage('de'); closeAllLangDropdowns();">Deutsch</button>
+                            <button class="dropdown-item" id="lang-opt-en" onclick="switchLanguage('en'); closeAllLangDropdowns();">English</button>
+                            <button class="dropdown-item" id="lang-opt-ua" onclick="switchLanguage('ua'); closeAllLangDropdowns();">Українська</button>
+                            <button class="dropdown-item" id="lang-opt-tr" onclick="switchLanguage('tr'); closeAllLangDropdowns();">Türkçe</button>
+                            <button class="dropdown-item" id="lang-opt-ar" onclick="switchLanguage('ar'); closeAllLangDropdowns();">العربية</button>
+                            <button class="dropdown-item" id="lang-opt-ru" onclick="switchLanguage('ru'); closeAllLangDropdowns();">Русский</button>
+                            <button class="dropdown-item" id="lang-opt-fa" onclick="switchLanguage('fa'); closeAllLangDropdowns();">فارسی</button>
+                        </div>
                     </div>
+                    <a href="#contact" class="btn btn-gold btn-sm" data-translate="nav_cta">Beratung buchen</a>
                 </div>
-                <a href="#contact" class="btn btn-gold btn-sm" data-translate="nav_cta">Beratung buchen</a>
+                
+                <button class="menu-toggle" id="menu-toggle" aria-label="Menü öffnen">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
             </div>
         </nav>
     </header>
@@ -778,6 +763,6 @@
     </a>
 
     <!-- Main JavaScript -->
-    <script src="index.js?v=2.6"></script>
+    <script src="index.js?v=2.7"></script>
 </body>
 </html>

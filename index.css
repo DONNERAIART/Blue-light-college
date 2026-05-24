@@ -1729,16 +1729,23 @@ section {
     }
     
     .nav-actions {
-        display: none; /* Hide secondary buttons to avoid nav crowding on mobile */
+        display: none !important; /* Hide secondary buttons to avoid nav crowding on mobile */
     }
     
     .mobile-lang-li {
-        display: flex; /* Show language selector inside mobile menu drawer */
+        display: flex !important; /* Show language selector inside mobile menu drawer */
         justify-content: center;
         width: 100%;
         margin-top: 12px;
         padding-top: 16px;
         border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .mobile-cta-li {
+        display: block !important;
+        width: 100%;
+        margin-top: 16px;
+        text-align: center;
     }
 
     .hero {
@@ -2354,7 +2361,11 @@ section {
 
 /* Minimalist Globe Language Switcher in Floating Header */
 .mobile-lang-li {
-    display: none !important; /* Hidden by default on desktop */
+    display: none; /* Hidden by default on desktop */
+}
+
+.mobile-cta-li {
+    display: none; /* Hidden by default on desktop */
 }
 
 .nav-actions {

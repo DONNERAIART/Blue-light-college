@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="index.css?v=2.5">
+    <link rel="stylesheet" href="index.css?v=2.6">
 </head>
 <body>
 
@@ -44,6 +44,10 @@
                             <button class="dropdown-item" id="mobile-lang-opt-fa" onclick="switchLanguage('fa'); closeAllLangDropdowns();">فارسی</button>
                         </div>
                     </div>
+                </li>
+                <!-- Mobile CTA inside drawer -->
+                <li class="mobile-cta-li">
+                    <a href="#contact" class="btn btn-gold btn-full" data-translate="nav_cta" onclick="document.getElementById('nav-menu').classList.remove('open'); document.getElementById('menu-toggle').classList.remove('active');">Beratung buchen</a>
                 </li>
             </ul>
             <button class="menu-toggle" id="menu-toggle" aria-label="Menü öffnen">
@@ -774,6 +778,6 @@
     </a>
 
     <!-- Main JavaScript -->
-    <script src="index.js?v=2.5"></script>
+    <script src="index.js?v=2.6"></script>
 </body>
 </html>

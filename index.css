@@ -3509,13 +3509,49 @@ section {
         padding: 20px;
     }
     
-    .info-card-stats-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
 }
 
+/* Premium Image Styling enhancements */
+.syllabus-image-wrapper {
+    width: 100%;
+    height: 180px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 1px solid var(--clr-border);
+    box-shadow: var(--shadow-sm);
+}
 
+.syllabus-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-normal) ease;
+}
 
+.academic-syllabus-box:hover .syllabus-image {
+    transform: scale(1.03);
+}
 
+.perk-image-wrapper {
+    width: 100%;
+    height: 160px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin: 16px 0 20px 0;
+    border: 1px solid var(--clr-border);
+    box-shadow: var(--shadow-sm);
+}
 
+.perk-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-normal) ease;
+}
+
+.academic-perk-card:hover .perk-image {
+    transform: scale(1.03);
+}

@@ -3666,3 +3666,14 @@ section {
 .academic-quiz-box:hover .quiz-image {
     transform: scale(1.02);
 }
+
+/* Advisor offline state overrides */
+.advisor-availability.offline {
+    color: var(--clr-txt-muted) !important;
+}
+
+.advisor-availability.offline .availability-dot {
+    background-color: var(--clr-txt-muted) !important;
+    animation: none !important;
+    box-shadow: none !important;
+}

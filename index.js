@@ -946,7 +946,9 @@ const translations = {
         map_stat_partners_lbl: "Partner-Unternehmen",
         advisor_name: "Frau Melanie Schmidt",
         advisor_title: "Leiterin der Bildungsberatung",
-        advisor_online: "Online - Jetzt erreichbar"
+        advisor_online: "Online - Jetzt erreichbar",
+        advisor_offline: "Offline - Erreichbar Mo-Fr 10-18 Uhr",
+        wa_status_offline: "Sekretariat offline – Erreichbar Mo-Fr 10-18 Uhr 🔴"
     },
     en: {
         // Navigation & Buttons
@@ -1226,7 +1228,9 @@ const translations = {
         map_stat_partners_lbl: "Partner Companies",
         advisor_name: "Mrs. Melanie Schmidt",
         advisor_title: "Head of Academic Advising",
-        advisor_online: "Online - Available Now"
+        advisor_online: "Online - Available Now",
+        advisor_offline: "Offline - Available Mon-Fri 10am-6pm",
+        wa_status_offline: "Secretariat offline – Available Mon-Fri 10am-6pm 🔴"
     },
     ua: {
         // Navigation & Buttons
@@ -1496,7 +1500,9 @@ const translations = {
         map_stat_partners_lbl: "Компаній-партнерів",
         advisor_name: "Мелані Шмідт",
         advisor_title: "Керівниця відділу консультацій",
-        advisor_online: "В мережі - Доступна зараз"
+        advisor_online: "В мережі - Доступна зараз",
+        advisor_offline: "Офлайн - Робочі години: Пн-Пт 10-18",
+        wa_status_offline: "Секретаріат офлайн – Робочі години: Пн-Пт 10:00-18:00 🔴"
     },
     tr: {
         // Navigation & Buttons
@@ -1766,7 +1772,9 @@ const translations = {
         map_stat_partners_lbl: "Ortak Şirketler",
         advisor_name: "Melanie Schmidt",
         advisor_title: "Akademik Danışmanlık Koordinatörü",
-        advisor_online: "Çevrimiçi - Şimdi Ulaşılabilir"
+        advisor_online: "Çevrimiçi - Şimdi Ulaşılabilir",
+        advisor_offline: "Çevrimdışı - Çalışma saatleri: Pzt-Cum 10-18",
+        wa_status_offline: "Sekreterlik çevrimdışı – Çalışma saatleri: Pzt-Cum 10:00-18:00 🔴"
     },
     ar: {
         // Navigation & Buttons
@@ -2036,7 +2044,9 @@ const translations = {
         map_stat_partners_lbl: "الشركات الشريكة",
         advisor_name: "ميلاني شميت",
         advisor_title: "رئيسة قسم الاستشارات الأكاديمية",
-        advisor_online: "متصلة - متاحة الآن"
+        advisor_online: "متصلة - متاحة الآن",
+        advisor_offline: "غير متصلة - ساعات العمل: الاثنين-الجمعة 10-18",
+        wa_status_offline: "الأمانة غير متصلة – ساعات العمل: الاثنين-الجمعة 10:00-18:00 🔴"
     },
     ru: {
         // Navigation & Buttons
@@ -2306,7 +2316,9 @@ const translations = {
         map_stat_partners_lbl: "Компаний-партнеров",
         advisor_name: "Мелани Шмидт",
         advisor_title: "Руководительница отдела консультаций",
-        advisor_online: "В сети - Доступна сейчас"
+        advisor_online: "В сети - Доступна сейчас",
+        advisor_offline: "Оффлайн - Рабочие часы: Пн-Пт 10-18",
+        wa_status_offline: "Секретариат оффлайн – Рабочие часы: Пн-Пт 10:00-18:00 🔴"
     },
     fa: {
         // Navigation & Buttons
@@ -2576,7 +2588,9 @@ const translations = {
         map_stat_partners_lbl: "شرکت‌های شریک",
         advisor_name: "خانم ملانی اشمیت",
         advisor_title: "رئیس بخش مشاوره تحصیلی",
-        advisor_online: "آنلاین - هم‌اکنون در دسترس"
+        advisor_online: "آنلاین - هم‌اکنون در دسترس",
+        advisor_offline: "غیرفعال - ساعات کاری: دوشنبه-جمعه ۱۰ الی ۱۸",
+        wa_status_offline: "پشتیبانی غیرفعال – ساعات کاری: دوشنبه-جمعه ۱۰:00 الی ۱۸:00 🔴"
     }
 };
 
@@ -2643,6 +2657,105 @@ window.closeAllLangDropdowns = function() {
     menus.forEach(m => m.classList.remove("show"));
 };
 
+// Dynamic Germany local time retrieval and public holiday calculation
+function getEasterSunday(year) {
+    const a = year % 19;
+    const b = Math.floor(year / 100);
+    const c = year % 100;
+    const d = Math.floor(b / 4);
+    const e = b % 4;
+    const f = Math.floor((b + 8) / 25);
+    const g = Math.floor((b - f + 1) / 3);
+    const h = (19 * a + b - d - g + 15) % 30;
+    const i = Math.floor(c / 4);
+    const k = c % 4;
+    const l = (32 + 2 * e + 2 * i - h - k) % 7;
+    const m = Math.floor((a + 11 * h + 22 * l) / 451);
+    const month = Math.floor((h + l - 7 * m + 114) / 31);
+    const day = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(year, month - 1, day);
+}
+
+function isGermanHoliday(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    
+    // Schleswig-Holstein fixed public holidays
+    if (month === 0 && day === 1) return true; // Neujahr (01.01)
+    if (month === 4 && day === 1) return true; // Tag der Arbeit (01.05)
+    if (month === 9 && day === 3) return true; // Tag der Deutschen Einheit (03.10)
+    if (month === 9 && day === 31) return true; // Reformationstag (31.10)
+    if (month === 11 && day === 25) return true; // 1. Weihnachtstag (25.12)
+    if (month === 11 && day === 26) return true; // 2. Weihnachtstag (26.12)
+    
+    // Variable Easter-based holidays
+    const easter = getEasterSunday(year);
+    
+    const goodFriday = new Date(easter);
+    goodFriday.setDate(easter.getDate() - 2);
+    
+    const easterMonday = new Date(easter);
+    easterMonday.setDate(easter.getDate() + 1);
+    
+    const ascension = new Date(easter);
+    ascension.setDate(easter.getDate() + 39);
+    
+    const pentecostMonday = new Date(easter);
+    pentecostMonday.setDate(easter.getDate() + 50);
+    
+    const holidays = [goodFriday, easterMonday, ascension, pentecostMonday];
+    for (const h of holidays) {
+        if (h.getMonth() === month && h.getDate() === day) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+function getGermanyTime() {
+    const options = {
+        timeZone: "Europe/Berlin",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false
+    };
+    
+    const formatter = new Intl.DateTimeFormat("de-DE", options);
+    const parts = formatter.formatToParts(new Date());
+    
+    const dateParts = {};
+    parts.forEach(p => {
+        if (p.type !== "literal") {
+            dateParts[p.type] = parseInt(p.value, 10);
+        }
+    });
+    
+    return new Date(dateParts.year, dateParts.month - 1, dateParts.day, dateParts.hour, dateParts.minute, dateParts.second);
+}
+
+function checkOnlineStatus() {
+    const nowInGermany = getGermanyTime();
+    const day = nowInGermany.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const hours = nowInGermany.getHours();
+    
+    // Monday (1) to Friday (5) only
+    if (day === 0 || day === 6) return false;
+    
+    // Active between 10:00 and 18:00 (10:00:00 to 17:59:59)
+    if (hours < 10 || hours >= 18) return false;
+    
+    // Offline on public holidays
+    if (isGermanHoliday(nowInGermany)) return false;
+    
+    return true;
+}
+
 window.switchLanguage = function(lang) {
     // Save preferred language
     localStorage.setItem("preferredLang", lang);
@@ -2684,8 +2797,24 @@ window.switchLanguage = function(lang) {
     }
     
     // Switch all translated elements
+    const isOnline = checkOnlineStatus();
     document.querySelectorAll("[data-translate]").forEach(el => {
-        const key = el.getAttribute("data-translate");
+        let key = el.getAttribute("data-translate");
+        
+        // Dynamic overrides for online/offline keys
+        if (key === "advisor_online" && !isOnline) {
+            key = "advisor_offline";
+            const parent = el.closest(".advisor-availability");
+            if (parent) parent.classList.add("offline");
+        } else if (key === "advisor_online" && isOnline) {
+            const parent = el.closest(".advisor-availability");
+            if (parent) parent.classList.remove("offline");
+        }
+        
+        if (key === "wa_status" && !isOnline) {
+            key = "wa_status_offline";
+        }
+        
         if (translations[lang] && translations[lang][key]) {
             el.innerHTML = translations[lang][key];
         }
@@ -2771,6 +2900,16 @@ function initWhatsAppStatus() {
     
     let totalSeconds = 4 * 60 + 52; // Start countdown from 4:52
     setInterval(() => {
+        const lang = localStorage.getItem("preferredLang") || "de";
+        const isOnline = checkOnlineStatus();
+        
+        if (!isOnline) {
+            if (translations[lang] && translations[lang].wa_status_offline) {
+                bubble.innerHTML = translations[lang].wa_status_offline;
+            }
+            return;
+        }
+        
         totalSeconds--;
         if (totalSeconds < 60) {
             totalSeconds = 4 * 60 + 52; // Reset timer when it gets close to 1 min to keep it realistic
@@ -2778,8 +2917,6 @@ function initWhatsAppStatus() {
         const min = Math.floor(totalSeconds / 60);
         const sec = totalSeconds % 60;
         const secStr = sec < 10 ? "0" + sec : sec;
-        
-        const lang = localStorage.getItem("preferredLang") || "de";
         
         let statusText = `Sekretariat besetzt – Antwort in ${min}:${secStr} Min 🟢`;
         if (lang === "en") statusText = `Secretariat online – Reply in ${min}:${secStr} min 🟢`;

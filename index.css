@@ -2352,7 +2352,7 @@ section {
     }
 }
 
-/* Minimalist Language Switcher in Floating Header */
+/* Minimalist Globe Language Switcher in Floating Header */
 .mobile-lang-li {
     display: none; /* Hidden by default on desktop */
 }
@@ -2363,64 +2363,191 @@ section {
     gap: 16px;
 }
 
-.lang-switcher {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    background-color: rgba(0, 0, 0, 0.25); /* Dark pill background */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 3px;
-    border-radius: 30px; /* Fully rounded pill shape */
+.lang-dropdown-wrapper, .mobile-lang-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
 }
 
-.lang-btn {
+.lang-dropdown-trigger, .mobile-lang-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #F1F5F9;
+    padding: 8px 16px;
+    border-radius: 30px; /* Elegant rounded pill */
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 0.75rem;
-    color: #94A3B8; /* Slate link gray */
+    font-size: 0.82rem;
+    cursor: pointer;
     transition: all var(--transition-fast);
+    outline: none;
+    user-select: none;
+}
+
+.lang-dropdown-trigger:hover, .mobile-lang-trigger:hover,
+.lang-dropdown-trigger.open, .mobile-lang-trigger.open {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--clr-gold-light);
+    color: var(--clr-gold-light);
+    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.15);
+}
+
+.globe-icon {
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+.chevron-down {
+    font-size: 0.55rem;
+    margin-top: 1px;
+    opacity: 0.7;
+    transition: transform var(--transition-fast);
+}
+
+.lang-dropdown-trigger.open .chevron-down,
+.mobile-lang-trigger.open .chevron-down {
+    transform: rotate(180deg);
+}
+
+/* Glassmorphic Dropdown List */
+.lang-dropdown-menu, .mobile-lang-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 170px;
+    background-color: rgba(14, 30, 54, 0.98); /* Rich Deep Navy backplate */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 3px solid var(--clr-gold); /* Solid gold highlight line */
+    border-radius: var(--radius-md);
+    padding: 6px;
+    box-shadow: 0 12px 36px rgba(14, 30, 54, 0.35);
+    display: none; /* Controlled dynamically by JS classes */
+    flex-direction: column;
+    gap: 2px;
+    z-index: 2000;
+    transform-origin: top right;
+    animation: dropdown-cascade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes dropdown-cascade {
+    0% { transform: translateY(-8px) scale(0.96); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.lang-dropdown-menu.show, .mobile-lang-menu.show {
+    display: flex;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 12px;
     background: none;
     border: none;
+    color: #94A3B8; /* Slate text link gray */
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: left;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
     cursor: pointer;
-    padding: 4px 10px;
-    border-radius: 30px; /* Rounded pill buttons */
     outline: none;
 }
 
-.lang-btn:hover {
+.dropdown-item:hover {
     color: #FFFFFF;
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-.lang-btn.active {
+.dropdown-item.active {
     color: var(--clr-navy) !important;
-    background-color: var(--clr-gold-light) !important; /* Premium gold indicator pill */
+    background-color: var(--clr-gold-light) !important; /* Premium active gold badge item */
     box-shadow: 0 2px 6px rgba(184, 134, 11, 0.2);
 }
 
-/* Mobile language switcher inside mobile menu drawer */
-.mobile-lang-switcher {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    background-color: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 4px;
-    border-radius: 30px;
-    width: max-content;
-    margin: 0 auto;
+/* Mobile language switcher inside mobile menu drawer overrides */
+.mobile-lang-menu {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    transform-origin: top center;
+    width: 180px;
 }
 
-.mobile-lang-switcher .lang-btn {
-    font-size: 0.82rem;
-    padding: 6px 14px;
-    border-radius: 30px;
+/* ==========================================================================
+   11. RIGHT-TO-LEFT (RTL) PREMIUM LAYOUT SYSTEM
+   ========================================================================== */
+.rtl-layout {
+    direction: rtl;
+    text-align: right;
 }
 
-.mobile-lang-switcher .lang-btn.active {
-    color: var(--clr-navy) !important;
-    background-color: var(--clr-gold-light) !important;
-    box-shadow: 0 2px 6px rgba(184, 134, 11, 0.2);
+.rtl-layout .nav-actions {
+    flex-direction: row-reverse;
 }
+
+.rtl-layout .lang-dropdown-menu {
+    left: 0;
+    right: auto;
+    transform-origin: top left;
+}
+
+.rtl-layout .academic-syllabus-box {
+    border-left: none;
+    border-right: 4px solid var(--clr-navy);
+}
+
+.rtl-layout .direct-chat-float {
+    border-left: none;
+    border-right: 3.5px solid var(--clr-gold);
+    padding: 8px 8px 8px 16px;
+    left: auto;
+    right: 32px; /* Smooth swap floating button in RTL context */
+}
+
+.rtl-layout .requirements-list li {
+    flex-direction: row; /* Keep standard flow but flex will automatically invert */
+}
+
+.rtl-layout .academic-perk-card {
+    text-align: right !important;
+}
+
+.rtl-layout .contact-details {
+    text-align: right;
+}
+
+.rtl-layout .detail-item {
+    flex-direction: row; /* Flex layout will align correctly with direction: rtl */
+}
+
+.rtl-layout .faq-trigger {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+.rtl-layout .testi-header {
+    flex-direction: row; /* Flex layout handles RTL naturally */
+}
+
+.rtl-layout .testi-meta {
+    text-align: right;
+}
+
+.rtl-layout .floating-academic-alert {
+    left: 32px;
+    right: auto; /* Swap success notifications in RTL */
+    border-top: none;
+    border-right: 3px solid var(--clr-gold);
+}
+
+
 
 

@@ -137,10 +137,16 @@ function initQuiz() {
 function renderQuizQuestion() {
     quizOptionSelected = false;
     const currentQ = quizQuestions[quizCurrentIndex];
+    const lang = localStorage.getItem("preferredLang") || "de";
     
     // Update question progress info
-    document.getElementById("quiz-q-num").innerText = `Frage ${quizCurrentIndex + 1} von ${quizQuestions.length}`;
-    document.getElementById("quiz-q-text").innerText = currentQ.question;
+    const labelQuestion = (translations[lang] && translations[lang].quiz_question) || "Frage";
+    const labelOf = (translations[lang] && translations[lang].quiz_of) || "von";
+    
+    document.getElementById("quiz-q-num").innerText = `${labelQuestion} ${quizCurrentIndex + 1} ${labelOf} ${quizQuestions.length}`;
+    
+    const qKey = `q${quizCurrentIndex + 1}`;
+    document.getElementById("quiz-q-text").innerText = (translations[lang] && translations[lang][qKey]) || currentQ.question;
     
     // Update progress bar width
     const progressPercent = ((quizCurrentIndex + 1) / quizQuestions.length) * 100;
@@ -151,7 +157,8 @@ function renderQuizQuestion() {
     nextBtn.style.display = "none";
     
     const feedbackText = document.getElementById("quiz-feedback");
-    feedbackText.innerText = "Wählen Sie eine Antwortoption aus.";
+    const defaultFeedback = (translations[lang] && translations[lang].quiz_select_opt) || "Wählen Sie eine Antwortoption aus.";
+    feedbackText.innerText = defaultFeedback;
     feedbackText.className = "quiz-feedback-text";
     
     // Render options
@@ -161,7 +168,7 @@ function renderQuizQuestion() {
     currentQ.options.forEach((opt, idx) => {
         const btn = document.createElement("button");
         btn.className = "quiz-option-item";
-        btn.innerText = opt;
+        btn.innerText = (translations[lang] && translations[lang][`${qKey}_o${idx + 1}`]) || opt;
         btn.onclick = () => selectQuizOption(btn, idx);
         optionsContainer.appendChild(btn);
     });
@@ -178,15 +185,21 @@ function selectQuizOption(selectedBtn, selectedIdx) {
     // Disable all options
     optionButtons.forEach(btn => btn.classList.add("disabled"));
     
+    const lang = localStorage.getItem("preferredLang") || "de";
+    const qKey = `q${quizCurrentIndex + 1}`;
+    const expText = (translations[lang] && translations[lang][`${qKey}_exp`]) || currentQ.explanation;
+    
     if (selectedIdx === currentQ.correct) {
         selectedBtn.classList.add("correct");
-        feedbackText.innerText = `Korrekt! ${currentQ.explanation}`;
+        const correctLabel = lang === "en" ? "Correct!" : (lang === "ua" ? "Правильно!" : (lang === "tr" ? "Doğru!" : (lang === "ar" ? "صحيح!" : (lang === "ru" ? "Правильно!" : (lang === "fa" ? "درست!" : "Korrekt!")))));
+        feedbackText.innerText = `${correctLabel} ${expText}`;
         feedbackText.className = "quiz-feedback-text correct-feedback";
         quizScore++;
     } else {
         selectedBtn.classList.add("wrong");
         optionButtons[currentQ.correct].classList.add("correct");
-        feedbackText.innerText = `Nicht ganz richtig. ${currentQ.explanation}`;
+        const wrongLabel = lang === "en" ? "Not quite correct." : (lang === "ua" ? "Не зовсім правильно." : (lang === "tr" ? "Pek doğru değil." : (lang === "ar" ? "غير صحيح تماماً." : (lang === "ru" ? "Не совсем правильно." : (lang === "fa" ? "کاملاً درست نیست." : "Nicht ganz richtig.")))));
+        feedbackText.innerText = `${wrongLabel} ${expText}`;
         feedbackText.className = "quiz-feedback-text wrong-feedback";
     }
     
@@ -211,26 +224,32 @@ window.handleQuizNext = function() {
 
 function renderQuizResults() {
     const container = document.getElementById("quiz-container");
+    const lang = localStorage.getItem("preferredLang") || "de";
     
     let resultMessage = "";
     if (quizScore === quizQuestions.length) {
-        resultMessage = "Hervorragend gelöst! Sie besitzen bereits ein exzellentes juristisches Verständnis.";
+        resultMessage = (translations[lang] && translations[lang].quiz_res_perf) || "Hervorragend gelöst! Sie besitzen bereits ein exzellentes juristisches Verständnis.";
     } else if (quizScore >= 2) {
-        resultMessage = "Sehr gut! Sie verfügen über solides juristisches Grundwissen.";
+        resultMessage = (translations[lang] && translations[lang].quiz_res_good) || "Sehr gut! Sie verfügen über solides juristisches Grundwissen.";
     } else {
-        resultMessage = "Keine Sorge! Das Sicherheitsrecht ist komplex. Genau dafür sind wir da.";
+        resultMessage = (translations[lang] && translations[lang].quiz_res_bad) || "Keine Sorge! Das Sicherheitsrecht ist komplex. Genau dafür sind wir da.";
     }
+    
+    const titleText = (translations[lang] && translations[lang].quiz_res_title) || "Test abgeschlossen!";
+    const bodyLeadText = (translations[lang] && translations[lang].quiz_res_body) || "Unsere Absolventen erzielen dank unseres professionellen Vorbereitungskurses eine Bestehensquote von 98% vor der IHK. Nutzen Sie Ihre Chance.";
+    const btnCtaText = (translations[lang] && translations[lang].quiz_res_btn_cta) || "Kostenfreie Beratung buchen";
+    const btnRepeatText = (translations[lang] && translations[lang].quiz_res_btn_repeat) || "Test wiederholen";
     
     container.innerHTML = `
         <div class="quiz-finished-box">
             <div class="quiz-score-badge">${quizScore}/${quizQuestions.length}</div>
-            <h3 class="quiz-results-title text-gradient-gold">Test abgeschlossen!</h3>
+            <h3 class="quiz-results-title text-gradient-gold">${titleText}</h3>
             <p class="quiz-results-text">
-                ${resultMessage} Unsere Absolventen erzielen dank unseres professionellen Vorbereitungskurses eine Bestehensquote von 98% vor der IHK. Nutzen Sie Ihre Chance.
+                ${resultMessage} ${bodyLeadText}
             </p>
             <div class="quiz-actions">
-                <a href="#contact" class="btn btn-gold" onclick="fillCourseInterest('sachkunde-34a')">Kostenfreie Beratung buchen</a>
-                <button class="btn btn-outline" onclick="resetQuiz()">Test wiederholen</button>
+                <a href="#contact" class="btn btn-gold" onclick="fillCourseInterest('sachkunde-34a')">${btnCtaText}</a>
+                <button class="btn btn-outline" onclick="resetQuiz()">${btnRepeatText}</button>
             </div>
         </div>
     `;
@@ -644,10 +663,11 @@ window.closeLegalModal = function() {
 };
 
 /* --------------------------------------------------------------------------
-   10. Multilingual Translation Engine (DE / EN / UA / TR)
+   10. Multilingual Translation Engine & Globe Dropdowns (DE / EN / UA / TR / AR / RU / FA)
    -------------------------------------------------------------------------- */
 const translations = {
     de: {
+        // Navigation & Buttons
         nav_courses: "Ausbildungen",
         nav_calc: "Förderungs-Check",
         nav_quiz: "IHK-Quiz",
@@ -655,17 +675,228 @@ const translations = {
         nav_faq: "FAQ",
         nav_cta: "Beratung buchen",
         wa_badge: "WhatsApp Beratung",
+        
+        // Hero Section
+        hero_badge_azav: "AZAV-Zugelassene Fachakademie",
+        hero_badge_cost: "100% kostenfreie Ausbildung",
+        hero_title: "Zertifizierte Ausbildungen für <span class=\"text-gradient-navy\">Sicherheit & Pflege</span>",
+        hero_description: "Starten Sie Ihre Karriere als <strong>Geprüfte Sicherheitskraft nach §34a</strong> oder als qualifizierte/r <strong>Pflegehelfer/in</strong>. 100% gefördert über die Agentur für Arbeit und Jobcenter – inklusive kostenfreiem Leih-Tablet und Jobgarantie.",
+        hero_btn_calc: "Förderung prüfen",
+        hero_btn_courses: "Lehrgänge ansehen",
+        hero_trust_quota_lbl: "Bestehensquote",
+        hero_trust_certified_lbl: "Zertifiziert",
+        hero_trust_free_lbl: "Kostenfrei",
+        hero_campus_title: "Blue Light College",
+        hero_campus_subtitle: "Akademische Ausbildungsstätte",
+        
+        // Stats Section
+        stats_duration_title: "Studiendauer",
+        stats_duration_val: "50 Tage",
+        stats_duration_text: "Schnelle und hocheffiziente Fachausbildung. In nur 50 Tagen zu Ihrem staatlich anerkannten Berufsabschluss.",
+        stats_format_title: "Unterrichtsform",
+        stats_format_val: "Live-Online",
+        stats_format_text: "Flexibles Lernen bequem von zu Hause aus. Live-Interaktion mit Dozenten in Vollzeit oder Teilzeit – perfekt anpassbar.",
+        stats_placement_title: "Jobvermittlung",
+        stats_placement_val: "Garantie",
+        stats_placement_text: "Wir vermitteln Sie direkt nach erfolgreichem Abschluss an renommierte Kooperationspartner der Sicherheits- und Pflegebranche.",
+        stats_equip_title: "Ausstattung",
+        stats_equip_val: "Inklusive",
+        stats_equip_text: "Wir stellen Ihnen für die gesamte Lehrgangsdauer ein hochwertiges Tablet kostenfrei zur Verfügung. Nach Abschluss gehört es Ihnen.",
+        
+        // Courses Section
+        courses_tagline: "AKADEMISCHES LEHRGANGSANGEBOT",
+        courses_title: "Zertifizierte <span class=\"text-gradient-navy\">Fachausbildungen</span>",
+        courses_subtitle: "Wählen Sie Ihre Spezialisierung. Alle Angebote erfüllen die strengen AZAV-Qualitätskriterien der Bundesagentur für Arbeit.",
+        tab_btn_security: "§34a Sicherheitskraft",
+        tab_btn_nurse: "Pflegehelfer/in",
+        course_badge_priority: "HÖCHSTE PRIORITÄT",
+        course_badge_demand: "HOHER BEDARF",
+        course_title_security: "Geprüfte Sicherheitskraft nach §34a (IHK)",
+        course_desc_security: "Die rechtliche Mindestvoraussetzung für anspruchsvolle Tätigkeiten im Bewachungsgewerbe. Dieser umfassende Lehrgang bereitet Sie systematisch auf die schriftliche und mündliche Sachkundeprüfung vor der Industrie- und Handelskammer (IHK) vor.",
+        course_req_title: "Zugangs-Voraussetzungen:",
+        course_req_age: "Mindestalter von 18 Jahren",
+        course_req_record: "Ein eintragungsfreies Führungszeugnis",
+        course_req_lang: "Deutsch auf Sprachniveau von mindestens A2",
+        course_req_school: "Anerkannter Hauptschulabschluss",
+        course_meta_duration_lbl: "Regelstudienzeit",
+        course_meta_format_lbl: "Unterrichtsform",
+        course_meta_format_val: "Live-Online (Vollzeit / Teilzeit)",
+        course_meta_format_hybrid: "Hybrid (Live-Online + Praxis)",
+        course_btn_advice: "Kostenfreie Beratung anfordern",
+        course_btn_quiz: "IHK-Wissen vorab testen &rarr;",
+        syllabus_title_security: "Prüfungsrelevante Lehrgangsinhalte:",
+        syllabus_title_nurse: "Wesentliche Ausbildungsmodule:",
+        syllabus_s1: "Recht der öffentlichen Sicherheit und Ordnung",
+        syllabus_s2: "Gewerberecht und Datenschutzgesetze",
+        syllabus_s3: "Bürgerliches Gesetzbuch (BGB) - Notwehrrechte",
+        syllabus_s4: "Straf- und Strafverfahrensrecht",
+        syllabus_s5: "Unfallverhütungsvorschriften (UVV)",
+        syllabus_s6: "Verhaltenslehre & Deeskalationskompetenz",
+        course_title_nurse: "Pflegehelfer/in",
+        course_desc_nurse: "Starten Sie Ihre Karriere in einem der krisensichersten und lohnendsten Berufsfelder. Sie erlernen die theoretischen und praktischen Grundlagen der professionellen Pflege, Behandlungspflege und Betreuung von hilfsbedürftigen Menschen.",
+        syllabus_n1: "Grundlagen der Behandlungspflege & Grundpflege",
+        syllabus_n2: "Kommunikation & respektvoller Umgang mit Patienten",
+        syllabus_n3: "Notfallsituationen & Erste Hilfe in Pflegeberufen",
+        syllabus_n4: "Hygienevorschriften & Infektionsschutz",
+        syllabus_n5: "Rechtliche Grundlagen (SGB XI, Patientenrechte)",
+        syllabus_n6: "Praktischer Einsatz & Fallsimulationen",
+        
+        // Eligibility Check Section
+        calc_tag: "STAATLICHE FÖRDERUNG",
+        calc_title: "Ermitteln Sie Ihren Anspruch auf <span class=\"text-gradient-gold\">100% Kostenübernahme</span>",
+        calc_text: "Über einen Bildungsgutschein der Bundesagentur für Arbeit oder des Jobcenters werden Ihre kompletten Ausbildungs-, Lernmittel- und Prüfungsgebühren staatlich gefördert. Beantworten Sie 3 kurze Fragen, um Ihre Förderfähigkeit zu prüfen.",
+        calc_trust_azav: "Zugelassene Akademie nach AZAV-Vorschrift",
+        calc_trust_docs: "Direkte Trägerunterlagen für Arbeitsvermittler",
+        wizard_q1: "Wie stellt sich Ihr aktueller beruflicher Status dar?",
+        wizard_opt_q1_o1: "Arbeitssuchend / Arbeitslos (ALG I oder Bürgergeld)",
+        wizard_opt_q1_o2: "Berufstätig (und suche berufliche Neuorientierung)",
+        wizard_opt_q1_o3: "Selbstständig / Sonstiges / Ausbildungsplatzsuchend",
+        wizard_q2: "Haben Sie bereits einen Beratungstermin bezüglich Förderung erhalten?",
+        wizard_opt_q2_o1: "Ja, ich stehe bereits in Kontakt mit der Behörde",
+        wizard_opt_q2_o2: "Nein, ich brauche Unterstützung bei der Vorbereitung",
+        wizard_opt_q2_o3: "Ich möchte mich erst allgemein über den Ablauf informieren",
+        wizard_res_title: "Hervorragende Aussichten",
+        wizard_res_text: "Ihre Angaben deuten auf eine **vollständige Förderungsberechtigung** hin. Senden Sie uns Ihre Kontaktdaten. Ein Fachberater bespricht mit Ihnen die Antragstellung und stellt die Trägerunterlagen für Ihr Jobcenter aus.",
+        calc_btn_submit: "Kostenfreie Ausbildungsberatung anfordern",
+        
+        // Quiz Section
+        quiz_tagline: "FACHWISSEN VORAB TESTEN",
+        quiz_title: "Der IHK-Sachkunde <span class=\"text-gradient-navy\">Prüfungstest</span>",
+        quiz_subtitle: "Testen Sie Ihr Basiswissen mit 3 originalgetreuen Fragen aus der IHK-Sachkundeprüfung gemäß §34a GewO.",
+        quiz_question: "Frage",
+        quiz_of: "von",
+        quiz_select_opt: "Wählen Sie eine Antwortoption aus.",
+        quiz_next_question: "Nächste Frage &rarr;",
+        quiz_show_results: "Ergebnis anzeigen",
+        quiz_res_perf: "Hervorragend gelöst! Sie besitzen bereits ein exzellentes juristisches Verständnis.",
+        quiz_res_good: "Sehr gut! Sie verfügen über solides juristisches Grundwissen.",
+        quiz_res_bad: "Keine Sorge! Das Sicherheitsrecht ist komplex. Genau dafür sind wir da.",
+        quiz_res_title: "Test abgeschlossen!",
+        quiz_res_body: "Unsere Absolventen erzielen dank unseres professionellen Vorbereitungskurses eine Bestehensquote von 98% vor der IHK. Nutzen Sie Ihre Chance.",
+        quiz_res_btn_cta: "Kostenfreie Beratung buchen",
+        quiz_res_btn_repeat: "Test wiederholen",
+        
+        // Original quiz questions
+        q1: "Welche der folgenden Befugnisse steht einem privaten Sicherheitsmitarbeiter im öffentlichen Raum grundsätzlich zu?",
+        q1_o1: "Das Recht zur vorläufigen Festnahme bei frischer Tat (§ 127 StPO)",
+        q1_o2: "Das Recht zur Identitätsfeststellung im Auftrag der Polizei",
+        q1_o3: "Das Recht zur Durchsuchung von verdächtigen Personen",
+        q1_o4: "Das Recht zur Sperrung öffentlicher Straßen bei Gefahr",
+        q1_exp: "Als Sicherheitsmitarbeiter besitzen Sie im öffentlichen Raum dieselben Rechte wie jeder andere Bürger (Jedermannsrechte). § 127 StPO erlaubt jedem, eine Person vorläufig festzunehmen, wenn diese auf frischer Tat betroffen wird und Fluchtverdacht besteht.",
+        
+        q2: "Wann darf die Notwehr (§ 227 BGB / § 32 StGB) ausgeübt werden?",
+        q2_o1: "Gegen jeden zukünftigen, mutmaßlichen Angriff",
+        q2_o2: "Gegen einen gegenwärtigen, rechtswidrigen Angriff auf ein geschütztes Rechtsgut",
+        q2_o3: "Als Bestrafung, nachdem der Angreifer geflohen ist",
+        q2_o4: "Nur zur Abwehr von lebensgefährlichen Angriffen",
+        q2_exp: "Notwehr is die Verteidigung, die erforderlich ist, um einen gegenwärtigen, rechtswidrigen Angriff von sich oder einem anderen abzuwenden. Sie gilt für alle geschützten Rechtsgüter (z. B. Körper, Eigentum, Ehre).",
+        
+        q3: "Wer nimmt die offizielle Sachkundeprüfung gemäß §34a GewO ab?",
+        q3_o1: "Die örtliche Polizeiinspektion",
+        q3_o2: "Das zuständige Gewerbeamt",
+        q3_o3: "Die Industrie- und Handelskammer (IHK)",
+        q3_o4: "Der private Bildungsträger selbst",
+        q3_exp: "Die Sachkundeprüfung ist eine staatlich geregelte Prüfung und darf ausschließlich von der Industrie- und Handelskammer (IHK) abgenommen werden. Wir bereiten Sie intensiv und zielgerichtet darauf vor.",
+
+        // Perks Section
+        perks_tagline: "UNSERE QUALITÄTSSTANDARD-GARANTIEN",
+        perks_title: "Warum das <span class=\"text-gradient-navy\">Blue Light College?</span>",
+        perks_subtitle: "Wir setzen auf höchste Ausbildungsqualität, modernste Ausstattung und echte berufliche Zukunftsperspektiven.",
+        perk_c1_lbl: "AUSSTATTUNGS-GARANTIE",
+        perk_c1_title: "Kostenfreies Leih-Tablet",
+        perk_c1_text: "Für einen reibungslosen Ablauf Ihres Online-Unterrichts stellen wir Ihnen ein hochwertiges Tablet kostenfrei zur Verfügung. Nach erfolgreichem Lehrgangsabschluss geht dieses Gerät vollständig in Ihr Eigentum über – ohne Zuzahlung.",
+        perk_c2_lbl: "LEHRMETHODIK",
+        perk_c2_title: "Interaktiver Live-Unterricht",
+        perk_c2_text: "Kein trockenes Selbststudium mit Texten. Sie nehmen täglich an strukturierten Live-Webinaren in unserem virtuellen Hörsaal teil. Erfahrene, IHK-zertifizierte Dozenten erklären komplexe Rechtsmaterie leicht verständlich.",
+        perk_c3_lbl: "KARRIERE-FÖRDERUNG",
+        perk_c3_title: "Garantierte Jobvermittlung",
+        perk_c3_text: "Durch unsere engen, strategischen Kooperationen mit Marktführern der nationalen Bewachungs- und Sicherheitsbranche vermitteln wir Sie direkt nach bestandener IHK-Sachkundeprüfung in eine unbefristete, krisensichere Festanstellung.",
+        perk_c4_lbl: "PRÜFUNGSVORBEREITUNG",
+        perk_c4_title: "Mündliches Prüfungscoaching",
+        perk_c4_text: "Die mündliche Prüfung vor der IHK gilt als größte Hürde. Wir nehmen Ihnen die Sorge: In Eins-zu-eins-Simulationen trainieren wir Fallbeispiele und Deeskalationstechniken so lange realitätsnah, bis Sie der Prüfung absolut gelassen entgegensehen.",
+        perk_c5_lbl: "BEHÖRDENSERVICE",
+        perk_c5_title: "Persönliche Behördenbegleitung",
+        perk_c5_text: "Keine Angst vor der Bürokratie: Unsere persönlichen Kundenberater bereiten Sie intensiv auf das Gespräch mit Ihrem Sachbearbeiter vor und laden alle notwendigen Antragsdokumente direkt gemeinsam mit Ihnen beim Jobcenter/Arbeitsamt hoch.",
+        perk_c6_lbl: "FINANZIERUNG",
+        perk_c6_title: "100% Kostenfreie Teilnahme",
+        perk_c6_text: "Durch die AZAV-Zertifizierung des Blue Light College werden sämtliche Gebühren für Ausbildung, Lehrmaterialien und Prüfungen vollständig über Ihren Bildungsgutschein (Jobcenter / Agentur für Arbeit) gedeckt. Es entstehen keinerlei Eigenkosten.",
+
+        // Testimonials
         testi_tagline: "ERFOLGSGESCHICHTEN UNSERER ABSOLVENTEN",
-        testi_title: 'Was unsere <span class="text-gradient-navy">Schüler sagen</span>',
+        testi_title: "Was unsere <span class=\"text-gradient-navy\">Schüler sagen</span>",
         testi_subtitle: "Erfahren Sie aus erster Hand, wie unsere praxisnahe Ausbildung den Einstieg in eine neue Karriere ermöglicht hat.",
         testi_c1: "Absolvent §34a Sicherheitskraft",
         testi_q1: "„Dank des kostenfreien Leih-Tablets konnte ich flexibel abends lernen. Die Dozenten im Live-Online-Unterricht haben mich perfekt vorbereitet. Die IHK-Sachkundeprüfung war direkt beim ersten Mal bestanden! Nun arbeite ich im Objektschutz.“",
         testi_c2: "Absolventin Pflegehelfer/in",
         testi_q2: "„Als alleinerziehende Mutter war es schwer, eine Weiterbildung zu finden. Das Blue Light College war ein Glücksfall. Mein persönlicher Kundenberater hat mir sogar bei den Anträgen für das Jobcenter geholfen. Jetzt arbeite ich glücklich in der Pflege.“",
         testi_c3: "Absolvent §34a Sicherheitskraft",
-        testi_q3: "„Besonders das intensive Coaching vor der mündlichen Prüfung hat mir die Prüfungsangst genommen. Die 100% Kostenübernahme und die vermittelte Stelle direkt nach Kursende waren perfekt. Absolut empfehlenswerte Akademie!“"
+        testi_q3: "„Besonders das intensive Coaching vor der mündlichen Prüfung hat mir die Prüfungsangst genommen. Die 100% Kostenübernahme und die vermittelte Stelle direkt nach Kursende waren perfekt. Absolut empfehlenswerte Akademie!“",
+
+        // FAQ Section
+        faq_tagline: "WISSENSWERTES & HÄUFIGE FRAGEN",
+        faq_title: "Antworten auf Ihre <span class=\"text-gradient-navy\">Fragen</span>",
+        faq_subtitle: "Erfahren Sie mehr über die Zulassungsvoraussetzungen, den Erhalt von Bildungsgutscheinen und den Ablauf der IHK-Sachkundeprüfung.",
+        faq_q1: "Ist die Ausbildung wirklich zu 100% kostenlos für mich?",
+        faq_a1: "Ja, absolut. Als zertifizierter Bildungsträger nach der **AZAV** (Akkreditierungs- und Zulassungsverordnung Arbeitsförderung) können wir direkt mit den Behörden abrechnen. Bei Bewilligung eines Bildungsgutscheins durch Ihre Agentur für Arbeit oder Ihr Jobcenter werden sämtliche Lehrgangs-, Lehrmaterial- und IHK-Prüfungsgebühren vollständig übernommen. Es entstehen Ihnen keinerlei Eigenanteile.",
+        faq_q2: "Wie läuft das Antragsverfahren für den Bildungsgutschein ab?",
+        faq_a2: "Das Antragsverfahren ist einfach. Sie vereinbaren einen Beratungstermin bei Ihrem zuständigen Arbeitsvermittler. Wir stellen Ihnen im Vorfeld alle zertifizierten Träger- und Maßnahme-Angebotsunterlagen aus. Diese legen Sie Ihrem Vermittler vor. Sobald dieser den Bildungsgutschein bewilligt, senden Sie uns das Dokument zu, und wir schalten Sie für den nächsten Kursstart frei.",
+        faq_q3: "Welche Voraussetzungen gelten für die Ausbildungen?",
+        faq_a3: "Für beide Ausbildungen müssen Sie mindestens 18 Jahre alt sein, ein eintragungsfreies Führungszeugnis besitzen und deutsche Sprachkenntnisse auf einem Niveau von mindestens A2 nachweisen. Für die Ausbildung zur \"Geprüften Sicherheitskraft nach §34a\" ist zusätzlich ein anerkannter Hauptschulabschluss erforderlich.",
+        faq_q4: "Wie funktioniert das E-Learning mit dem kostenfreien Tablet?",
+        faq_a4: "Nach Kursfreigabe senden wir Ihnen ein vorkonfiguriertes, hochwertiges Tablet per Post zu. Mit diesem Gerät loggen Sie sich täglich in unsere Live-Webinare ein. Sie nehmen aktiv am Unterricht teil, sehen die Präsentationen der Dozenten und können direkt über das integrierte Mikrofon oder den Chat Fragen stellen. Das Tablet geht nach erfolgreichem Kursabschluss dauerhaft in Ihren Besitz über.",
+        faq_q5: "Erhalte ich nach bestandener Prüfung eine Jobzusage?",
+        faq_a5: "Wir arbeiten sehr eng mit führenden privaten Sicherheits- und Bewachungsunternehmen in Deutschland zusammen. Schon während Ihrer Ausbildung stimmen wir Ihre Präferenzen (z. B. Objektschutz, Pfortendienst, Revierstreife oder Personenschutz) ab und bereiten Bewerbungen vor. Durch den enormen Fachkräftemangel in der Branche können wir Ihnen eine direkte Jobvermittlung garantieren.",
+
+        // Contact Section
+        contact_tagline: "FACHLICHE BERATUNG",
+        contact_title: "Nehmen Sie Kontakt mit unserer <span class=\"text-gradient-gold\">Akademie</span> auf",
+        contact_text: "Planen Sie gemeinsam mit unseren Bildungsberatern Ihre Qualifizierung und den anschließenden Berufseinstieg. Wir klären alle Detailfragen zu Bildungsgutscheinen, Fristen und Lehrgangsformaten in einem persönlichen Gespräch.",
+        contact_lbl_sec: "Bildungssekretariat",
+        contact_lbl_mail: "E-Mail für Anfragen",
+        contact_lbl_head: "Hauptsitz Schönkirchen",
+        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_lbl_name: "Ihr vollständiger Name",
+        contact_lbl_email: "E-Mail-Adresse",
+        contact_lbl_phone: "Telefonnummer",
+        contact_lbl_course: "Angestrebte Ausbildung",
+        contact_lbl_msg: "Ihre Mitteilung an das Bildungssekretariat (Optional)",
+        contact_btn_submit: "Kostenfreies Erstgespräch vereinbaren",
+        contact_opt_security: "Geprüfte Sicherheitskraft nach §34a (IHK)",
+        contact_opt_nurse: "Pflegehelfer/in",
+        contact_opt_advice: "Allgemeine Beratung zur AZAV-Förderung",
+        
+        // Form Placeholders
+        ph_name: "Vorname Nachname",
+        ph_email: "name@beispiel.de",
+        ph_phone: "+49 170 1234567",
+        ph_msg: "Wie können wir Ihnen behilflich sein?...",
+        ph_calc_name: "Vollständiger Name",
+        ph_calc_phone: "Telefonnummer für Rückfragen",
+
+        // Footer
+        footer_text: "Zugelassene Fachakademie nach AZAV für die Aus- und Weiterbildung im privaten Sicherheits- und Bewachungsgewerbe.",
+        footer_badge_azav: "AZAV TRÄGER ZULASSUNG",
+        footer_badge_ihk: "IHK STANDARDS",
+        footer_title_academy: "Akademie",
+        footer_title_courses: "Lehrgänge",
+        footer_title_legal: "Rechtliches",
+        footer_copy: "&copy; 2026 Blue Light College. Alle Rechte vorbehalten. Akkreditiert nach AZAV-Normen.",
+
+        // Cookie Banner
+        cookie_title: "Privatsphäre & Datenschutz (DSGVO)",
+        cookie_text: "Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer akademischen Webseite zu bieten. Einige Cookies sind für den technischen Betrieb der Seite zwingend erforderlich (Notwendig), während andere uns helfen, unser Angebot anonym zu analysieren (Statistiken).",
+        cookie_lbl_nec: "Notwendig (immer aktiv)",
+        cookie_lbl_stats: "Statistiken & Analyse",
+        cookie_btn_all: "Alle akzeptieren",
+        cookie_btn_nec: "Nur notwendige",
+        cookie_btn_cust: "Auswahl anpassen",
+        
+        // Legal Modal
+        legal_modal_title: "Rechtliches",
+        legal_modal_btn_close: "Schließen"
     },
     en: {
+        // Navigation & Buttons
         nav_courses: "Courses",
         nav_calc: "Funding Check",
         nav_quiz: "IHK Quiz",
@@ -673,17 +904,228 @@ const translations = {
         nav_faq: "FAQ",
         nav_cta: "Book Advice",
         wa_badge: "WhatsApp Chat",
+        
+        // Hero Section
+        hero_badge_azav: "AZAV-Certified Academy",
+        hero_badge_cost: "100% Free Training",
+        hero_title: "Certified Training for <span class=\"text-gradient-navy\">Security & Care</span>",
+        hero_description: "Start your career as a <strong>Certified Security Guard under §34a</strong> or as a qualified <strong>Nursing Assistant</strong>. 100% funded via the Employment Agency and Jobcenter – including a free loan tablet and job guarantee.",
+        hero_btn_calc: "Check Funding",
+        hero_btn_courses: "View Courses",
+        hero_trust_quota_lbl: "Pass Rate",
+        hero_trust_certified_lbl: "Certified",
+        hero_trust_free_lbl: "Free of Charge",
+        hero_campus_title: "Blue Light College",
+        hero_campus_subtitle: "Academic Training Facility",
+        
+        // Stats Section
+        stats_duration_title: "Study Duration",
+        stats_duration_val: "50 Days",
+        stats_duration_text: "Fast and highly efficient vocational training. Obtain your state-recognized professional degree in just 50 days.",
+        stats_format_title: "Class Format",
+        stats_format_val: "Live-Online",
+        stats_format_text: "Flexible learning from the comfort of your home. Live interaction with lecturers in full-time or part-time – perfectly adaptable.",
+        stats_placement_title: "Job Placement",
+        stats_placement_val: "Guarantee",
+        stats_placement_text: "We place you directly after successful completion with renowned cooperation partners in the security and care industry.",
+        stats_equip_title: "Equipment",
+        stats_equip_val: "Included",
+        stats_equip_text: "We provide you with a high-quality tablet free of charge for the entire duration of the course. It is yours to keep upon completion.",
+        
+        // Courses Section
+        courses_tagline: "ACADEMIC COURSE CATALOG",
+        courses_title: "Certified <span class=\"text-gradient-navy\">Vocational Training</span>",
+        courses_subtitle: "Choose your specialization. All courses meet the strict AZAV quality criteria of the Federal Employment Agency.",
+        tab_btn_security: "§34a Security Guard",
+        tab_btn_nurse: "Nursing Assistant",
+        course_badge_priority: "HIGHEST PRIORITY",
+        course_badge_demand: "HIGH DEMAND",
+        course_title_security: "Certified Security Guard according to §34a (IHK)",
+        course_desc_security: "The legal minimum requirement for demanding tasks in the security industry. This comprehensive course prepares you systematically for the written and oral examination before the Chamber of Industry and Commerce (IHK).",
+        course_req_title: "Admission Requirements:",
+        course_req_age: "Minimum age of 18 years",
+        course_req_record: "Clean criminal record certificate",
+        course_req_lang: "German at language level of at least A2",
+        course_req_school: "Recognized secondary school certificate",
+        course_meta_duration_lbl: "Standard Duration",
+        course_meta_format_lbl: "Class Format",
+        course_meta_format_val: "Live-Online (Full-time / Part-time)",
+        course_meta_format_hybrid: "Hybrid (Live-Online + Practice)",
+        course_btn_advice: "Request Free Consultation",
+        course_btn_quiz: "Test IHK Knowledge &rarr;",
+        syllabus_title_security: "Exam-Relevant Syllabus Content:",
+        syllabus_title_nurse: "Core Training Modules:",
+        syllabus_s1: "Law of Public Safety and Order",
+        syllabus_s2: "Trade Law and Data Protection Regulations",
+        syllabus_s3: "Civil Code (BGB) - Right of Self-Defense",
+        syllabus_s4: "Criminal Law and Criminal Procedure",
+        syllabus_s5: "Accident Prevention Regulations (UVV)",
+        syllabus_s6: "Behavioral Science & De-escalation Skills",
+        course_title_nurse: "Nursing Assistant",
+        course_desc_nurse: "Start your career in one of the most secure and rewarding professional fields. You will learn the theoretical and practical basics of professional care, medical treatment care and support for people in need of help.",
+        syllabus_n1: "Basics of Medical Treatment & Basic Care",
+        syllabus_n2: "Communication & Respectful Care of Patients",
+        syllabus_n3: "Emergency Situations & First Aid in Care Professions",
+        syllabus_n4: "Hygiene Regulations & Infection Protection",
+        syllabus_n5: "Legal Principles (SGB XI, Patient Rights)",
+        syllabus_n6: "Practical Application & Case Simulations",
+        
+        // Eligibility Check Section
+        calc_tag: "STATE FUNDING",
+        calc_title: "Determine your eligibility for <span class=\"text-gradient-gold\">100% Cost Coverage</span>",
+        calc_text: "With an education voucher from the Federal Employment Agency or Jobcenter, your entire training, learning materials, and exam fees are state-funded. Answer 3 short questions to check your eligibility.",
+        calc_trust_azav: "Certified Academy according to AZAV standards",
+        calc_trust_docs: "Direct provider paperwork for placement agents",
+        wizard_q1: "What is your current employment status?",
+        wizard_opt_q1_o1: "Job-seeker / Unemployed (ALG I or Citizen's Income)",
+        wizard_opt_q1_o2: "Employed (and looking for a career change)",
+        wizard_opt_q1_o3: "Self-employed / Other / Looking for apprenticeship",
+        wizard_q2: "Have you already had a consultation regarding funding?",
+        wizard_opt_q2_o1: "Yes, I am already in contact with the agency",
+        wizard_opt_q2_o2: "No, I need support preparing for it",
+        wizard_opt_q2_o3: "I would like to get general information about the process first",
+        wizard_res_title: "Excellent Prospects",
+        wizard_res_text: "Your answers indicate a **full funding eligibility**. Send us your contact details. A specialist advisor will discuss the application process with you and issue the training documents for your Jobcenter.",
+        calc_btn_submit: "Request Free Training Consultation",
+        
+        // Quiz Section
+        quiz_tagline: "TEST YOUR KNOWLEDGE IN ADVANCE",
+        quiz_title: "The IHK Security Specialist <span class=\"text-gradient-navy\">Practice Test</span>",
+        quiz_subtitle: "Test your basic knowledge with 3 original questions from the IHK examination according to §34a GewO.",
+        quiz_question: "Question",
+        quiz_of: "of",
+        quiz_select_opt: "Select an answer option.",
+        quiz_next_question: "Next Question &rarr;",
+        quiz_show_results: "Show Results",
+        quiz_res_perf: "Excellent! You already possess an outstanding understanding of law.",
+        quiz_res_good: "Very good! You have a solid basic knowledge of safety law.",
+        quiz_res_bad: "No worries! Safety law is complex. That is exactly what we are here for.",
+        quiz_res_title: "Test Completed!",
+        quiz_res_body: "Thanks to our professional preparation course, our graduates achieve a 98% pass rate before the IHK. Seize your chance.",
+        quiz_res_btn_cta: "Book Free Consultation",
+        quiz_res_btn_repeat: "Repeat Test",
+        
+        // Original quiz questions
+        q1: "Which of the following powers does a private security employee generally have in public spaces?",
+        q1_o1: "The right to temporary arrest when caught in the act (§ 127 StPO)",
+        q1_o2: "The right to establish identity on behalf of the police",
+        q1_o3: "The right to search suspicious persons",
+        q1_o4: "The right to close public roads in case of danger",
+        q1_exp: "As a security employee, you possess the same rights in public spaces as any other citizen (everyone's rights). § 127 StPO allows anyone to temporarily arrest a person caught in the act if there is a suspicion of flight.",
+        
+        q2: "When can self-defense (§ 227 BGB / § 32 StGB) be exercised?",
+        q2_o1: "Against any future, suspected attack",
+        q2_o2: "Against a present, unlawful attack on a protected legal asset",
+        q2_o3: "As a punishment after the attacker has fled",
+        q2_o4: "Only to ward off life-threatening attacks",
+        q2_exp: "Self-defense is the defense required to ward off a present, unlawful attack on oneself or another. It applies to all protected legal assets (e.g. body, property, honor).",
+        
+        q3: "Who conducts the official examination according to §34a GewO?",
+        q3_o1: "The local police department",
+        q3_o2: "The responsible trade office",
+        q3_o3: "The Chamber of Industry and Commerce (IHK)",
+        q3_o4: "The private educational institution itself",
+        q3_exp: "The examination is state-regulated and may only be conducted by the Chamber of Industry and Commerce (IHK). We prepare you intensively and purposefully for it.",
+
+        // Perks Section
+        perks_tagline: "OUR QUALITY STANDARD GUARANTEES",
+        perks_title: "Why choose <span class=\"text-gradient-navy\">Blue Light College?</span>",
+        perks_subtitle: "We focus on the highest quality of education, state-of-the-art equipment, and real job opportunities.",
+        perk_c1_lbl: "EQUIPMENT GUARANTEE",
+        perk_c1_title: "Free Loan Tablet",
+        perk_c1_text: "For a smooth course of your online classes, we provide a high-quality tablet free of charge. After successful completion, this device belongs completely to you – at no extra cost.",
+        perk_c2_lbl: "TEACHING METHODOLOGY",
+        perk_c2_title: "Interactive Live Classes",
+        perk_c2_text: "No dry studying of textbooks. You participate daily in structured live webinars in our virtual lecture hall. Experienced, IHK-certified lecturers explain complex legal matters clearly.",
+        perk_c3_lbl: "CAREER PROMOTION",
+        perk_c3_title: "Guaranteed Job Placement",
+        perk_c3_text: "Thanks to our close, strategic partnerships with national market leaders in the security and care industry, we place you directly in a permanent, crisis-safe job after passing your IHK exam.",
+        perk_c4_lbl: "EXAM PREPARATION",
+        perk_c4_title: "Oral Examination Coaching",
+        perk_c4_text: "The oral exam before the IHK is considered the biggest hurdle. We take away your worry: in one-on-one simulations, we practice case studies and de-escalation techniques until you are absolutely calm.",
+        perk_c5_lbl: "AUTHORITY SERVICE",
+        perk_c5_title: "Personal Agency Assistance",
+        perk_c5_text: "No fear of bureaucracy: our personal advisors prepare you intensively for your meeting with the caseworker and upload all necessary application documents directly with you.",
+        perk_c6_lbl: "FINANCING",
+        perk_c6_title: "100% Free Participation",
+        perk_c6_text: "Due to the AZAV certification of Blue Light College, all fees for training, educational materials, and examinations are fully covered by your education voucher. There are no personal costs.",
+
+        // Testimonials
         testi_tagline: "SUCCESS STORIES OF OUR GRADUATES",
-        testi_title: 'What our <span class="text-gradient-navy">students say</span>',
+        testi_title: "What our <span class=\"text-gradient-navy\">students say</span>",
         testi_subtitle: "Hear first-hand how our practical training enabled a smooth start into a new, secure career.",
         testi_c1: "Graduate §34a Security Guard",
         testi_q1: "“Thanks to the free loan tablet, I was able to study flexibly in the evening. The lecturers in live-online classes prepared me perfectly. I passed the IHK exam on the very first try! Now I work in object security.”",
         testi_c2: "Graduate Nursing Assistant",
         testi_q2: "“As a single mother, it was hard to find vocational training. Blue Light College was a stroke of luck. My advisor even helped me upload Jobcenter documents. Now I am happily working in nursing.”",
         testi_c3: "Graduate §34a Security Guard",
-        testi_q3: "“Especially the intensive coaching before the oral examination took away my exam anxiety. 100% cost coverage and direct job placement after graduation were perfect. Truly recommended!”"
+        testi_q3: "“Especially the intensive coaching before the oral examination took away my exam anxiety. 100% cost coverage and direct job placement after graduation were perfect. Truly recommended!”",
+
+        // FAQ Section
+        faq_tagline: "USEFUL INFORMATION & COMMON QUESTIONS",
+        faq_title: "Answers to your <span class=\"text-gradient-navy\">Questions</span>",
+        faq_subtitle: "Learn more about admission requirements, receiving education vouchers, and the IHK examination process.",
+        faq_q1: "Is the training really 100% free of charge for me?",
+        faq_a1: "Yes, absolutely. As a certified educational provider according to AZAV (Accreditation and Admission Regulation for Employment Promotion), we can bill the authorities directly. Upon approval of an education voucher by your Employment Agency or Jobcenter, all training, learning material, and IHK examination fees are fully covered. You do not have to pay anything.",
+        faq_q2: "How does the application process for the education voucher work?",
+        faq_a2: "The process is simple. You schedule an appointment with your responsible employment officer. We provide you in advance with all certified provider and course offer documents, which you present to them. As soon as they approve the voucher, you send it to us, and we register you for the next course start.",
+        faq_q3: "What requirements apply to the courses?",
+        faq_a3: "For both courses, you must be at least 18 years old, possess a clean criminal record certificate, and prove German language skills of at least A2 level. For the §34a security specialist training, a recognized secondary school leaving certificate is also required.",
+        faq_q4: "How does e-learning work with the free tablet?",
+        faq_a4: "Upon course registration, we send you a preconfigured, high-quality tablet by mail. With this device, you log in daily to our live webinars. You participate actively in class, see presentations, and ask questions via microphone or chat. The tablet is permanently yours after graduation.",
+        faq_q5: "Will I receive a job guarantee after passing the exam?",
+        faq_a5: "We work very closely with leading private security and nursing companies in Germany. During your course, we align on your preferences (e.g. object security, gatehouse, mobile patrol, or ward care) and prepare your applications. Due to the high shortage of skilled labor, we can guarantee a direct job placement.",
+
+        // Contact Section
+        contact_tagline: "PROFESSIONAL ADVICE",
+        contact_title: "Get in touch with our <span class=\"text-gradient-gold\">Academy</span>",
+        contact_text: "Plan your qualification and subsequent career entry together with our education advisors. We clarify all detailed questions about education vouchers, deadlines, and course formats in a personal conversation.",
+        contact_lbl_sec: "Academic Office",
+        contact_lbl_mail: "E-mail for Queries",
+        contact_lbl_head: "Headquarters Schönkirchen",
+        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_lbl_name: "Your Full Name",
+        contact_lbl_email: "E-mail Address",
+        contact_lbl_phone: "Telephone Number",
+        contact_lbl_course: "Desired Training Course",
+        contact_lbl_msg: "Your message to the Academic Office (Optional)",
+        contact_btn_submit: "Arrange Free Initial Consultation",
+        contact_opt_security: "Certified Security Guard according to §34a (IHK)",
+        contact_opt_nurse: "Nursing Assistant",
+        contact_opt_advice: "General AZAV Funding Advice",
+        
+        // Placeholders
+        ph_name: "First Name Last Name",
+        ph_email: "name@example.com",
+        ph_phone: "+49 170 1234567",
+        ph_msg: "How can we help you?...",
+        ph_calc_name: "Full Name",
+        ph_calc_phone: "Phone number for queries",
+
+        // Footer
+        footer_text: "Certified Academy according to AZAV standards for training and further education in the private security and care sector.",
+        footer_badge_azav: "AZAV PROVIDER APPROVAL",
+        footer_badge_ihk: "IHK STANDARDS",
+        footer_title_academy: "Academy",
+        footer_title_courses: "Courses",
+        footer_title_legal: "Legal",
+        footer_copy: "&copy; 2026 Blue Light College. All rights reserved. Accredited according to AZAV standards.",
+
+        // Cookie Banner
+        cookie_title: "Privacy & Data Protection (GDPR)",
+        cookie_text: "We use cookies to provide you with the best possible experience on our academic website. Some cookies are technically required for the operation of the site (Necessary), while others help us anonymously analyze our website traffic (Statistics).",
+        cookie_lbl_nec: "Necessary (always active)",
+        cookie_lbl_stats: "Statistics & Analysis",
+        cookie_btn_all: "Accept All",
+        cookie_btn_nec: "Only Necessary",
+        cookie_btn_cust: "Adjust Selection",
+        
+        // Legal Modal
+        legal_modal_title: "Legal Notice",
+        legal_modal_btn_close: "Close"
     },
     ua: {
+        // Navigation & Buttons
         nav_courses: "Курси",
         nav_calc: "Оплата від держави",
         nav_quiz: "IHK Тест",
@@ -691,17 +1133,218 @@ const translations = {
         nav_faq: "Питання",
         nav_cta: "Консультація",
         wa_badge: "Чат у WhatsApp",
+        
+        // Hero Section
+        hero_badge_azav: "Академія сертифікована AZAV",
+        hero_badge_cost: "100% безкоштовне навчання",
+        hero_title: "Сертифіковане навчання в галузі <span class=\"text-gradient-navy\">безпеки та догляду</span>",
+        hero_description: "Почніть кар'єру сертифікованого фахівця з безпеки відповідно до §34a або кваліфікованого помічника по догляду. На 100% фінансується Агентством зайнятості та Jobcenter – безкоштовний навчальний планшет та гарантія роботи.",
+        hero_btn_calc: "Перевірити фінансування",
+        hero_btn_courses: "Переглянути курси",
+        hero_trust_quota_lbl: "Рівень успішності",
+        hero_trust_certified_lbl: "Сертифіковано",
+        hero_trust_free_lbl: "Безкоштовно",
+        hero_campus_title: "Blue Light College",
+        hero_campus_subtitle: "Академічний навчальний центр",
+        
+        // Stats Section
+        stats_duration_title: "Тривалість навчання",
+        stats_duration_val: "50 днів",
+        stats_duration_text: "Швидке та високоефективне навчання. Отримайте визнаний державою диплом про професійну освіту всього за 50 днів.",
+        stats_format_title: "Формат навчання",
+        stats_format_val: "Онлайн-трансляції",
+        stats_format_text: "Гнучке навчання, не виходячи з дому. Жива взаємодія з викладачами на повний або неповний день – легко адаптується.",
+        stats_placement_title: "Працевлаштування",
+        stats_placement_val: "Гарантія",
+        stats_placement_text: "Після успішного завершення ми працевлаштуємо вас безпосередньо до провідних компаній у сфері охорони та догляду.",
+        stats_equip_title: "Забезпечення",
+        stats_equip_val: "Безкоштовно",
+        stats_equip_text: "Ми надаємо вам планшет преміум-класу в безкоштовне користування на період курсу. Після завершення він залишається у вас.",
+        
+        // Courses Section
+        courses_tagline: "АКАДЕМІЧНИЙ КАТАЛОГ КУРСІВ",
+        courses_title: "Сертифіковане <span class=\"text-gradient-navy\">професійне навчання</span>",
+        courses_subtitle: "Оберіть спеціалізацію. Всі пропозиції відповідають суворим критеріям якості AZAV Федерального агентства зайнятості.",
+        tab_btn_security: "§34a Фахівець з безпеки",
+        tab_btn_nurse: "Помічник догляду",
+        course_badge_priority: "НАЙВИЩИЙ ПРІОРИТЕТ",
+        course_badge_demand: "ВИСОКИЙ ПОПИТ",
+        course_title_security: "Сертифікований фахівець з безпеки відповідно до §34a (IHK)",
+        course_desc_security: "Мінімальна юридична вимога для роботи в охоронній сфері. Цей курс підготує вас до письмового та усного іспиту в Торгово-промисловій палаті (IHK).",
+        course_req_title: "Вимоги до абітурієнтів:",
+        course_req_age: "Мінімальний вік 18 років",
+        course_req_record: "Довідка про відсутність судимості",
+        course_req_lang: "Знання німецької мови на рівні не нижче A2",
+        course_req_school: "Визнаний сертифікат про середню освіту",
+        course_meta_duration_lbl: "Термін навчання",
+        course_meta_format_lbl: "Формат навчання",
+        course_meta_format_val: "Онлайн-трансляції (повний / неповний день)",
+        course_meta_format_hybrid: "Гібридний (онлайн + практика)",
+        course_btn_advice: "Замовити безкоштовну консультацію",
+        course_btn_quiz: "Перевірити знання IHK &rarr;",
+        syllabus_title_security: "Зміст іспиту IHK:",
+        syllabus_title_nurse: "Основні модулі навчання:",
+        syllabus_s1: "Законодавство про громадську безпеку та порядок",
+        syllabus_s2: "Промислове право та правила захисту даних",
+        syllabus_s3: "Цивільний кодекс (BGB) - право на самооборону",
+        syllabus_s4: "Кримінальне право та судочинство",
+        syllabus_s5: "Правила запобігання нещасним випадкам (UVV)",
+        syllabus_s6: "Поведінкова наука та навички деескалації",
+        course_title_nurse: "Помічник догляду",
+        course_desc_nurse: "Почніть кар'єру в одній з найстабільніших сфер. Ви освоїте теоретичні та практичні засади професійного догляду та підтримки хворих.",
+        syllabus_n1: "Основи медичного та базового догляду",
+        syllabus_n2: "Комунікація та поважне ставлення до пацієнтів",
+        syllabus_n3: "Невідкладні ситуації та перша допомога в охороні здоров'я",
+        syllabus_n4: "Гігієнічні норми та захист від інфекцій",
+        syllabus_n5: "Юридичні основи (SGB XI, права пацієнтів)",
+        syllabus_n6: "Практична робота та моделювання випадків",
+        
+        // Eligibility Check Section
+        calc_tag: "ДЕРЖАВНА ПІДТРИМКА",
+        calc_title: "Отримайте право на <span class=\"text-gradient-gold\">100% оплату навчання</span>",
+        calc_text: "Завдяки освітньому ваучеру від Федерального агентства зайнятості або Jobcenter всі витрати повністю покриваються державою. Дайте відповіді на 3 запитання.",
+        calc_trust_azav: "Академія ліцензована за стандартами AZAV",
+        calc_trust_docs: "Офіційні документи для вашого інспектора праці",
+        wizard_q1: "Який ваш поточний статус зайнятості?",
+        wizard_opt_q1_o1: "Шукаю роботу / Безробітний (ALG I або Bürgergeld)",
+        wizard_opt_q1_o2: "Працюю (і шукаю нову кар'єру)",
+        wizard_opt_q1_o3: "Самозайнятий / Інше / Шукаю місце навчання",
+        wizard_q2: "Чи проходили ви вже консультацію щодо фінансування?",
+        wizard_opt_q2_o1: "Так, я вже контактую з відомством",
+        wizard_opt_q2_o2: "Ні, мені потрібна допомога у підготовці",
+        wizard_opt_q2_o3: "Я хочу спочатку отримати загальну інформацію про процес",
+        wizard_res_title: "Відмінні перспективи",
+        wizard_res_text: "Ваші відповіді вказують на **повне право на фінансування**. Надішліть контактні дані. Куратор обговорить з вами подачу заяви та підготує папери для Jobcenter.",
+        calc_btn_submit: "Отримати безкоштовну консультацію",
+        
+        // Quiz Section
+        quiz_tagline: "ПЕРЕВІРИТИ ЗНАННЯ ЗАЗДАЛЕГІДЬ",
+        quiz_title: "Практичний тест <span class=\"text-gradient-navy\">на рівень IHK</span>",
+        quiz_subtitle: "Перевірте свої базові знання за допомогою 3 оригінальних запитань до іспиту IHK відповідно до §34a GewO.",
+        quiz_question: "Запитання",
+        quiz_of: "з",
+        quiz_select_opt: "Оберіть один варіант відповіді.",
+        quiz_next_question: "Наступне запитання →",
+        quiz_show_results: "Показати результат",
+        quiz_res_perf: "Чудово! Ви вже володієте прекрасним розумінням права.",
+        quiz_res_good: "Дуже добре! У вас є солідні базові знання охоронного права.",
+        quiz_res_bad: "Не хвилюйтеся! Охоронне право складне. Саме для цього ми тут.",
+        quiz_res_title: "Тест завершено!",
+        quiz_res_body: "Завдяки професійній підготовці наші випускники досягають 98% успішності на іспитах IHK. Використовуйте свій шанс.",
+        quiz_res_btn_cta: "Записатися на консультацію",
+        quiz_res_btn_repeat: "Пройти тест знову",
+        
+        // Questions
+        q1: "Які повноваження приватний охоронець має у громадських місцях?",
+        q1_o1: "Право на тимчасове затримання у разі виявлення на гарячому (§ 127 StPO)",
+        q1_o2: "Право встановлювати особу за дорученням поліції",
+        q1_o3: "Право обшукувати підозрілих осіб",
+        q1_o4: "Право перекривати громадські дороги у разі небезпеки",
+        q1_exp: "Приватний охоронець має такі ж права в публічних місцях, как і будь-який інший громадянин. § 127 StPO дозволяє кожному затримати особу на місці злочину за наявності підозри на втечу.",
+        q2: "Коли може застосовуватися самооборона (§ 227 BGB / § 32 StGB)?",
+        q2_o1: "Проти будь-якого майбутнього можливого нападу",
+        q2_o2: "Проти поточного, протиправного нападу на захищене благо",
+        q2_o3: "Як покарання після того, як нападник втік",
+        q2_o4: "Тільки для відбиття небезпечних для життя нападів",
+        q2_exp: "Необхідна оборона – це дії для захисту від теперішнього протиправного нападу на себе чи інших. Поширюється на всі блага (тіло, власність, честь).",
+        q3: "Хто приймає офіційний іспит відповідно до §34a GewO?",
+        q3_o1: "Місцевий відділок поліції",
+        q3_o2: "Відповідне відомство з питань підприємництва",
+        q3_o3: "Торгово-промислова палата (IHK)",
+        q3_o4: "Безпосередньо приватний навчальний заклад",
+        q3_exp: "Цей іспит регулюється державою і приймається виключно Торгово-промисловою палатою (IHK). Ми інтенсивно готуємо вас до нього.",
+
+        // Perks Section
+        perks_tagline: "НАШІ ГАРАНТІЇ ЯКОСТІ",
+        perks_title: "Чому саме <span class=\"text-gradient-navy\">Blue Light College?</span>",
+        perks_subtitle: "Ми орієнтуємося на високу якість навчання, сучасну техніку та реальне працевлаштування.",
+        perk_c1_lbl: "ГАРАНТІЯ НА ОБЛАДНАННЯ",
+        perk_c1_title: "Безкоштовний планшет",
+        perk_c1_text: "Для зручності занять ми надаємо вам планшет високої якості. Після завершення навчання пристрій переходить у вашу власність без жодних доплат.",
+        perk_c2_lbl: "МЕТОДИКА НАВЧАННЯ",
+        perk_c2_title: "Інтерактивні онлайн-класи",
+        perk_c2_text: "Ніякого нудного самостійного зазубрювання. Ви берете участь в щоденних живих вебінарах у віртуальному залі. Досвідчені викладачі детально пояснюють закони.",
+        perk_c3_lbl: "КАР'ЄРНИЙ СТАРТ",
+        perk_c3_title: "Гарантоване працевлаштування",
+        perk_c3_text: "Завдяки стратегічному партнерству з лідерами ринку охорони та догляду Німеччини, ми працевлаштуємо вас на постійну роботу відразу після іспиту IHK.",
+        perk_c4_lbl: "ПІДГОТОВКА ДО ІСПИТУ",
+        perk_c4_title: "Тренінг усної частини іспиту",
+        perk_c4_text: "Усний іспит вважається найважчим. Ми знімаємо ваші побоювання: на індивідуальних заняттях ми моделюємо ситуації та техніки деескалації до повної впевненості.",
+        perk_c5_lbl: "ДОПОМОГА З ДОКУМЕНТАМИ",
+        perk_c5_title: "Індивідуальний супровід у відомствах",
+        perk_c5_text: "Не бійтеся бюрократії: куратори підготують вас до розмови з інспектором праці та разом з вами завантажать всі документи для Jobcenter.",
+        perk_c6_lbl: "ФИНАНСУВАННЯ",
+        perk_c6_title: "100% безкоштовна участь",
+        perk_c6_text: "Завдяки AZAV-сертифікації Blue Light College всі витрати на навчання, матеріали та іспити покриваються вашим освітнім ваучером. Особистих витрат немає.",
+
+        // Testimonials
         testi_tagline: "ІСТОРІЇ УСПІХУ НАШИХ ВИПУСКНИКІВ",
-        testi_title: 'Що кажуть наші <span class="text-gradient-navy">учні</span>',
-        testi_subtitle: "Дізнайтеся з перших вуст, як наше практичне навчання допомогло почати нову надійну кар'erу.",
+        testi_title: "Що кажуть наші <span class=\"text-gradient-navy\">учні</span>",
+        testi_subtitle: "Дізнайтеся з перших вуст, як наше практичне навчання допомогло почати нову надійну кар'єру.",
         testi_c1: "Випускник §34a Охорона",
         testi_q1: "«Завдяки безкоштовному планшету я міг гнучко вчитися вечорами. Викладачі на живих онлайн-уроках підготували мене ідеально. Іспит IHK склав з першого разу! Тепер працюю в охороні об'єктів.»",
         testi_c2: "Випускниця Помічник догляду",
         testi_q2: "«Як мамі-одиначці, мені було важко знайти навчання. Коледж став справжньою знахідкою. Мій куратор допоміг мені завантажити документи для Джобцентру. Тепер я щаслива працювати в охороні здоров'я.»",
         testi_c3: "Випускник §34a Охорона",
-        testi_q3: "«Інтенсивна підготовка до усної частини повністю позбавила мене страху перед іспитом. Повна оплата 100% витрат державою та працевлаштування відразу після курсу були супер. Рекомендую!»"
+        testi_q3: "«Інтенсивна підготовка до усної частини повністю позбавила мене страху перед іспитом. Повна оплата 100% витрат державою та працевлаштування відразу після курсу були супер. Рекомендую!»",
+
+        // FAQ Section
+        faq_tagline: "КОРИСНА ІНФОРМАЦІЯ ТА ЗАПИТАННЯ",
+        faq_title: "Відповіді на ваші <span class=\"text-gradient-navy\">запитання</span>",
+        faq_subtitle: "Дізнайтеся більше про вимоги до вступу, отримання ваучерів та процедуру іспиту IHK.",
+        faq_q1: "Чи справді навчання на 100% безкоштовне для мене?",
+        faq_a1: "Так, абсолютно. Ми безпосередньо розраховуємося з державними відомствами. Якщо ваш інспектор праці схвалить освітній ваучер, то всі курси, матеріали та іспити оплачуються державою. Ви нічого не платите.",
+        faq_q2: "Який процес подання заяви на освітній ваучер?",
+        faq_a2: "Процес простий. Ви записуєтеся до інспектора в Агентство зайнятості. Ми завчасно надаємо вам офіційні документи з нашою пропозицією. Ви надаєте їх інспектору, а після схвалення надсилаєте ваучер нам.",
+        faq_q3: "Які вимоги встановлені для початку курсів?",
+        faq_a3: "Вам має бути не менше 18 років, ви повинні мати чисту довідку про відсутність судимості та німецьку мову на рівні мінімум А2. Для безпеки §34a також потрібен визнаний сертифікат про середню освіту.",
+        faq_q4: "Як працює навчання за допомогою безкоштовного планшета?",
+        faq_a4: "Після реєстрації на курс ми надсилаємо вам поштою налаштований планшет. З нього ви щодня заходите на наші живі лекції. Ви берете активну участь та ставите питання. Планшет залишається вам.",
+        faq_q5: "Чи отримаю я гарантію роботи після іспиту?",
+        faq_a5: "Ми тісно співпрацюємо з провідними охоронними та медичними компаніями Німеччини. Під час навчання ми вивчаємо ваші побажання та готуємо резюме. Через високий дефіцит кадрів ми гарантуємо роботу.",
+
+        // Contact Section
+        contact_tagline: "ПРОФЕСІЙНА КОНСУЛЬТАЦІЯ",
+        contact_title: "Зв'яжіться з нашою <span class=\"text-gradient-gold\">академією</span>",
+        contact_text: "Сплануйте свою нову кар'єру разом з нашими експертами. Ми обговоримо всі питання щодо фінансування, ваучерів та розкладу під час особистої розмови.",
+        contact_lbl_sec: "Навчальна канцелярія",
+        contact_lbl_mail: "Електронна пошта для запитів",
+        contact_lbl_head: "Головний офіс Schönkirchen",
+        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_lbl_name: "Ваше повне ім'я",
+        contact_lbl_email: "Електронна адреса",
+        contact_lbl_phone: "Номер телефону",
+        contact_lbl_course: "Бажаний напрямок навчання",
+        contact_lbl_msg: "Ваше повідомлення (необов'язково)",
+        contact_btn_submit: "Домовитися про безкоштовну консультацію",
+        contact_opt_security: "Сертифікований фахівець з безпеки відповідно до §34a (IHK)",
+        contact_opt_nurse: "Помічник догляду",
+        contact_opt_advice: "Загальні питання щодо фінансування AZAV",
+        ph_name: "Ім'я та Прізвище",
+        ph_email: "name@example.de",
+        ph_phone: "+49 170 1234567",
+        ph_msg: "Чим ми можемо вам допомогти?...",
+        ph_calc_name: "Повністю ім'я",
+        ph_calc_phone: "Номер телефону для зв'язку",
+        footer_text: "Сертифікована AZAV академія для підготовки та підвищення кваліфікації у сфері приватної охорони та догляду.",
+        footer_badge_azav: "ЛІЦЕНЗІЯ ПРОВАДЖЕННЯ AZAV",
+        footer_badge_ihk: "СТАНДАРТИ IHK",
+        footer_title_academy: "Академія",
+        footer_title_courses: "Курси",
+        footer_title_legal: "Правова інформація",
+        footer_copy: "Copyright &copy; 2026 Blue Light College. Всі права захищені. Акредитовано за нормами AZAV.",
+        cookie_title: "Конфіденційність та захист даних (GDPR)",
+        cookie_text: "Ми використовуємо файли cookie, щоб забезпечити найкращий досвід на нашому сайті. Деякі з них необхідні для роботи сайту, а інші допомагають нам аналізувати трафік анонімно.",
+        cookie_lbl_nec: "Необхідні (завжди активні)",
+        cookie_lbl_stats: "Статистика та аналітика",
+        cookie_btn_all: "Прийняти всі",
+        cookie_btn_nec: "Тільки необхідні",
+        cookie_btn_cust: "Налаштувати вибір",
+        legal_modal_title: "Правова інформація",
+        legal_modal_btn_close: "Закрити"
     },
     tr: {
+        // Navigation & Buttons
         nav_courses: "Kurslar",
         nav_calc: "Destek Kontrolü",
         nav_quiz: "IHK Sınavı",
@@ -709,50 +1352,1017 @@ const translations = {
         nav_faq: "SSS",
         nav_cta: "Randevu Al",
         wa_badge: "WhatsApp Destek",
+        
+        // Hero Section
+        hero_badge_azav: "AZAV Onaylı Uzman Akademi",
+        hero_badge_cost: "%100 Ücretsiz Eğitim",
+        hero_title: "<span class=\"text-gradient-navy\">Güvenlik & Bakım</span> Alanında Sertifikalı Eğitimler",
+        hero_description: "§34a onaylı Güvenlik Görevlisi veya kalifiye Hasta Bakıcı olarak kariyerinize başlayın. İş Ajansı (Arbeitsagentur) ve Jobcenter tarafından %100 finanse edilir – ücretsiz ödünç tablet ve iş garantisi dahildir.",
+        hero_btn_calc: "Desteği Sorgula",
+        hero_btn_courses: "Kursları İncele",
+        hero_trust_quota_lbl: "Başarı Oranı",
+        hero_trust_certified_lbl: "Sertifikalı",
+        hero_trust_free_lbl: "Ücretsiz",
+        hero_campus_title: "Blue Light College",
+        hero_campus_subtitle: "Akademik Eğitim Merkezi",
+        
+        // Stats Section
+        stats_duration_title: "Eğitim Süresi",
+        stats_duration_val: "50 Gün",
+        stats_duration_text: "Hızlı ve yüksek düzeyde verimli uzmanlık eğitimi. Sadece 50 günde devlet onaylı mesleki diplomanızı alın.",
+        stats_format_title: "Eğitim Şekli",
+        stats_format_val: "Canlı-Online",
+        stats_format_text: "Evinizin konforunda esnek öğrenim. Tam zamanlı veya yarı zamanlı olarak eğitmenlerle canlı etkileşim – mükemmel uyum.",
+        stats_placement_title: "İşe Yerleştirme",
+        stats_placement_val: "Garantili",
+        stats_placement_text: "Eğitimi başarıyla tamamladıktan sonra sizi doğrudan güvenlik ve bakım sektörünün lider firmalarına yerleştiriyoruz.",
+        stats_equip_title: "Ekipman",
+        stats_equip_val: "Dahil",
+        stats_equip_text: "Eğitim süresi boyunca size ücretsiz olarak yüksek kaliteli bir tablet veriyoruz. Eğitim sonunda tablet tamamen sizin olur.",
+        
+        // Courses Section
+        courses_tagline: "AKADEMİK KURS KATALOĞU",
+        courses_title: "Sertifikalı <span class=\"text-gradient-navy\">Mesleki Eğitimler</span>",
+        courses_subtitle: "Uzmanlık alanınızı seçin. Tüm programlar Federal İş Ajansı'nın katı AZAV kalite kriterlerini karşılamaktadır.",
+        tab_btn_security: "§34a Güvenlik Görevlisi",
+        tab_btn_nurse: "Hasta Bakıcı",
+        course_badge_priority: "EN YÜKSEK ÖNCELİK",
+        course_badge_demand: "YÜKSEK TALEP",
+        course_title_security: "§34a uyarınca Sertifikalı Güvenlik Görevlisi (IHK)",
+        course_desc_security: "Güvenlik sektöründeki prestijli görevler için yasal asgari şarttır. Bu kapsamlı kurs sizi Sanayi ve Ticaret Odası (IHK) nezdindeki yazılı ve sözlü uzmanlık sınavına hazırlar.",
+        course_req_title: "Katılım Şartları:",
+        course_req_age: "En az 18 yaşını doldurmuş olmak",
+        course_req_record: "Temiz adli sicil kaydı",
+        course_req_lang: "En az A2 seviyesinde Almanca bilgisi",
+        course_req_school: "Denklik belgesine sahip ortaokul veya lise diploması",
+        course_meta_duration_lbl: "Normal Eğitim Süresi",
+        course_meta_format_lbl: "Eğitim Şekli",
+        course_meta_format_val: "Canlı-Online (Tam Zamanlı / Yarı Zamanlı)",
+        course_meta_format_hybrid: "Hibrit (Canlı-Online + Pratik)",
+        course_btn_advice: "Ücretsiz Danışmanlık Talep Et",
+        course_btn_quiz: "IHK Bilgini Test Et &rarr;",
+        syllabus_title_security: "Sınavda Çıkacak Konular:",
+        syllabus_title_nurse: "Temel Eğitim Modülleri:",
+        syllabus_s1: "Kamu Güvenliği ve Düzeni Hukuku",
+        syllabus_s2: "Ticaret Hukuku ve Veri Koruma Yönetmelikleri",
+        syllabus_s3: "Alman Medeni Kanunu (BGB) - Meşru Müdafaa Hakları",
+        syllabus_s4: "Ceza Hukuku ve Ceza Muhakemesi Usulü",
+        syllabus_s5: "Kazaları Önleme Yönetmelikleri (UVV)",
+        syllabus_s6: "Davranış İlkeleri & De-eskalsayon (Gerilimi Azaltma) Becerisi",
+        course_title_nurse: "Hasta Bakıcı",
+        course_desc_nurse: "En güvenli ve tatmin edici meslek alanlarından birinde kariyerinize başlayın. Profesyonel bakımın teorik ve pratik esaslarını ve yardıma muhtaç insanlara desteği öğreneceksiniz.",
+        syllabus_n1: "Klinik Tedavi Bakımı ve Temel Bakım Esasları",
+        syllabus_n2: "Hastalara Yaklaşım & Saygılı İletişim",
+        syllabus_n3: "Bakım Mesleklerinde Acil Durumlar & İlk Yardım",
+        syllabus_n4: "Hijyen Kuralları & Enfeksiyondan Korunma",
+        syllabus_n5: "Yasal Temeller (SGB XI, Hasta Hakları)",
+        syllabus_n6: "Pratik Uygulama & Vaka Simülasyonları",
+        
+        // Eligibility Check Section
+        calc_tag: "DEVLET DESTEĞİ",
+        calc_title: "Eğitim Bedelinin <span class=\"text-gradient-gold\">%100 Karşılanma</span> Durumunu Sorgulayın",
+        calc_text: "İş Ajansı (Agentur für Arbeit) veya Jobcenter'dan alacağınız Eğitim Kuponu (Bildungsgutschein) ile tüm kurs, materyal ve sınav ücretleriniz devlet tarafından ödenir. 3 soruyu yanıtlayın.",
+        calc_trust_azav: "AZAV standartlarına göre onaylı akademi",
+        calc_trust_docs: "İş danışmanınız için doğrudan resmi evraklar",
+        wizard_q1: "Mevcut iş durumunuz nedir?",
+        wizard_opt_q1_o1: "İş arıyor / İşsiz (ALG I veya Bürgergeld)",
+        wizard_opt_q1_o2: "Çalışıyor (ve yeni bir kariyere yönelmek istiyor)",
+        wizard_opt_q1_o3: "Serbest meslek / Diğer / Meslek eğitim yeri arıyor",
+        wizard_q2: "Destek alma konusunda daha önce bir görüşme yaptınız mı?",
+        wizard_opt_q2_o1: "Evet, resmi kurumla zaten iletişim halindeyim",
+        wizard_opt_q2_o2: "Hayır, hazırlık sürecinde desteğe ihtiyacım var",
+        wizard_opt_q2_o3: "Öncelikle süreç hakkında genel bilgi almak istiyorum",
+        wizard_res_title: "Harika Beklentiler",
+        wizard_res_text: "Verdiğiniz yanıtlar **tam devlet desteği almaya uygun** olduğunuzu gösteriyor. İletişim bilgilerinizi gönderin. Danışmanımız başvuru sürecini sizinle görüşecek ve resmi belgeleri hazırlayacaktır.",
+        calc_btn_submit: "Ücretsiz Mesleki Danışmanlık Talep Et",
+        
+        // Quiz Section
+        quiz_tagline: "ÖNCEDEN BİLGİNİ TEST ET",
+        quiz_title: "IHK Uzmanlığı <span class=\"text-gradient-navy\">Deneme Sınavı</span>",
+        quiz_subtitle: "§34a GewO uyarınca IHK sınavından alınmış 3 orijinal soru ile temel bilginizi test edin.",
+        quiz_question: "Soru",
+        quiz_of: "/",
+        quiz_select_opt: "Bir cevap seçeneği belirleyin.",
+        quiz_next_question: "Sonraki Soru →",
+        quiz_show_results: "Sonuçları Göster",
+        quiz_res_perf: "Mükemmel! Hukuk konusunda şimdiden harika bir anlayışa sahipsiniz.",
+        quiz_res_good: "Çok iyi! Güvenlik hukuku konusunda sağlam temel bilgilere sahipsiniz.",
+        quiz_res_bad: "Endişelenmeyin! Güvenlik hukuku karmaşıktır. Zaten biz bunun için buradayız.",
+        quiz_res_title: "Sınav Tamamlandı!",
+        quiz_res_body: "Profesyonel hazırlık kursumuz sayesinde mezunlarımız IHK sınavında %98 başarı oranı elde etmektedir. Şansınızı kullanın.",
+        quiz_res_btn_cta: "Ücretsiz Randevu Al",
+        quiz_res_btn_repeat: "Sınavı Tekrarla",
+        
+        // Questions
+        q1: "Özel bir güvenlik görevlisinin kamusal alanda genel olarak hangi yetkisi vardır?",
+        q1_o1: "Suçüstü durumunda geçici olarak alıkoyma yetkisi (§ 127 StPO)",
+        q1_o2: "Polis adına kimlik tespiti yapma yetkisi",
+        q1_o3: "Şüpheli kişilerin üzerini arama yetkisi",
+        q1_o4: "Tehlike anında kamusal yolları kapatma yetkisi",
+        q1_exp: "Güvenlik görevlisi olarak kamusal alanda diğer vatandaşlarla aynı haklara sahipsiniz (herkesin hakları). § 127 StPO, kaçma şüphesi olan bir kişiyi suçüstü anında herkesin geçici olarak alıkoymasına izin verir.",
+        q2: "Meşru müdafaa (§ 227 BGB / § 32 StGB) ne zaman uygulanabilir?",
+        q2_o1: "Gelecekteki olası her türlü saldırıya karşı",
+        q2_o2: "Korumalı bir hukuki varlığa yönelik mevcut, hukuka aykırı bir saldırıya karşı",
+        q2_o3: "Saldırgan kaçtıktan sonra bir ceza olarak",
+        q2_o4: "Yalnızca hayati tehlike oluşturan saldırıları savuşturmak için",
+        q2_exp: "Meşru müdafaa, kişinin kendisine veya başkasına yönelik mevcut ve hukuka aykırı bir saldırıyı savuşturmak için gerekli olan savunmadır. Tüm korunan haklar için geçerlidir (örn. vücut, mülkiyet, onur).",
+        q3: "§34a GewO kapsamındaki resmi sınavı kim yapar?",
+        q3_o1: "Yerel polis teşkilatı",
+        q3_o2: "Yetkili belediye ruhsat dairesi",
+        q3_o3: "Sanayi ve Ticaret Odası (IHK)",
+        q3_o4: "Doğrudان özel eğitim kurumunun kendisi",
+        q3_exp: "Bu sınav devlet tarafından düzenlenir ve yalnızca Sanayi ve Ticaret Odası (IHK) tarafından gerçekleştirilebilir. Sizi bu sınava yoğun ve hedef odaklı hazırlıyoruz.",
+
+        // Perks Section
+        perks_tagline: "KALİTE STANDART GARANTİLERİMİZ",
+        perks_title: "Neden <span class=\"text-gradient-navy\">Blue Light College?</span>",
+        perks_subtitle: "En yüksek eğitim kalitesine, modern ekipmana ve gerçek kariyer fırsatlarına odaklanıyoruz.",
+        perk_c1_lbl: "EKİPMAN GARANTİSİ",
+        perk_c1_title: "Ücretsiz Ödünç Tablet",
+        perk_c1_text: "Online derslerinizin sorunsuz geçmesi için size yüksek kaliteli bir tablet tahsis ediyoruz. Mezun olduktan sonra bu tablet tamamen sizin olur – ek ücret ödemezsiniz.",
+        perk_c2_lbl: "EĞİTİM METODOLOJİSİ",
+        perk_c2_title: "Etkileşimli Canlı Dersler",
+        perk_c2_text: "Kuru kitap okumak yok. Sanal sınıflarımızda her gün canlı derslere katılırsınız. Uzman eğitmenlerimiz karmaşık hukuki konuları anlaşılır bir dille anlatır.",
+        perk_c3_lbl: "KARİYER DESTEĞİ",
+        perk_c3_title: "Garantili İşe Yerleştirme",
+        perk_c3_text: "Güvenlik ve bakım sektöründeki büyük firmalarla yaptığımız ortaklıklar sayesinde, sınavı geçer geçmez sizi doğrudan kalıcı ve güvenli bir işe yerleştiriyoruz.",
+        perk_c4_lbl: "SINAV HAZIRLIĞI",
+        perk_c4_title: "Sözlü Sınav Koçluğu",
+        perk_c4_text: "IHK önündeki sözlü sınav en büyük engel olarak görülür. Endişenizi gideriyoruz: bire bir simülasyonlarla, sınavda tamamen rahat olana kadar pratik yapıyoruz.",
+        perk_c5_lbl: "RESMİ DAİRE DESTEĞİ",
+        perk_c5_title: "Kişisel Resmi Daire Danışmanlığı",
+        perk_c5_text: "Bürokrasiden korkmayın: danışmanlarımız sizi iş danışmanınızla yapacağınız görüşmeye hazırlar ve başvuru evraklarını doğrudan sizinle birlikte sisteme yükler.",
+        perk_c6_lbl: "FİNANSMAN",
+        perk_c6_title: "%100 Ücretsiz Katılım",
+        perk_c6_text: "Blue Light College'ın AZAV sertifikasyonu sayesinde eğitim, materyal ve sınav ücretlerinizin tamamı Eğitim Kuponunuz ile karşılanır. Kişisel hiçbir masrafınız olmaz.",
+
+        // Testimonials
         testi_tagline: "MEZUNLARIMIZIN BAŞARI HİKAYELERİ",
-        testi_title: 'Öğrencilerimiz <span class="text-gradient-navy">ne diyor?</span>',
+        testi_title: "Öğrencilerimiz <span class=\"text-gradient-navy\">ne diyor?</span>",
         testi_subtitle: "Uygulamalı eğitimimizin yeni ve güvenli bir kariyere başlamayı nasıl sağladığını ilk ağızdan öğrenin.",
         testi_c1: "Mezun §34a Güvenlik Görevlisi",
         testi_q1: "“Ücretsiz ödünç tablet sayesinde akşamları esnekçe çalışabildim. Canlı çevrimiçi derslerdeki eğitmenler beni mükemmel hazırladı. IHK uzmanlık sınavını ilk denemede geçtim! Şimdi tesis korumada çalışıyorum.”",
         testi_c2: "Mezun Hasta Bakıcı",
         testi_q2: "“Yalnız bir anne olarak mesleki eğitim bulmak zordu. Blue Light College büyük bir şans oldu. Danışmanım Jobcenter evrak yüklemelerinde bile bana destek oldu. Şimdi sağlık sektöründe çok mutluyum.”",
         testi_c3: "Mezun §34a Güvenlik Görevlisi",
-        testi_q3: "“Özellikle sözlü sınav öncesi birebir sınav simülasyonları kaygımı yok etti. %100 devlet finansmanı ve mezuniyet sonrası anında iş garantisi harikaydı. Kesinlikle tavsiye ederim!”"
+        testi_q3: "“Özellikle sözlü sınav öncesi birebir sınav simülasyonları kaygımı yok etti. %100 devlet finansmanı ve mezuniyet sonrası anında iş garantisi harikaydı. Kesinlikle tavsiye ederim!”",
+
+        // FAQ Section
+        faq_tagline: "MERAK EDİLENLER & SIKÇA SORULAN SORULAR",
+        faq_title: "<span class=\"text-gradient-navy\">Sorularınızın</span> Yanıtları",
+        faq_subtitle: "Katılım şartları, eğitim kuponunun alınması ve IHK sınav süreci hakkında daha fazlasını öğrenin.",
+        faq_q1: "Eğitim gerçekten benim için %100 ücretsiz mi?",
+        faq_a1: "Evet, kesinlikle. AZAV onaylı eğitim kurumu olarak ücretleri doğrudan devlete fatura ediyoruz. İş Ajansınız veya Jobcenter'ınız kuponu onayladığında, tüm harcamalarınız karşılanır. Hiçbir ödeme yapmazsınız.",
+        faq_q2: "Eğitim kuponu başvuru süreci nasıl işliyor?",
+        faq_a2: "Süreç çok basittir. İş danışmanınızdan bir randevu alırsınız. Size resmi teklif belgelerimizi veririz ve siz de bunları danışmanınıza sunarsınız. Kupon onaylandığında kaydınızı yaparız.",
+        faq_q3: "Kurslar için hangi şartlar geçerlidir?",
+        faq_a3: "Her iki kurs için en az 18 yaşında olmanız, sabıka kaydınızın olmaması ve en az A2 Almanca bilgisine sahip olmanız gerekir. §34a güvenlik eğitimi için ayrıca lise veya dengi okul mezuniyeti istenir.",
+        faq_q4: "Ücretsiz tablet ile online eğitim nasıl yapılıyor?",
+        faq_a4: "Kayıt sonrası, hazır durumdaki tableti adresinize kargo ile gönderiyoruz. Bu cihazla her gün canlı derslerimize bağlanırsınız. Soru sorabilir ve derse katılabilirsiniz. Eğitim sonunda tablet sizde kalır.",
+        faq_q5: "Sınavı geçtikten sonra iş garantisi alıyor muyum?",
+        faq_a5: "Almanya'nın önde gelen güvenlik ve sağlık kuruluşlarıyla yakın çalışıyoruz. Eğitim sırasında tercihlerinizi (örn. tesis koruma, resepsiyon, mobil devriye veya klinik servis) belirleyip iş başvurularınızı hazırlarız ve doğrudan işe yerleştiririz.",
+
+        // Contact Section
+        contact_tagline: "RESMİ DANIŞMANLIK",
+        contact_title: "<span class=\"text-gradient-gold\">Akademimiz</span> İle İletişime Geçin",
+        contact_text: "Mesleki eğitiminizi ve sonrasındaki işe başlangıcınızı danışmanlarımızla birlikte planlayın. Eğitim kuponları, tarihler ve ders formatları hakkındaki tüm detayları kişisel görüşmede netleştirelim.",
+        contact_lbl_sec: "Öğrenci İşleri",
+        contact_lbl_mail: "Sorularınız için E-posta",
+        contact_lbl_head: "Schönkirchen Merkez Ofis",
+        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_lbl_name: "Adınız ve Soyadınız",
+        contact_lbl_email: "E-posta Adresiniz",
+        contact_lbl_phone: "Telefon Numaranız",
+        contact_lbl_course: "İstediğiniz Eğitim Programı",
+        contact_lbl_msg: "Mesajınız (İsteğe Bağlı)",
+        contact_btn_submit: "Ücretsiz Ön Görüşme Randevusu Al",
+        contact_opt_security: "§34a uyarınca Sertifikalı Güvenlik Görevlisi (IHK)",
+        contact_opt_nurse: "Hasta Bakıcı",
+        contact_opt_advice: "AZAV Destekleri Hakkında Genel Bilgi",
+        ph_name: "Ad Soyad",
+        ph_email: "isim@ornek.de",
+        ph_phone: "+49 170 1234567",
+        ph_msg: "Size nasıl yardımcı olabiliriz?...",
+        ph_calc_name: "Adınız Soyadınız",
+        ph_calc_phone: "İletişim için telefon numarası",
+        footer_text: "Özel güvenlik ve bakım sektöründeki mesleki eğitim ve uzmanlık programları için AZAV sertifikalı resmi akademi.",
+        footer_badge_azav: "AZAV RESMİ TRÄGER ONAYI",
+        footer_badge_ihk: "IHK STANDARTLARI",
+        footer_title_academy: "Akademi",
+        footer_title_courses: "Kurslar",
+        footer_title_legal: "Yasal Bilgiler",
+        footer_copy: "&copy; 2026 Blue Light College. Tüm hakları saklıdır. AZAV standartlarına göre akredite edilmiştir.",
+        cookie_title: "Gizlilik & Veri Koruma (GDPR)",
+        cookie_text: "Web sitemizde en iyi deneyimi sunmak için çerezleri kullanıyoruz. Bazı çerezler teknik çalışma için zorunludur (Gerekli), bazıları ise trafiğimizi analiz etmemize yardımcı olur (İstatistik).",
+        cookie_lbl_nec: "Gerekli (her zaman aktif)",
+        cookie_lbl_stats: "İstatistik & Analiz",
+        cookie_btn_all: "Hepsini Kabul Et",
+        cookie_btn_nec: "Yalnızca Gerekli",
+        cookie_btn_cust: "Seçimi Düzenle",
+        legal_modal_title: "Yasal Bilgiler",
+        legal_modal_btn_close: "Kapat"
+    },
+    ar: {
+        // Navigation & Buttons
+        nav_courses: "الدورات التعليمية",
+        nav_calc: "فحص الدعم المالي",
+        nav_quiz: "اختبار IHK",
+        nav_perks: "المميزات",
+        nav_faq: "الأسئلة الشائعة",
+        nav_cta: "حجز استشارة",
+        wa_badge: "استشارة عبر الواتساب",
+        
+        // Hero Section
+        hero_badge_azav: "أكاديمية تخصصية مرخصة من AZAV",
+        hero_badge_cost: "تعليم مجاني 100%",
+        hero_title: "تدريب مهني معتمد في مجالات <span class=\"text-gradient-navy\">الأمن والرعاية الصحية</span>",
+        hero_description: "ابدأ مسيرتك المهنية كحارس أمن مرخص وفقاً للمادة §34a أو كمساعد رعاية صحية مؤهل. ممول بنسبة 100% من قبل وكالة العمل وJobcenter - بما في ذلك جهاز لوحي مجاني كإعارة وضمان الحصول على وظيفة.",
+        hero_btn_calc: "فحص أهلية الدعم",
+        hero_btn_courses: "عرض الدورات",
+        hero_trust_quota_lbl: "نسبة النجاح",
+        hero_trust_certified_lbl: "معتمد ومرخص",
+        hero_trust_free_lbl: "مجاني بالكامل",
+        hero_campus_title: "Blue Light College",
+        hero_campus_subtitle: "مؤسسة تدريبية أكاديمية",
+        
+        // Stats Section
+        stats_duration_title: "مدة الدراسة",
+        stats_duration_val: "50 يوماً",
+        stats_duration_text: "تعليم مهني سريع وفعال للغاية. احصل على شهادتك المهنية المعترف بها من الدولة خلال 50 يوماً فقط.",
+        stats_format_title: "نظام التدريس",
+        stats_format_val: "عبر الإنترنت بث مباشر",
+        stats_format_text: "دراسة مرنة ومريحة من منزلك. تفاعل مباشر مع المحاضرين بدوام كامل أو جزئي - متوافق تماماً مع ظروفك.",
+        stats_placement_title: "التوظيف",
+        stats_placement_val: "مضمون",
+        stats_placement_text: "نقوم بتوظيفك مباشرة بعد التخرج لدى شركات رائدة شريكة في مجالات الأمن والرعاية الصحية.",
+        stats_equip_title: "التجهيزات",
+        stats_equip_val: "متضمنة مجاناً",
+        stats_equip_text: "نوفر لك جهازاً لوحياً (تابلت) عالي الجودة مجاناً طوال فترة التدريب. ويصبح ملكك بالكامل فور التخرج.",
+        
+        // Courses Section
+        courses_tagline: "عرض الدورات الأكاديمية",
+        courses_title: "تدريب مهني <span class=\"text-gradient-navy\">معتمد</span>",
+        courses_subtitle: "اختر تخصصك. تلبي جميع عروضنا معايير الجودة الصارمة لوكالة العمل الفيدرالية (AZAV).",
+        tab_btn_security: "§34a حارس أمن مرخص",
+        tab_btn_nurse: "مساعد رعاية صحية",
+        course_badge_priority: "أولوية قصوى",
+        course_badge_demand: "طلب مرتفع للغاية",
+        course_title_security: "حارس أمن مرخص وفقاً للمادة §34a (IHK)",
+        course_desc_security: "الحد الأدنى للمتطلبات القانونية للعمل في قطاع الأمن الخاص. تؤهلك هذه الدورة الشاملة بشكل منهجي للاختبار الكتابي والشفهي أمام غرفة التجارة والصناعة (IHK).",
+        course_req_title: "شروط الالتحاق بالدورة:",
+        course_req_age: "ألا يقل العمر عن 18 عاماً",
+        course_req_record: "سجل جنائي خالٍ من السوابق",
+        course_req_lang: "مستوى اللغة الألمانية لا يقل عن A2",
+        course_req_school: "شهادة مدرسية معترف بها",
+        course_meta_duration_lbl: "مدة الدراسة المعتادة",
+        course_meta_format_lbl: "نظام الدراسة",
+        course_meta_format_val: "بث مباشر عبر الإنترنت (دوام كامل / جزئي)",
+        course_meta_format_hybrid: "مختلط (بث مباشر + تدريب عملي)",
+        course_btn_advice: "طلب استشارة مجانية",
+        course_btn_quiz: "اختبر معلوماتك لـ IHK &rarr;",
+        syllabus_title_security: "محتوى الدورة المخصص للاختبار:",
+        syllabus_title_nurse: "الوحدات التدريبية الأساسية:",
+        syllabus_s1: "قانون الأمن والنظام العام في ألمانيا",
+        syllabus_s2: "قانون التجارة واللوائح الخاصة بحماية البيانات",
+        syllabus_s3: "القانون المدني الألماني (BGB) - حق الدفاع الشرعي",
+        syllabus_s4: "القانون الجنائي وقانون الإجراءات الجنائية",
+        syllabus_s5: "لوائح الوقاية من الحوادث المهنية (UVV)",
+        syllabus_s6: "علم السلوك ومهارات خفض التوتر والتعامل مع الأزمات",
+        course_title_nurse: "مساعد رعاية صحية",
+        course_desc_nurse: "ابدأ عملك في أحد أكثر القطاعات استقراراً وطلباً. ستتعلم الأسس النظرية والعملية للرعاية المهنية والرعاية الطبية الأساسية ومساعدة كبار السن والمرضى.",
+        syllabus_n1: "أسس الرعاية العلاجية والتمريض الأساسي",
+        syllabus_n2: "التواصل والتعامل المحترم مع المرضى",
+        syllabus_n3: "حالات الطوارئ والإسعافات الأولية في التمريض",
+        syllabus_n4: "قواعد النظافة والوقاية من العدوى",
+        syllabus_n5: "الأسس القانونية (التأمين التمريضي وحقوق المرضى)",
+        syllabus_n6: "التطبيق العملي ومحاكاة الحالات الواقعية",
+        
+        // Eligibility Check Section
+        calc_tag: "الدعم المالي الحكومي",
+        calc_title: "افحص أهليتك للحصول على <span class=\"text-gradient-gold\">تمويل كامل 100%</span>",
+        calc_text: "عبر قسيمة التعليم (Bildungsgutschein) من وكالة العمل أو Jobcenter، يتم تغطية رسوم الدورة والكتب والاختبارات بالكامل من الدولة. أجب عن 3 أسئلة.",
+        calc_trust_azav: "أكاديمية مرخصة بالكامل وفق معايير الجودة AZAV",
+        calc_trust_docs: "نوفر المستندات الرسمية مباشرة لمستشارك في مكتب العمل",
+        wizard_q1: "ما هو وضعك المهني الحالي؟",
+        wizard_opt_q1_o1: "باحث عن عمل / عاطل (أحصل على معونة Bürgergeld أو ALG I)",
+        wizard_opt_q1_o2: "أعمل حالياً (وأبحث عن تغيير مساري المهني)",
+        wizard_opt_q1_o3: "عمل حر / غير ذلك / أبحث عن مقعد تدريب مهني",
+        wizard_q2: "هل حصلت بالفعل على موعد استشارة بخصوص الدعم المالي؟",
+        wizard_opt_q2_o1: "نعم، أنا على تواصل بالفعل مع مكتب العمل",
+        wizard_opt_q2_o2: "لا، أحتاج إلى مساعدة في التحضير للمقابلة",
+        wizard_opt_q2_o3: "أود الحصول على معلومات عامة عن الإجراءات أولاً",
+        wizard_res_title: "فرص ممتازة للغاية",
+        wizard_res_text: "تشير إجاباتك إلى **أهليتك الكاملة للحصول على الدعم الحكومي**. أرسل لنا معلومات الاتصال بك. وسيقوم مستشارنا بمناقشة تقديم الطلب وتجهيز الأوراق الرسمية لك.",
+        calc_btn_submit: "طلب استشارة تعليمية مجانية",
+        
+        // Quiz Section
+        quiz_tagline: "اختبر معلوماتك مسبقاً",
+        quiz_title: "الاختبار التجريبي <span class=\"text-gradient-navy\">لامتحان IHK</span>",
+        quiz_subtitle: "اختبر معلوماتك الأساسية بثلاثة أسئلة حقيقية من اختبارات IHK وفقاً للمادة §34a GewO.",
+        quiz_question: "سؤال",
+        quiz_of: "من",
+        quiz_select_opt: "يرجى اختيار أحد الخيارات للإجابة.",
+        quiz_next_question: "السؤال التالي →",
+        quiz_show_results: "عرض النتائج",
+        quiz_res_perf: "رائع جداً! لديك بالفعل فهم قانوني ممتاز ومبشر.",
+        quiz_res_good: "ممتاز! لديك معرفة أساسية جيدة بقانون الأمن الخاص.",
+        quiz_res_bad: "لا تقلق! قانون الأمن معقد وله تفاصيل كثيرة. نحن هنا لمساعدتك وتدريبك.",
+        quiz_res_title: "اكتمل الاختبار!",
+        quiz_res_body: "بفضل برنامجنا التحضيري المتميز، يحقق خريجونا نسبة نجاح تبلغ 98% في اختبارات غرفة التجارة والصناعة (IHK). استغل فرصتك الآن.",
+        quiz_res_btn_cta: "حجز استشارة مجانية",
+        quiz_res_btn_repeat: "إعادة الاختبار",
+        
+        // Questions
+        q1: "ما هي الصلاحيات القانونية التي يتمتع بها حارس الأمن الخاص في الأماكن العامة؟",
+        q1_o1: "حق الاحتجاز المؤقت للمتهم عند ضبطه متلبساً (§ 127 StPO)",
+        q1_o2: "حق التحقق من الهوية بتكليف رسمي من الشرطة",
+        q1_o3: "حق تفتيش الأشخاص المشتبه بهم ذاتياً ودون موافقتهم",
+        q1_o4: "حق إغلاق الطرق العامة عند استشعار الخطر",
+        q1_exp: "كحارس أمن، تتمتع في الأماكن العامة بنفس الحقوق المتاحة للمواطن العادي (حقوق الجميع). تسمح المادة 127 من قانون الإجراءات الجنائية لأي شخص باحتجاز شخص آخر مؤقتاً إذا ضُبط متلبساً بالجريمة وكان هناك خوف من هروبه.",
+        q2: "متى يحق للشخص ممارسة حق الدفاع الشرعي (§ 227 BGB / § 32 StGB)؟",
+        q2_o1: "ضد أي اعتداء مستقبلي محتمل أو متوقع",
+        q2_o2: "ضد اعتداء حالٍ وغير قانوني يستهدف شخصاً أو ممتلكات محمية قانوناً",
+        q2_o3: "كعقوبة للمعتدي بعد أن يلوذ بالفرار ويغادر المكان",
+        q2_o4: "فقط لصد الاعتداءات التي تشكل خطراً مباشراً على الحياة",
+        q2_exp: "الدفاع الشرعي هو الدفاع اللازم لصد اعتداء حال وغير قانوني عن النفس أو عن الآخرين. ويشمل حماية جميع الحقوق القانونية (مثل الجسد، الملكية، الشرف).",
+        q3: "من هي الجهة الرسمية التي تشرف على اختبار المادة §34a GewO وتمنح الشهادة؟",
+        q3_o1: "إدارة الشرطة المحلية في المنطقة",
+        q3_o2: "مكتب تسجيل الأنشطة التجارية والبلدية",
+        q3_o3: "غرفة التجارة والصناعة الألمانية (IHK)",
+        q3_o4: "مؤسسة التدريب المهني الخاصة نفسها",
+        q3_exp: "هذا الاختبار تنظمه الدولة وتشرف عليه حصرياً غرفة التجارة والصناعة (IHK). نحن نعدك بشكل مكثف ومهني لاجتيازه بنجاح.",
+
+        // Perks Section
+        perks_tagline: "ضمانات الجودة والتميز لدينا",
+        perks_title: "لماذا تخرج بـ <span class=\"text-gradient-navy\">كلية بلو لايت؟</span>",
+        perks_subtitle: "نحن نركز على تقديم أعلى مستويات جودة التعليم المعتمدة، وأحدث الأجهزة المساعدة، وضمان الحصول على عمل.",
+        perk_c1_lbl: "ضمان الأجهزة والمعدات",
+        perk_c1_title: "جهاز تابلت مجاني تماماً",
+        perk_c1_text: "لضمان سير دروسك عبر الإنترنت دون انقطاع، نوفر لك جهازاً لوحياً (تابلت) عالي الجودة. وبعد التخرج بنجاح، يصبح الجهاز ملكاً لك بالكامل دون دفع أي رسوم إضافية.",
+        perk_c2_lbl: "طريقة التدريس الحديثة",
+        perk_c2_title: "دروس تفاعلية مباشرة",
+        perk_c2_text: "لا توجد دراسة نظرية مملة من الكتب فقط. ستشارك يومياً في محاضرات تفاعلية مباشرة داخل فصولنا الافتراضية، حيث يشرح مدربونا المعتمدون القوانين الصعبة بأسلوب مبسط.",
+        perk_c3_lbl: "فرص الدعم المهني",
+        perk_c3_title: "ضمان التوظيف المباشر",
+        perk_c3_text: "بفضل شراكاتنا الوثيقة والاستراتيجية مع كبرى شركات الأمن والرعاية الصحية في ألمانيا، نقوم بتوظيفك مباشرة في وظيفة دائمة وآمنة فور اجتيازك للاختبار بنجاح.",
+        perk_c4_lbl: "الاستعداد للاختبار",
+        perk_c4_title: "تدريب مكثف للاختبار الشفهي",
+        perk_c4_text: "يعتبر الاختبار الشفهي أمام IHK هو العقبة الكبرى لدى الطلاب. نحن ننزع عنك هذا القلق تماماً: من خلال جلسات محاكاة فردية، نتدرب على الأسئلة حتى تصبح مستعداً وواثقاً تماماً.",
+        perk_c5_lbl: "المساعدة الإدارية والمعاملات",
+        perk_c5_title: "مرافقة شخصية في المعاملات الرسمية",
+        perk_c5_text: "لا تخف من البيروقراطية والمعاملات الورقية: مستشارونا يجهزونك للمقابلة مع مستشارك في مكتب العمل، ويساعدونك في رفع الطلبات والمستندات الرسمية خطوة بخطوة.",
+        perk_c6_lbl: "التمويل المالي للدورة",
+        perk_c6_title: "مشاركة مجانية 100%",
+        perk_c6_text: "نظراً لأن كلية بلو لايت مرخصة رسمياً وفق معايير AZAV، فإن رسوم التدريب والكتب والاختبارات مغطاة بالكامل بواسطة قسيمة التعليم الممنوحة لك. لن تدفع أي شيء من جيبك الخاص.",
+
+        // Testimonials
+        testi_tagline: "قصص نجاح خريجينا المتميزة",
+        testi_title: "ماذا يقول <span class=\"text-gradient-navy\">طلابنا</span>",
+        testi_subtitle: "اكتشف بنفسك كيف ساعدهم تدريبنا العملي في بدء مسيرة مهنية جديدة وآمنة.",
+        testi_c1: "خريج دورة §34a حارس أمن",
+        testi_q1: "«بفضل الجهاز اللوحي المجاني، تمكنت من الدراسة بمرونة في المساء. لقد جهزني المحاضرون في الدروس المباشرة عبر الإنترنت بشكل ممتاز. واجتزت اختبار IHK من المحاولة الأولى! أعمل الآن في مجال حراسة المنشآت.»",
+        testi_c2: "خريجة دورة مساعد رعاية صحية",
+        testi_q2: "«كأم عزباء، كان من الصعب العثور على تدريب مناسب. كانت كلية بلو لايت هبة من السماء. لقد ساعدني مستشاري الخاص حتى في تقديم المستندات إلى جوب سنتر. الآن أعمل بسعادة في مجال الرعاية.»",
+        testi_c3: "خريج دورة §34a حارس أمن",
+        testi_q3: "«خاصة التدريب المكثف قبل الاختبار الشفهي أزال عني الخوف من الامتحانات. كان تغطية التكاليف بنسبة 100% والتوظيف المباشر بعد انتهاء الدورة أمراً ممتازاً. أكاديمية موصى بها بشدة!»",
+
+        // FAQ Section
+        faq_tagline: "معلومات هامة وأسئلة شائعة",
+        faq_title: "إجابات على <span class=\"text-gradient-navy\">أسئلتكم</span>",
+        faq_subtitle: "تعرف على شروط القبول، وكيفية الحصول على قسيمة التعليم، وتفاصيل اختبار غرفة التجارة (IHK).",
+        faq_q1: "هل التدريب مجاني لي بنسبة 100% فعلاً؟",
+        faq_a1: "نعم، بالتأكيد. بصفتنا مؤسسة تعليمية مرخصة من الدولة، نقوم بتسوية الرسوم مباشرة مع الجهات الحكومية. عند موافقة وكالة العمل أو Jobcenter على قسيمة التعليم، يتم دفع الرسوم بالكامل. ولا تدفع أي رسوم شخصية.",
+        faq_q2: "كيف أسير في خطوات الحصول على قسيمة التعليم؟",
+        faq_a2: "الخطوات بسيطة جداً. تحجز موعداً مع مستشارك في مكتب العمل. نحن نمنحك مسبقاً كافة الأوراق الرسمية المعتمدة لعرضنا. تقدمها للمستشار، وفور موافقته ترسلها لنا لتسجيلك بالدورة مباشرة.",
+        faq_q3: "ما هي المتطلبات الأساسية للبدء in الدورات؟",
+        faq_a3: "يجب ألا يقل عمرك عن 18 عاماً، وأن تمتلك سجلاً جنائياً نظيفاً وخالياً من السوابق، وإثبات لغة ألمانية بمستوى A2 كحد أدنى. للعمل في قطاع الأمن §34a، يتطلب الأمر أيضاً شهادة مدرسية معترف بها.",
+        faq_q4: "كيف يتم التعليم الإلكتروني عبر جهاز التابلت المجاني؟",
+        faq_a4: "عند تسجيلك بالدورة، نرسل لك جهاز تابلت مهيأً ومعداً بالكامل عبر البريد. تستخدم الجهاز يومياً للدخول للمحاضرات المباشرة والمشاركة وطرح الأسئلة بصوتك أو كتابة. ويصبح ملكك بالكامل عند تخرجك.",
+        faq_q5: "هل أحصل على عقد عمل مضمون بعد انتهاء الدورة؟",
+        faq_a5: "نحن نعمل بتنسيق وثيق مع كبرى شركات الأمن والتمريض في ألمانيا. خلال الدورة، ندرس رغباتك وتفضيلاتك المهنية (مثل أمن المنشآت، الاستقبال، أو الرعاية الصحية) ونجهز ملفات تقديمك للوظائف مباشرة.",
+
+        // Contact Section
+        contact_tagline: "الاستشارة المتخصصة",
+        contact_title: "تواصل مع <span class=\"text-gradient-gold\">أكاديميتنا</span> الآن",
+        contact_text: "خطط لمستقبلك المهني وبداية عملك مع مستشارينا المتخصصين. سنجيب على جميع أسئلتك بخصوص قسيمة التعليم، والمواعيد، ونظام الدراسة في اتصال شخصي ومريح.",
+        contact_lbl_sec: "مكتب التسجيل والقبول",
+        contact_lbl_mail: "البريد الإلكتروني للطلبات",
+        contact_lbl_head: "المقر الرئيسي Schönkirchen",
+        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_lbl_name: "الاسم الكامل",
+        contact_lbl_email: "البريد الإلكتروني",
+        contact_lbl_phone: "رقم الهاتف",
+        contact_lbl_course: "التدريب المهني المرغوب",
+        contact_lbl_msg: "رسالتك إلى الإدارة (اختياري)",
+        contact_btn_submit: "تحديد موعد مكالمة استشارية مجانية",
+        contact_opt_security: "حارس أمن مرخص وفقاً للمادة §34a (IHK)",
+        contact_opt_nurse: "مساعد رعاية صحية",
+        contact_opt_advice: "استشارة عامة بخصوص تمويل AZAV",
+        ph_name: "الاسم واللقب",
+        ph_email: "name@example.de",
+        ph_phone: "+49 170 1234567",
+        ph_msg: "كيف يمكننا مساعدتك؟...",
+        ph_calc_name: "الاسم الكامل",
+        ph_calc_phone: "رقم الهاتف للتواصل",
+        footer_text: "أكاديمية مرخصة من الدولة (AZAV) للتعليم والتدريب المهني المستمر في قطاعات الأمن الخاص والرعاية الصحية.",
+        footer_badge_azav: "ترخيص رسمي كجهة تعليمية معتمدة",
+        footer_badge_ihk: "معايير وغرفة التجارة IHK",
+        footer_title_academy: "الأكاديمية",
+        footer_title_courses: "الدورات",
+        footer_title_legal: "معلومات قانونية",
+        footer_copy: "حقوق النشر &copy; 2026 Blue Light College. جميع الحقوق محفوظة. معتمد ومرخص وفق معايير الجودة.",
+        cookie_title: "الخصوصية وحماية البيانات (GDPR)",
+        cookie_text: "نحن نستخدم ملفات تعريف الارتباط لمنحك أفضل تجربة تصفح على موقعنا. بعض الملفات ضرورية من الناحية التقنية لعمل الموقع، وبعضها يساعدنا في تحليل حركة التصفح بشكل مجهول الهوية.",
+        cookie_lbl_nec: "ملفات ضرورية (نشطة دائماً)",
+        cookie_lbl_stats: "الإحصاء والتحليل",
+        cookie_btn_all: "قبول الكل",
+        cookie_btn_nec: "الملفات الضرورية فقط",
+        cookie_btn_cust: "تعديل الاختيارات",
+        legal_modal_title: "معلومات قانونية",
+        legal_modal_btn_close: "إغلاق"
+    },
+    ru: {
+        // Navigation & Buttons
+        nav_courses: "Обучение",
+        nav_calc: "Госфинансирование",
+        nav_quiz: "Тест IHK",
+        nav_perks: "Преимущества",
+        nav_faq: "Вопросы",
+        nav_cta: "Записаться",
+        wa_badge: "Консультация WhatsApp",
+        
+        // Hero Section
+        hero_badge_azav: "Сертифицированная академия AZAV",
+        hero_badge_cost: "100% бесплатное обучение",
+        hero_title: "Сертифицированное обучение в сфере <span class=\"text-gradient-navy\">безопасности и ухода</span>",
+        hero_description: "Начните карьеру в качестве сертифицированного охранника (§34a) или квалифицированного помощника по уходу. Курсы полностью финансируются Агентством по труду и Jobcenter – бесплатный планшет и гарантия работы.",
+        hero_btn_calc: "Проверить финансирование",
+        hero_btn_courses: "Посмотреть курсы",
+        hero_trust_quota_lbl: "Сдают экзамен",
+        hero_trust_certified_lbl: "Сертифицировано",
+        hero_trust_free_lbl: "Бесплатно",
+        hero_campus_title: "Blue Light College",
+        hero_campus_subtitle: "Академический учебный центр",
+        
+        // Stats Section
+        stats_duration_title: "Срок обучения",
+        stats_duration_val: "50 дней",
+        stats_duration_text: "Быстрое и высокоэффективное профессиональное обучение. Получите диплом государственного образца всего за 50 дней.",
+        stats_format_title: "Формат занятий",
+        stats_format_val: "Онлайн-вебинары",
+        stats_format_text: "Гибкое обучение, не выходя из дома. Живое взаимодействие с преподавателями на полный или неполный день – легко подстраивается.",
+        stats_placement_title: "Трудоустройство",
+        stats_placement_val: "Гарантия",
+        stats_placement_text: "После успешного завершения мы напрямую трудоустраиваем вас в ведущие охранные и медицинские компании-партнеры.",
+        stats_equip_title: "Оснащение",
+        stats_equip_val: "Включено",
+        stats_equip_text: "Мы бесплатно предоставляем вам планшет превосходного качества на период учебы. После окончания он остается у вас.",
+        
+        // Courses Section
+        courses_tagline: "АКАДЕМИЧЕСКИЙ КАТАЛОГ КУРСОВ",
+        courses_title: "Сертифицированное <span class=\"text-gradient-navy\">обучение</span>",
+        courses_subtitle: "Выберите вашу специализацию. Все предложения соответствуют строгим критериям качества AZAV Федерального агентства по труду.",
+        tab_btn_security: "§34a Охранник",
+        tab_btn_nurse: "Помощник по уходу",
+        course_badge_priority: "НАИВЫСШИЙ ПРИОРИТЕТ",
+        course_badge_demand: "ВЫСОКИЙ СПРОС",
+        course_title_security: "Сертифицированный охранник в соответствии с §34a (IHK)",
+        course_desc_security: "Минимальное юридическое требование для работы в частной охране. Этот курс системно готовит вас к письменному и устному экзамену в Торгово-промышленной палате (IHK).",
+        course_req_title: "Требования к кандидатам:",
+        course_req_age: "Минимальный возраст 18 лет",
+        course_req_record: "Справка об отсутствии судимости",
+        course_req_lang: "Знание немецкого языка на уровне не ниже A2",
+        course_req_school: "Признанный школьный аттестат",
+        course_meta_duration_lbl: "Срок обучения",
+        course_meta_format_lbl: "Формат занятий",
+        course_meta_format_val: "Онлайн-вебинары (полный / неполный день)",
+        course_meta_format_hybrid: "Гибридный (вебинары + практика)",
+        course_btn_advice: "Запросить бесплатную консультацию",
+        course_btn_quiz: "Проверить знания IHK &rarr;",
+        syllabus_title_security: "Программа подготовки к экзамену IHK:",
+        syllabus_title_nurse: "Основные учебные модули:",
+        syllabus_s1: "Законодательство об общественной безопасности и порядке",
+        syllabus_s2: "Промышленное право и правила защиты данных",
+        syllabus_s3: "Гражданский кодекс (BGB) - право на самооборону",
+        syllabus_s4: "Уголовное право и уголовное судопроизводство",
+        syllabus_s5: "Правила техники безопасности (UVV)",
+        syllabus_s6: "Поведенческая психология и навыки деэскалации",
+        course_title_nurse: "Помощник по уходу",
+        course_desc_nurse: "Начните карьеру в одной из самых стабильных сфер. Вы освоите теоретические и практические основы профессионального ухода за пожилыми и больными людьми.",
+        syllabus_n1: "Основы медицинского обслуживания и базовый уход",
+        syllabus_n2: "Коммуникация и уважительное отношение к пациентам",
+        syllabus_n3: "Чрезвычайные ситуации и первая помощь в медицине",
+        syllabus_n4: "Гигиенические нормы и защита от инфекций",
+        syllabus_n5: "Юридические основы (страхование ухода, права пациентов)",
+        syllabus_n6: "Практическая работа и разбор реальных ситуаций",
+        
+        // Eligibility Check Section
+        calc_tag: "ГОСУДАРСТВЕННОЕ ФИНАНСИРОВАНИЕ",
+        calc_title: "Узнайте свое право на <span class=\"text-gradient-gold\">100% оплату обучения</span>",
+        calc_text: "Благодаря образовательному ваучеру от Федерального агентства по труду или Jobcenter все расходы полностью покрываются государством. Ответьте на 3 вопроса.",
+        calc_trust_azav: "Акадмия сертифицирована по стандартам качества AZAV",
+        calc_trust_docs: "Официальные документы для вашего инспектора в Агентстве",
+        wizard_q1: "Каков ваш текущий статус занятости?",
+        wizard_opt_q1_o1: "Ищу работу / Безработный (получаю ALG I или Bürgergeld)",
+        wizard_opt_q1_o2: "Работаю (и ищу новую карьеру)",
+        wizard_opt_q1_o3: "Самозанятый / Другое / Ищу место обучения",
+        wizard_q2: "Вы уже проходили консультацию по поводу финансирования?",
+        wizard_opt_q2_o1: "Да, я уже общаюсь с Агентством / Jobcenter",
+        wizard_opt_q2_o2: "Нет, мне нужна помощь в подготовке к беседе",
+        wizard_opt_q2_o3: "Я хочу сначала получить общую информацию о процессе",
+        wizard_res_title: "Отличные перспективы",
+        wizard_res_text: "Ваши ответы указывают на **полное право на финансирование**. Оставьте контакты. Наш консультант обсудит с вами подачу заявления и подготовит документы для Jobcenter.",
+        calc_btn_submit: "Получить бесплатную консультацию",
+        
+        // Quiz Section
+        quiz_tagline: "ПРОВЕРИТЬ ЗНАНИЯ ЗАРАНЕЕ",
+        quiz_title: "Пробный тест <span class=\"text-gradient-navy\">на экзамен IHK</span>",
+        quiz_subtitle: "Проверьте свои базовые знания с помощью 3 реальных вопросов экзамена IHK в соответствии с §34a GewO.",
+        quiz_question: "Вопрос",
+        quiz_of: "из",
+        quiz_select_opt: "Выберите один вариант ответа.",
+        quiz_next_question: "Следующий вопрос →",
+        quiz_show_results: "Показать результат",
+        quiz_res_perf: "Отлично! Вы уже обладаете прекрасным пониманием законодательства.",
+        quiz_res_good: "Очень хорошо! У вас есть твердые базовые знания охранного права.",
+        quiz_res_bad: "Не волнуйтесь! Охранное право сложное. Именно для этого мы здесь.",
+        quiz_res_title: "Тест завершен!",
+        quiz_res_body: "Благодаря профессиональной подготовке наши выпускники достигают 98% успешности на экзаменах IHK. Используйте свой шанс.",
+        quiz_res_btn_cta: "Записаться на консультацию",
+        quiz_res_btn_repeat: "Пройти тест заново",
+        
+        // Questions
+        q1: "Какими полномочиями обладает частный охранник в общественных местах?",
+        q1_o1: "Правом на временное задержание при поимке на месте преступления (§ 127 StPO)",
+        q1_o2: "Правом устанавливать личность по поручению полиции",
+        q1_o3: "Правом проводить обыск подозрительных лиц без их согласия",
+        q1_o4: "Правом перекрывать общественные дороги в случае опасности",
+        q1_exp: "В качестве охранника в общественных местах вы имеете те же права, что и любой другой гражданин. § 127 StPO разрешает любому задержать лицо на месте преступления при подозрении на побег.",
+        q2: "Когда может применяться необходимая оборона (§ 227 BGB / § 32 StGB)?",
+        q2_o1: "Против любого будущего предполагаемого нападения",
+        q2_o2: "Против текущего, противоправного нападения на защищаемое благо",
+        q2_o3: "В качестве наказания после того, как нападавший скрылся",
+        q2_o4: "Только для отражения опасных для жизни нападений",
+        q2_exp: "Необходимая оборона – это защита, требуемая для отражения текущего противоправного нападения на себя или других. Распространяется на все блага (жизнь, тело, собственность, честь).",
+        q3: "Кто принимает официальный экзамен в соответствии с §34a GewO?",
+        q3_o1: "Местный участок полиции",
+        q3_o2: "Соответствующее ведомство по делам предпринимательства",
+        q3_o3: "Торгово-промышленная палата (IHK)",
+        q3_o4: "Непосредственно учебное заведение самостоятельно",
+        q3_exp: "Экзамен регулируется государством и принимается исключительно Торгово-промышленной палатой (IHK). Мы интенсивно и целенаправленно готовим вас к нему.",
+
+        // Perks Section
+        perks_tagline: "НАШИ ГАРАНТИИ КАЧЕСТВА",
+        perks_title: "Почему именно <span class=\"text-gradient-navy\">Blue Light College?</span>",
+        perks_subtitle: "Мы ориентируемся на высокое качество обучения, современное оснащение и реальные перспективы.",
+        perk_c1_lbl: "ГАРАНТТИЯ НА ОБОРУДОВАНИЕ",
+        perk_c1_title: "Бесплатный учебный планшет",
+        perk_c1_text: "Для удобства онлайн-занятий мы бесплатно выдаем вам планшет превосходного качества. После успешного завершения учебы устройство переходит в вашу собственность без доплат.",
+        perk_c2_lbl: "МЕТОДИКА ОБУЧЕНИЯ",
+        perk_c2_title: "Интерактивные онлайн-уроки",
+        perk_c2_text: "Никакого скучного самостоятельного зазубривания. Вы ежедневно участвуете в живых вебинарах. Опытные преподаватели подробно и просто объясняют сложные законы.",
+        perk_c3_lbl: "КАРЬЕРНЫЙ СТАРТ",
+        perk_c3_title: "Гарантированное трудоустройство",
+        perk_c3_text: "Благодаря тесному партнерству с лидерами рынка охраны и медицины Германии, мы трудоустраиваем вас на постоянную работу сразу после сдачи экзамена IHK.",
+        perk_c4_lbl: "ПОДГОТОВКА К ЭКЗАМЕНУ",
+        perk_c4_title: "Тренинг устного экзамена",
+        perk_c4_text: "Устный экзамен считается самым трудным. Мы полностью снимем страх: на индивидуальных занятиях мы отрабатываем ситуации до вашей полной уверенности.",
+        perk_c5_lbl: "ПОМОЩЬ С ДОКУМЕНТАМИ",
+        perk_c5_title: "Сопровождение в ведомствах",
+        perk_c5_text: "Не бойтесь бюрократии: наши консультанты подготовят вас к беседе с инспектором и вместе с вами загрузят все необходимые заявления для Jobcenter.",
+        perk_c6_lbl: "ФИНАНСИРОВАНИЕ",
+        perk_c6_title: "100% бесплатное участие",
+        perk_c6_text: "Благодаря AZAV-сертификации Blue Light College все расходы на учебу, материалы и экзамены покрываются вашим образовательным ваучером. Личных расходов нет.",
+
+        // Testimonials
+        testi_tagline: "ИСТОРИИ УСПЕХА НАШИХ ВЫПУСКНИКОВ",
+        testi_title: "Что говорят наши <span class=\"text-gradient-navy\">студенты</span>",
+        testi_subtitle: "Узнайте из первых уст, как наше практическое обучение помогло начать новую надежную карьеру.",
+        testi_c1: "Выпускник §34a Охранник",
+        testi_q1: "«Благодаря бесплатному планшету я мог гибко учиться по вечерам. Преподаватели на онлайн-занятиях подготовили меня идеально. Я сдал экзамен IHK с первого раза! Теперь работаю в охране объектов.»",
+        testi_c2: "Выпускница Помощник по уходу",
+        testi_q2: "«Как маме-одиночке, мне было трудно найти курсы. Колледж стал для меня спасением. Мой консультант помог мне собрать документы для Jobcenter. Теперь я счастлива работать в сфере ухода.»",
+        testi_c3: "Выпускник §34a Охранник",
+        testi_q3: "«Особенно индивидуальная подготовка к устному экзамену избавила меня от страха. Полная оплата 100% расходов государством и трудоустройство сразу после курсов были идеальны. Рекомендую!»",
+
+        // FAQ Section
+        faq_tagline: "ПОЛЕЗНАЯ ИНФОРМАЦИЯ И ВОПРОСЫ",
+        faq_title: "Ответы на ваши <span class=\"text-gradient-navy\">вопросы</span>",
+        faq_subtitle: "Узнайте больше о требованиях к поступлению, получении ваучеров и процедуре экзамена IHK.",
+        faq_q1: "Действительно ли обучение на 100% бесплатно для меня?",
+        faq_a1: "Да, абсолютно. Мы рассчитываемся напрямую с государственными органами. Если ваш инспектор в Jobcenter одобрит ваучер, то абсолютно все курсы, материалы и экзамены оплачиваются государством.",
+        faq_q2: "Как проходит процесс подачи заявления на образовательный ваучер?",
+        faq_a2: "Процесс прост. Вы записываетесь к инспектору в Агентство по труду. Мы заранее выдаем вам официальные документы с нашим предложением. Вы передаете их инспектору, а после одобрения высылаете ваучер нам.",
+        faq_q3: "Какие требования установлены для начала учебы?",
+        faq_a3: "Вам должно быть не менее 18 лет, необходима справка об отсутствии судимости и знание немецкого языка минимум на уровне А2. Для охраны §34a также нужен признанный школьный аттестат.",
+        faq_q4: "Как проходит обучение с помощью бесплатного планшета?",
+        faq_a4: "После записи на курс мы отправляем вам по почте настроенный планшет. С него вы ежедневно заходите на живые занятия, участвуете в обсуждениях и задаете вопросы голосом или текстом.",
+        faq_q5: "Получу ли я гарантию работы после экзамена?",
+        faq_a5: "Мы тесно сотрудничаем с ведущими охранными и медицинскими компаниями Германии. Во время учебы мы учитываем ваши пожелания и готовим резюме. Из-за высокого дефицита кадров работа гарантирована.",
+
+        // Contact Section
+        contact_tagline: "КОНСУЛЬТАЦИЯ ЭКСПЕРТА",
+        contact_title: "Свяжитесь с нашей <span class=\"text-gradient-gold\">академией</span>",
+        contact_text: "Спланируйте новую карьеру вместе с нашими экспертами. Мы обсудим все вопросы касательно финансирования, ваучеров и расписания в личной и комфортной беседе.",
+        contact_lbl_sec: "Учебная канцелярия",
+        contact_lbl_mail: "Почта для запросов",
+        contact_lbl_head: "Головной офис Schönkirchen",
+        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_lbl_name: "Ваше имя и фамилия",
+        contact_lbl_email: "Адрес эл. почты",
+        contact_lbl_phone: "Номер телефона",
+        contact_lbl_course: "Желаемый курс обучения",
+        contact_lbl_msg: "Ваше сообщение (необязательно)",
+        contact_btn_submit: "Согласовать бесплатную консультацию",
+        contact_opt_security: "Сертифицированный охранник в соответствии с §34a (IHK)",
+        contact_opt_nurse: "Помощник по уходу",
+        contact_opt_advice: "Общая консультация по финансированию AZAV",
+        ph_name: "Имя Фамилия",
+        ph_email: "name@example.de",
+        ph_phone: "+49 170 1234567",
+        ph_msg: "Чем мы можем вам помочь?...",
+        ph_calc_name: "Полное имя",
+        ph_calc_phone: "Номер телефона для связи",
+        footer_text: "Сертифицированная AZAV академия для подготовки и повышения квалификации в сфере частной охраны и ухода за пожилыми людьми.",
+        footer_badge_azav: "ОФИЦИАЛЬНАЯ ЛИЦЕНЗИЯ AZAV",
+        footer_badge_ihk: "СТАНДАРТЫ IHK",
+        footer_title_academy: "Академия",
+        footer_title_courses: "Курсы",
+        footer_title_legal: "Правовая информация",
+        footer_copy: "&copy; 2026 Blue Light College. Все права защищены. Аккредитовано по нормам AZAV.",
+        cookie_title: "Конфиденциальность и защита данных (GDPR)",
+        cookie_text: "Мы используем файлы cookie, чтобы обеспечить лучший опыт на нашем сайте. Некоторые файлы технически необходимы для работы сайта, а другие помогают нам анонимно анализировать трафик.",
+        cookie_lbl_nec: "Необходимые (всегда активны)",
+        cookie_lbl_stats: "Статистика и аналитика",
+        cookie_btn_all: "Принять все",
+        cookie_btn_nec: "Только необходимые",
+        cookie_btn_cust: "Настроить выбор",
+        legal_modal_title: "Правовая информация",
+        legal_modal_btn_close: "Закрыть"
+    },
+    fa: {
+        // Navigation & Buttons
+        nav_courses: "دوره‌های آموزشی",
+        nav_calc: "بررسی حمایت مالی",
+        nav_quiz: "آزمون آزمایشی IHK",
+        nav_perks: "مزایا",
+        nav_faq: "سوالات متداول",
+        nav_cta: "رزرو مشاوره",
+        wa_badge: "مشاوره واتس‌اپ",
+        
+        // Hero Section
+        hero_badge_azav: "آکادمی تخصصی دارای تاییدیه AZAV",
+        hero_badge_cost: "آموزش ۱۰۰٪ رایگان و دولتی",
+        hero_title: "دوره‌های آموزشی معتبر در زمینه <span class=\"text-gradient-navy\">امنیت و مراقبت (پرستاری)</span>",
+        hero_description: "شغل خود را به عنوان نیروی امنیتی رسمی طبق ماده §34a یا به عنوان کمک پرستار واجد شرایط شروع کنید. هزینه دوره ۱۰۰٪ توسط اداره کار (Jobcenter) پرداخت می‌شود – همراه با تبلت رایگان امانتی و ضمانت استخدام.",
+        hero_btn_calc: "بررسی شرایط حمایت مالی",
+        hero_btn_courses: "مشاهده دوره‌ها",
+        hero_trust_quota_lbl: "نرخ قبولی آزمون",
+        hero_trust_certified_lbl: "دارای مجوز رسمی",
+        hero_trust_free_lbl: "۱۰۰٪ رایگان",
+        hero_campus_title: "Blue Light College",
+        hero_campus_subtitle: "آموزشگاه علمی و آکادمیک",
+        
+        // Stats Section
+        stats_duration_title: "طول دوره",
+        stats_duration_val: "۵۰ روز",
+        stats_duration_text: "آموزش تخصصی سریع و بسیار کارآمد. در مدت فقط ۵۰ روز مدرک حرفه‌ای معتبر خود را دریافت کنید.",
+        stats_format_title: "شیوه آموزش",
+        stats_format_val: "آنلاین زنده",
+        stats_format_text: "آموزش منعطف از راحتی خانه شما. تعامل زنده با استادان به صورت تمام‌وقت یا پاره‌وقت – کاملاً سازگار با شرایط شما.",
+        stats_placement_title: "معرفی به کار",
+        stats_placement_val: "تضمینی",
+        stats_placement_text: "ما شما را بلافاصله پس از پایان موفقیت‌آمیز دوره به شرکت‌های همکار معتبر در بخش امنیت و مراقبت معرفی می‌کنیم.",
+        stats_equip_title: "تجهیزات",
+        stats_equip_val: "شامل دوره",
+        stats_equip_text: "ما یک تبلت باکیفیت بالا را به صورت کاملاً رایگان برای کل مدت دوره در اختیار شما قرار می‌دهیم. پس از پایان، تبلت متعلق به خودتان است.",
+        
+        // Courses Section
+        courses_tagline: "کاتالوگ دوره‌های آکادمیک",
+        courses_title: "دوره‌های آموزشی <span class=\"text-gradient-navy\">دارای مدرک معتبر</span>",
+        courses_subtitle: "تخصص خود را انتخاب کنید. کلیه دوره‌ها معیارهای سخت‌گیرانه کیفیت اداره کار آلمان (AZAV) را برآورده می‌کنند.",
+        tab_btn_security: "§34a نیروی امنیتی رسمی",
+        tab_btn_nurse: "کمک پرستار",
+        course_badge_priority: "اولویت بسیار بالا",
+        course_badge_demand: "تقاضای بازار کار بالا",
+        course_title_security: "نیروی امنیتی مجاز و معتبر طبق ماده §34a (IHK)",
+        course_desc_security: "حداقل پیش‌نیاز قانونی برای فعالیت‌های حرفه‌ای در صنعت امنیت خصوصی. این دوره جامع شما را به صورت سیستماتیک برای آزمون کتبی و شفاهی در اتاق بازرگانی و صنایع آلمان (IHK) آماده می‌کند.",
+        course_req_title: "شرایط ثبت‌نام در دوره:",
+        course_req_age: "حداقل سن ۱۸ سال تمام",
+        course_req_record: "گواهی عدم سوء‌پیشینه کیفری",
+        course_req_lang: "دانش زبان آلمانی در سطح حداقل A2",
+        course_req_school: "مدرک تحصیلی معتبر",
+        course_meta_duration_lbl: "طول استاندارد دوره",
+        course_meta_format_lbl: "شیوه برگزاری کلاس",
+        course_meta_format_val: "آنلاین زنده (تمام‌وقت / پاره‌وقت)",
+        course_meta_format_hybrid: "ترکیبی (آنلاین زنده + کار عملی)",
+        course_btn_advice: "درخواست مشاوره رایگان",
+        course_btn_quiz: "تست آنلاین اطلاعات IHK &rarr;",
+        syllabus_title_security: "سرفصل‌های آموزشی مربوط به آزمون:",
+        syllabus_title_nurse: "واحدهای درسی اصلی:",
+        syllabus_s1: "قانون امنیت عمومی و نظم در آلمان",
+        syllabus_s2: "قانون تجارت و مقررات حفاظت از داده‌ها",
+        syllabus_s3: "قانون مدنی آلمان (BGB) - حق دفاع مشروع",
+        syllabus_s4: "قانون جزا و آیین دادرسی کیفری",
+        syllabus_s5: "مقررات پیشگیری از حوادث کاری (UVV)",
+        syllabus_s6: "رفتارشناسی و مهارت‌های کاهش تنش و مدیریت بحران",
+        course_title_nurse: "کمک پرستار",
+        course_desc_nurse: "شغل خود را در یکی از امن‌ترین و رضایت‌بخش‌ترین زمینه‌های کاری آغاز کنید. اصول نظری و عملی مراقبت حرفه‌ای، مراقبت‌های درمانی و کمک به افراد نیازمند را یاد خواهید گرفت.",
+        syllabus_n1: "اصول مراقبت درمانی و مراقبت‌های پایه تمریضی",
+        syllabus_n2: "ارتباط موثر و برخورد محترمانه با بیماران",
+        syllabus_n3: "موقعیت‌های اضطراری و کمک‌های اولیه در پرستاری",
+        syllabus_n4: "مقررات بهداشت و کنترل عفونت",
+        syllabus_n5: "اصول قانونی (قوانین بیمه درمانی و حقوق بیمار)",
+        syllabus_n6: "کاربرد عملی و شبیه‌سازی موارد واقعی",
+        
+        // Eligibility Check Section
+        calc_tag: "حمایت مالی دولتی آلمان",
+        calc_title: "شرایط خود را برای <span class=\"text-gradient-gold\">پرداخت ۱۰۰٪ هزینه‌ها</span> بررسی کنید",
+        calc_text: "با بن خرید آموزشی (Bildungsgutschein) از اداره کار، تمام هزینه‌های دوره، کتاب‌ها و آزمون‌ها توسط دولت پرداخت می‌شود. به ۳ سوال کوتاه پاسخ دهید.",
+        calc_trust_azav: "آکادمی دارای مجوز رسمی طبق استانداردهای کیفی دولتی آلمان",
+        calc_trust_docs: "ارائه مدارک و تاییدیه رسمی مستقیم به مشاور شما در اداره کار",
+        wizard_q1: "وضعیت شغلی فعلی شما چگونه است؟",
+        wizard_opt_q1_o1: "جویای کار / بیکار (دریافت‌کننده معونه Bürgergeld یا ALG I)",
+        wizard_opt_q1_o2: "شاغل (و جویای تغییر و ارتقای جهت حرفه‌ای خود)",
+        wizard_opt_q1_o3: "شغل آزاد / سایر موارد / جویای محل کارآموزی رسمی",
+        wizard_q2: "آیا قبلاً جلسه مشاوره‌ای در مورد دریافت حمایت مالی داشته‌اید؟",
+        wizard_opt_q2_o1: "بله، من در حال حاضر با اداره کار در ارتباط هستم",
+        wizard_opt_q2_o2: "خیر، به پشتیبانی و راهنمایی برای آماده‌سازی نیاز دارم",
+        wizard_opt_q2_o3: "مایل هستم ابتدا اطلاعات کلی در مورد مراحل به دست آورم",
+        wizard_res_title: "چشم‌انداز فوق‌العاده عالی",
+        wizard_res_text: "پاسخ‌های شما نشان‌دهنده **صلاحیت کامل برای دریافت حمایت مالی دولتی** است. اطلاعات تماس خود را بفرستید. مشاور ما مراحل ثبت درخواست و مدارک را با شما هماهنگ خواهد کرد.",
+        calc_btn_submit: "درخواست مشاوره رایگان دوره آموزشی",
+        
+        // Quiz Section
+        quiz_tagline: "تست آنلاین و پیش‌فرض اطلاعات شما",
+        quiz_title: "آزمون آزمایشی <span class=\"text-gradient-navy\">امتحان رسمی IHK</span>",
+        quiz_subtitle: "اطلاعات پایه خود را با ۳ سوال واقعی از آزمون‌های IHK طبق ماده §34a GewO تست کنید.",
+        quiz_question: "سوال",
+        quiz_of: "از",
+        quiz_select_opt: "لطفاً یکی از گزینه‌ها را برای پاسخ انتخاب کنید.",
+        quiz_next_question: "سوال بعدی →",
+        quiz_show_results: "مشاهده نتایج آزمون",
+        quiz_res_perf: "فوق‌العاده عالی! شما از قبل درک حقوقی بسیار خوبی دارید.",
+        quiz_res_good: "بسیار خوب! اطلاعات پایه خوبی در مورد قوانین حفاظتی دارید.",
+        quiz_res_bad: "نگران نباشید! قوانین امنیتی و حفاظتی پیچیده است. ما دقیقاً برای همین اینجا هستیم.",
+        quiz_res_title: "آزمون به پایان رسید!",
+        quiz_res_body: "به لطف دوره آمادگی متمایز ما، فارغ‌التحصیلان ما به نرخ قبولی ۹۸٪ در آزمون‌های اتاق بازرگانی (IHK) دست می‌یابند. از فرصت خود استفاده کنید.",
+        quiz_res_btn_cta: "رزرو مشاوره رایگان",
+        quiz_res_btn_repeat: "تکرار مجدد آزمون",
+        
+        // Questions
+        q1: "یک نیروی امنیتی خصوصی در محیط‌های عمومی چه اختیارات قانونی دارد؟",
+        q1_o1: "حق بازداشت موقت متهم در صورت مشاهده در حین ارتکاب جرم (§ 127 StPO)",
+        q1_o2: "حق احراز هویت افراد به دستور رسمی پلیس",
+        q1_o3: "حق تفتیش بدنی افراد مشکوک بدون رضایت آنها",
+        q1_o4: "حق بستن راه‌های عمومی در صورت احساس خطر جدی",
+        q1_exp: "به عنوان یک نیروی امنیتی، در محیط‌های عمومی از همان حقوق شهروندان عادی برخوردار هستید (حقوق همگانی). ماده ۱۲۷ قانون آیین دادرسی کیفری به هر کسی اجازه می‌دهد در صورت مشاهده جرم مشهود و ترس از فرار متهم، او را موقتاً بازداشت کند.",
+        q2: "چه زمانی فرد مجاز به استفاده از حق دفاع مشروع (§ 227 BGB / § 32 StGB) است؟",
+        q2_o1: "در برابر هرگونه حمله احتمالی یا پیش‌بینی شده در آینده",
+        q2_o2: "در برابر حمله فعلی و غیرقانونی که جان، مال یا حقوق قانونی فرد یا دیگری را تهدید کند",
+        q2_o3: "به عنوان مجازات مهاجم پس از فرار او از صحنه",
+        q2_o4: "فقط برای دفع حملاتی که تهدید مستقیم برای زندگی ایجاد می‌کنند",
+        q2_exp: "دفاع مشروع، دفاع لازمی است که برای دفع حمله فعلی و غیرقانونی به خود یا دیگری صورت می‌گیرد. این قانون شامل حفاظت از کلیه حقوق قانونی (مانند جان، مال، شرف) می‌شود.",
+        q3: "چه مرجع رسمی آزمون §34a GewO را برگزار کرده و مدرک آن را صادر می‌کند؟",
+        q3_o1: "اداره پلیس محلی منطقه",
+        q3_o2: "دفتر ثبت فعالیت‌های تجاری و شهرداری",
+        q3_o3: "اتاق بازرگانی و صنایع آلمان (IHK)",
+        q3_o4: "موسسه آموزشی خصوصی برگزارکننده دوره",
+        q3_exp: "این آزمون توسط دولت تنظیم شده و نظارت بر آن منحصراً بر عهده اتاق بازرگانی (IHK) است. ما شما را به صورت فشرده و حرفه‌ای برای قبولی در آن آماده می‌کنیم.",
+
+        // Perks Section
+        perks_tagline: "تضمین‌های کیفیت و اعتبار ما",
+        perks_title: "چرا <span class=\"text-gradient-navy\">کلية بلو لايت؟</span>",
+        perks_subtitle: "ما بر ارائه بالاترین سطوح کیفیت آموزشی معتبر، مدرن‌ترین تجهیزات کمکی و تضمین استخدام تمرکز داریم.",
+        perk_c1_lbl: "تضمین تجهیزات آموزشی",
+        perk_c1_title: "تبلت کاملاً رایگان امانتی",
+        perk_c1_text: "برای تضمین برگزاری کلاس‌های آنلاین شما بدون مشکل، ما یک تبلت باکیفیت بالا را در اختیارتان قرار می‌دهیم. پس از پایان موفقیت‌آمیز دوره، این دستگاه بدون هیچ هزینه اضافی متعلق به خودتان می‌شود.",
+        perk_c2_lbl: "شیوه نوین تدریس علمی",
+        perk_c2_title: "کلاس‌های تعاملی مستقیم و زنده",
+        perk_c2_text: "هیچ مطالعه نظری خسته‌کننده‌ای فقط از روی کتاب وجود ندارد. شما روزانه در وبینارهای تعاملی زنده در کلاس‌های مجازی ما شرکت خواهید کرد و مسائل دشوار حقوقی به صورت ساده آموزش داده می‌شود.",
+        perk_c3_lbl: "فرصت‌های حمایت شغلی",
+        perk_c3_title: "ضمانت معرفی مستقیم به کار",
+        perk_c3_text: "به لطف همکاری‌های نزدیک و استراتژیک ما با شرکت‌های بزرگ امنیتی و مراقبتی در آلمان، بلافاصله پس از قبولی در آزمون، شما را در یک موقعیت شغلی دائمی و امن استخدام می‌کنیم.",
+        perk_c4_lbl: "آمادگی برای آزمون",
+        perk_c4_title: "آموزش فشرده آزمون شفاهی",
+        perk_c4_text: "آزمون شفاهی در برابر IHK به عنوان بزرگترین مانع برای دانشجویان شناخته می‌شود. ما این نگرانی را کاملاً برطرف می‌کنیم: با شبیه‌سازی‌های انفرادی، تمرین می‌کنیم تا کاملاً مسلط و با اعتماد به نفس شوید.",
+        perk_c5_lbl: "پشتیبانی اداری و امور اداری",
+        perk_c5_title: "همراهی شخصی در مراحل اداری",
+        perk_c5_text: "از بوروکراسی و کارهای اداری نترسید: مشاوران ما شما را برای مصاحبه با مشاور اداره کار آماده می‌کنند و مدارک رسمی را قدم به قدم با شما بارگذاری می‌کنند.",
+        perk_c6_lbl: "حمایت مالی دوره آموزشی",
+        perk_c6_title: "شرکت ۱۰۰٪ رایگان در دوره",
+        perk_c6_text: "از آنجا که این آکادمی رسماً طبق استانداردهای AZAV تایید شده است، تمام هزینه‌های دوره، کتاب‌ها و آزمون‌ها توسط بن خرید آموزشی شما پوشش داده می‌شود و نیازی به پرداخت هزینه از جانب شما نیست.",
+
+        // Testimonials
+        testi_tagline: "داستان‌های موفقیت فارغ‌التحصیلان ما",
+        testi_title: "آنچه <span class=\"text-gradient-navy\">دانشجویان ما می‌گویند</span>",
+        testi_subtitle: "از زبان خودشان بشنوید که چگونه آموزش‌های عملی ما راه را برای ورود به یک شغل جدید و امن هموار کرد.",
+        testi_c1: "فارغ‌التحصیل §34a نیروی امنیتی",
+        testi_q1: "«به لطف تبلت رایگان، می‌توانستم شب‌ها با انعطاف درس بخوانم. استادان در کلاس‌های آنلاین زنده مرا عالی آماده کردند. در اولین تلاش در آزمون IHK قبول شدم! اکنون در بخش حفاظت فیزیکی کار می‌کنم.»",
+        testi_c2: "فارغ‌التحصیل کمک پرستار",
+        testi_q2: "«به عنوان یک مادر مجرد، پیدا کردن دوره آموزشی سخت بود. این کالج یک شانس بزرگ بود. مشاورم حتی در بارگذاری مدارک جاب‌سنتر به من کمک کرد. اکنون با شادی در بخش مراقبت کار می‌کنم.»",
+        testi_c3: "فارغ‌التحصیل §34a نیروی امنیتی",
+        testi_q3: "«به ویژه آمادگی فشرده برای آزمون شفاهی ترس مرا از امتحان از بین برد. پوشش ۱۰۰٪ هزینه‌ها توسط دولت و معرفی مستقیم به کار عالی بود. این آکادمی را کاملاً توصیه می‌کنم!»",
+
+        // FAQ Section
+        faq_tagline: "اطلاعات مهم و سوالات متداول",
+        faq_title: "پاسخ به <span class=\"text-gradient-navy\">سوالات شما</span>",
+        faq_subtitle: "درباره شرایط پذیرش، نحوه دریافت بن خرید آموزشی و جزئیات آزمون اتاق بازرگانی (IHK) بیشتر بدانید.",
+        faq_q1: "آیا واقعاً این آموزش ۱۰۰٪ برای من رایگان است؟",
+        faq_a1: "بله، کاملاً. ما به عنوان یک موسسه آموزشی مجاز دولتی، هزینه‌ها را مستقیماً با مراجع دولتی تسویه می‌کنیم. با تایید بن خرید آموزشی شما توسط اداره کار، تمام هزینه‌ها پرداخت می‌شود و شما هیچ هزینه‌ای پرداخت نمی‌کنید.",
+        faq_q2: "مراحل دریافت بن خرید آموزشی (Bildungsgutschein) چگونه است؟",
+        faq_a2: "مراحل بسیار ساده است. شما یک وقت مشاوره با مشاور خود در اداره کار رزرو می‌کنید. ما قبلاً تمام مدارک رسمی معتبر دوره خود را به شما ارائه می‌دهیم. آنها را به مشاور نشان می‌دهید و پس از تایید برای ما ارسال می‌کنید.",
+        faq_q3: "چه شرایط پایه‌ای برای شروع دوره‌ها لازم است؟",
+        faq_a3: "شما باید حداقل ۱۸ سال داشته باشید، گواهی عدم سوء‌پیشینه ارائه دهید و زبان آلمانی را در سطح حداقل A2 بدانید. برای بخش امنیت §34a، داشتن مدرک تحصیلی معتبر نیز الزامی است.",
+        faq_q4: "آموزش الکترونیکی از طریق تبلت رایگان چگونه کار می‌کند؟",
+        faq_a4: "پس از ثبت‌نام، تبلت آماده شده را از طریق پست برای شما ارسال می‌کنیم. از این دستگاه برای ورود روزانه به کلاس‌های زنده، مشارکت و پرسیدن سوالات به صورت صوتی یا متنی استفاده می‌کنید و پس از اتمام متعلق به خودتان است.",
+        faq_q5: "آیا پس از قبولی در آزمون، تضمین استخدام دریافت می‌کنم؟",
+        faq_a5: "ما با شرکت‌های پیشرو امنیتی و پرستاری در آلمان همکاری بسیار نزدیکی داریم. در طول دوره، علایق شما را بررسی کرده و رزومه را آماده می‌کنیم و به دلیل کمبود شدید نیروی کار، استخدام مستقیم را تضمین می‌کنیم.",
+
+        // Contact Section
+        contact_tagline: "مشاوره تخصصی و علمی",
+        contact_title: "همین حالا با <span class=\"text-gradient-gold\">آکادمی ما</span> تماس بگیرید",
+        contact_text: "آینده شغلی و شروع به کار خود را با مشاوران متخصص ما برنامه‌ریزی کنید. ما به تمام سوالات شما در مورد بن خرید آموزشی، زمان برگزاری و شیوه برگزاری کلاس در تماس شخصی پاسخ خواهیم داد.",
+        contact_lbl_sec: "دفتر ثبت‌نام و پذیرش",
+        contact_lbl_mail: "ایمیل برای درخواست‌ها",
+        contact_lbl_head: "دفتر مرکزی Schönkirchen",
+        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_lbl_name: "نام کامل شما",
+        contact_lbl_email: "آدرس ایمیل",
+        contact_lbl_phone: "شماره تلفن تماس",
+        contact_lbl_course: "دوره آموزشی مورد نظر",
+        contact_lbl_msg: "پیام شما به مدیریت (اختیاری)",
+        contact_btn_submit: "تعیین وقت مکالمه مشاوره رایگان",
+        contact_opt_security: "§34a نیروی امنیتی رسمی طبق آزمون (IHK)",
+        contact_opt_nurse: "کمک پرستار",
+        contact_opt_advice: "مشاوره عمومی در مورد حمایت‌های AZAV",
+        ph_name: "نام و نام خانوادگی",
+        ph_email: "name@example.de",
+        ph_phone: "+49 170 1234567",
+        ph_msg: "چگونه می‌توانیم به شما کمک کنیم؟...",
+        ph_calc_name: "نام کامل",
+        ph_calc_phone: "شماره تلفن برای تماس",
+        footer_text: "آکادمی مجاز دولتی (AZAV) برای آموزش و ارتقای مهارت‌های حرفه‌ای در بخش امنیت خصوصی و مراقبت‌های درمانی.",
+        footer_badge_azav: "مجوز رسمی به عنوان موسسه آموزشی معتبر",
+        footer_badge_ihk: "استانداردها و اتاق بازرگانی IHK",
+        footer_title_academy: "آکادمی",
+        footer_title_courses: "دوره‌ها",
+        footer_title_legal: "اطلاعات قانونی",
+        footer_copy: "حقوق تکثیر &copy; 2026 Blue Light College. تمامی حقوق محفوظ است. معتبر طبق استانداردهای کیفی.",
+        cookie_title: "حریم خصوصی و حفاظت از داده‌ها (GDPR)",
+        cookie_text: "ما از کوکی‌ها برای ارائه بهترین تجربه در سایتمان استفاده می‌کنیم. برخی کوکی‌ها از نظر فنی برای کارکرد سایت ضروری هستند و برخی دیگر به ما در تحلیل ترافیک سایت کمک می‌کنند.",
+        cookie_lbl_nec: "کوکی‌های ضروری (همیشه فعال)",
+        cookie_lbl_stats: "آمار و تحلیل",
+        cookie_btn_all: "پذیرش همه کوکی‌ها",
+        cookie_btn_nec: "فقط کوکی‌های ضروری",
+        cookie_btn_cust: "تغییر انتخاب‌ها",
+        legal_modal_title: "اطلاعات قانونی",
+        legal_modal_btn_close: "بستن"
     }
 };
 
 window.initLanguage = function() {
     const preferredLang = localStorage.getItem("preferredLang") || "de";
     switchLanguage(preferredLang);
+    
+    // Global listener to close dropdowns when clicking outside
+    document.addEventListener("click", (e) => {
+        const desktopTrigger = document.getElementById("lang-dropdown-trigger");
+        const desktopMenu = document.getElementById("lang-dropdown-menu");
+        const mobileTrigger = document.getElementById("mobile-lang-trigger");
+        const mobileMenu = document.getElementById("mobile-lang-menu");
+        
+        if (desktopTrigger && desktopMenu && !desktopTrigger.contains(e.target) && !desktopMenu.contains(e.target)) {
+            desktopTrigger.classList.remove("open");
+            desktopMenu.classList.remove("show");
+        }
+        
+        if (mobileTrigger && mobileMenu && !mobileTrigger.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileTrigger.classList.remove("open");
+            mobileMenu.classList.remove("show");
+        }
+    });
+};
+
+window.toggleLangDropdown = function(event) {
+    event.stopPropagation();
+    const trigger = document.getElementById("lang-dropdown-trigger");
+    const menu = document.getElementById("lang-dropdown-menu");
+    
+    if (trigger && menu) {
+        const isOpen = menu.classList.contains("show");
+        closeAllLangDropdowns();
+        
+        if (!isOpen) {
+            trigger.classList.add("open");
+            menu.classList.add("show");
+        }
+    }
+};
+
+window.toggleMobileLangDropdown = function(event) {
+    event.stopPropagation();
+    const trigger = document.getElementById("mobile-lang-trigger");
+    const menu = document.getElementById("mobile-lang-menu");
+    
+    if (trigger && menu) {
+        const isOpen = menu.classList.contains("show");
+        closeAllLangDropdowns();
+        
+        if (!isOpen) {
+            trigger.classList.add("open");
+            menu.classList.add("show");
+        }
+    }
+};
+
+window.closeAllLangDropdowns = function() {
+    const triggers = document.querySelectorAll(".lang-dropdown-trigger, .mobile-lang-trigger");
+    const menus = document.querySelectorAll(".lang-dropdown-menu, .mobile-lang-menu");
+    
+    triggers.forEach(t => t.classList.remove("open"));
+    menus.forEach(m => m.classList.remove("show"));
 };
 
 window.switchLanguage = function(lang) {
-    // Save to local storage
+    // Save preferred language
     localStorage.setItem("preferredLang", lang);
     
-    // Toggle active state in desktop header lang buttons
-    document.querySelectorAll(".lang-switcher .lang-btn").forEach(btn => {
-        btn.classList.remove("active");
-        const btnLang = btn.getAttribute("id").replace("lang-", "");
-        if (btnLang === lang) {
-            btn.classList.add("active");
+    // Update active trigger text labels (uppercase)
+    const activeLabel = document.getElementById("active-lang-label");
+    const mobileActiveLabel = document.getElementById("mobile-active-lang-label");
+    
+    if (activeLabel) activeLabel.innerText = lang.toUpperCase();
+    if (mobileActiveLabel) mobileActiveLabel.innerText = lang.toUpperCase();
+    
+    // Toggle active state in desktop dropdown items
+    document.querySelectorAll("#lang-dropdown-menu .dropdown-item").forEach(item => {
+        item.classList.remove("active");
+        const clickAttr = item.getAttribute("onclick");
+        if (clickAttr && clickAttr.includes(`'${lang}'`)) {
+            item.classList.add("active");
         }
     });
 
-    // Toggle active state in mobile lang switcher
-    document.querySelectorAll(".mobile-lang-switcher .lang-btn").forEach(btn => {
-        btn.classList.remove("active");
-        const clickAttr = btn.getAttribute("onclick");
+    // Toggle active state in mobile dropdown items
+    document.querySelectorAll("#mobile-lang-menu .dropdown-item").forEach(item => {
+        item.classList.remove("active");
+        const clickAttr = item.getAttribute("onclick");
         if (clickAttr && clickAttr.includes(`'${lang}'`)) {
-            btn.classList.add("active");
+            item.classList.add("active");
         }
     });
     
-    // Switch all translated items
+    // Right-To-Left (RTL) alignment toggler for Arabic (ar) and Persian (fa)
+    if (lang === "ar" || lang === "fa") {
+        document.documentElement.dir = "rtl";
+        document.documentElement.lang = lang;
+        document.body.classList.add("rtl-layout");
+    } else {
+        document.documentElement.dir = "ltr";
+        document.documentElement.lang = lang;
+        document.body.classList.remove("rtl-layout");
+    }
+    
+    // Switch all translated elements
     document.querySelectorAll("[data-translate]").forEach(el => {
         const key = el.getAttribute("data-translate");
         if (translations[lang] && translations[lang][key]) {
             el.innerHTML = translations[lang][key];
         }
     });
+    
+    // Switch input placeholders
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
+    const messageInput = document.getElementById("message");
+    const calcNameInput = document.getElementById("calc-name");
+    const calcPhoneInput = document.getElementById("calc-phone");
+    
+    if (nameInput && translations[lang] && translations[lang].ph_name) nameInput.placeholder = translations[lang].ph_name;
+    if (emailInput && translations[lang] && translations[lang].ph_email) emailInput.placeholder = translations[lang].ph_email;
+    if (phoneInput && translations[lang] && translations[lang].ph_phone) phoneInput.placeholder = translations[lang].ph_phone;
+    if (messageInput && translations[lang] && translations[lang].ph_msg) messageInput.placeholder = translations[lang].ph_msg;
+    if (calcNameInput && translations[lang] && translations[lang].ph_calc_name) calcNameInput.placeholder = translations[lang].ph_calc_name;
+    if (calcPhoneInput && translations[lang] && translations[lang].ph_calc_phone) calcPhoneInput.placeholder = translations[lang].ph_calc_phone;
+
+    // Localize the pre-filled WhatsApp chat link
+    const waFloat = document.querySelector(".direct-chat-float");
+    if (waFloat) {
+        let waMsg = "Hallo Blue Light College, ich interessiere mich für die Ausbildung. Können Sie mir helfen?";
+        if (lang === "en") waMsg = "Hello Blue Light College, I am interested in the training. Can you help me?";
+        else if (lang === "ua") waMsg = "Вітаю Blue Light College, мене цікавить навчання. Чи можете ви мені допомогти?";
+        else if (lang === "tr") waMsg = "Merhaba Blue Light College, eğitimle ilgileniyorum. Bana yardımcı olabilir misiniz?";
+        else if (lang === "ar") waMsg = "مرحباً Blue Light College، أنا مهتم بالتدريب المهني. هل يمكنك مساعدتي؟";
+        else if (lang === "ru") waMsg = "Здравствуйте, Blue Light College! Меня интересует обучение. Можете ли вы мне помочь?";
+        else if (lang === "fa") waMsg = "سلام Blue Light College، من به دوره آموزشی علاقه‌مندم. آیا می‌توانید به من کمک کنید؟";
+        
+        waFloat.href = `https://wa.me/49431123456?text=${encodeURIComponent(waMsg)}`;
+    }
+
+    // Retranslate quiz question if it's active
+    if (document.getElementById("quiz-q-num")) {
+        renderQuizQuestion();
+    }
 };

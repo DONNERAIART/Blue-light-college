@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="index.css?v=2.7">
+    <link rel="stylesheet" href="index.css?v=3.0">
 </head>
 <body>
 
@@ -142,6 +142,112 @@
                     <span class="stat-box-title" data-translate="stats_equip_title">Ausstattung</span>
                     <span class="stat-box-val text-gradient-gold" data-translate="stats_equip_val">Inklusive</span>
                     <p class="stat-box-text" data-translate="stats_equip_text">Wir stellen Ihnen für die gesamte Lehrgangsdauer ein hochwertiges Tablet kostenfrei zur Verfügung. Nach Abschluss gehört es Ihnen.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 60-Second Academy Matchmaker (Interactive Wizard) -->
+        <section id="matchmaker" class="matchmaker-section container">
+            <div class="academic-matchmaker-card">
+                <div class="matchmaker-header">
+                    <span class="matchmaker-tag" data-translate="mm_tag">SCHNELLORIENTIERUNG</span>
+                    <h2 class="matchmaker-title" data-translate="mm_title">Der 60-Sekunden <span class="text-gradient-gold">Akademie-Matchmaker</span></h2>
+                    <p class="matchmaker-subtitle" data-translate="mm_subtitle">Finden Sie heraus, welcher Lehrgang perfekt zu Ihrer Lebenssituation passt und wie Sie die 100% Kostenübernahme erhalten.</p>
+                </div>
+                
+                <div class="matchmaker-wizard-container">
+                    <div class="matchmaker-progress-bar-wrapper">
+                        <div class="matchmaker-progress-bar" id="mm-progress" style="width: 25%"></div>
+                    </div>
+                    
+                    <div class="matchmaker-steps">
+                        <!-- Step 1: Direction of Interest -->
+                        <div class="mm-step active" id="mm-step-1">
+                            <h3 class="mm-question" data-translate="mm_q1">Welches Berufsfeld interessiert Sie am meisten?</h3>
+                            <div class="mm-option-grid">
+                                <div class="mm-option-card" onclick="handleMatchmakerNext(1, 'security')">
+                                    <div class="mm-option-icon">🛡️</div>
+                                    <h4 class="mm-option-title" data-translate="mm_q1_o1_title">Sicherheit & Schutz</h4>
+                                    <p class="mm-option-desc" data-translate="mm_q1_o1_desc">Menschen & Objekte schützen. Krisensicherer Einstieg in die Sicherheitsbranche (§34a GewO).</p>
+                                </div>
+                                <div class="mm-option-card" onclick="handleMatchmakerNext(1, 'care')">
+                                    <div class="mm-option-icon">🩺</div>
+                                    <h4 class="mm-option-title" data-translate="mm_q1_o2_title">Pflege & Betreuung</h4>
+                                    <p class="mm-option-desc" data-translate="mm_q1_o2_desc">Menschen helfen und pflegen. Hohe Sinnhaftigkeit und exzellente Karrierechancen als Pflegehelfer/in.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2: Employment Standing -->
+                        <div class="mm-step" id="mm-step-2">
+                            <h3 class="mm-question" data-translate="mm_q2">Wie ist Ihre aktuelle berufliche Situation?</h3>
+                            <div class="mm-option-list">
+                                <button class="mm-btn-option" onclick="handleMatchmakerNext(2, 'unemployed')" data-translate="mm_q2_o1">Arbeitslos / Arbeitssuchend (ALG I oder Bürgergeld)</button>
+                                <button class="mm-btn-option" onclick="handleMatchmakerNext(2, 'employed')" data-translate="mm_q2_o2">Berufstätig / Neuorientierung gesucht</button>
+                                <button class="mm-btn-option" onclick="handleMatchmakerNext(2, 'student')" data-translate="mm_q2_o3">Schulabgänger / Ausbildungssuchend</button>
+                                <button class="mm-btn-option" onclick="handleMatchmakerNext(2, 'other')" data-translate="mm_q2_o4">Sonstiges / Selbstständig</button>
+                            </div>
+                            <button class="btn btn-outline btn-sm mm-prev-btn" onclick="handleMatchmakerPrev(2)">&larr; Zurück</button>
+                        </div>
+                        
+                        <!-- Step 3: Top Priorities -->
+                        <div class="mm-step" id="mm-step-3">
+                            <h3 class="mm-question" data-translate="mm_q3">Was ist Ihnen bei Ihrer Ausbildung am wichtigsten?</h3>
+                            <div class="mm-option-grid-3">
+                                <div class="mm-option-card-pill" onclick="handleMatchmakerNext(3, 'funding')">
+                                    <span class="mm-pill-icon">💰</span>
+                                    <span data-translate="mm_q3_o1">100% kostenfrei (über Bildungsgutschein)</span>
+                                </div>
+                                <div class="mm-option-card-pill" onclick="handleMatchmakerNext(3, 'flexibility')">
+                                    <span class="mm-pill-icon">💻</span>
+                                    <span data-translate="mm_q3_o2">Flexibilität (Online-Live & Teilzeit-Option)</span>
+                                </div>
+                                <div class="mm-option-card-pill" onclick="handleMatchmakerNext(3, 'job')">
+                                    <span class="mm-pill-icon">🤝</span>
+                                    <span data-translate="mm_q3_o3">Schneller Jobeinstieg & Jobgarantie</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-sm mm-prev-btn" onclick="handleMatchmakerPrev(3)">&larr; Zurück</button>
+                        </div>
+                        
+                        <!-- Step 4: Outcome & Recommendations -->
+                        <div class="mm-step" id="mm-step-4">
+                            <div class="mm-outcome-box">
+                                <div class="mm-outcome-header">
+                                    <div class="mm-outcome-badge text-gradient-gold" id="mm-recommendation-badge">EMPFOHLENER LEHRGANG</div>
+                                    <h3 class="mm-outcome-title text-gradient-navy" id="mm-recommendation-title">Geprüfte Sicherheitskraft (§34a GewO)</h3>
+                                </div>
+                                <div class="mm-outcome-body">
+                                    <p class="mm-outcome-desc" id="mm-recommendation-desc">
+                                        Basierend auf Ihren Angaben ist die **Ausbildung zur Geprüften Sicherheitskraft** der perfekte Hebel für Ihre berufliche Zukunft. Dank Ihres Status haben Sie **Anspruch auf 100% Förderung** inklusive kostenfreiem Leih-Tablet und garantierter Vermittlung.
+                                    </p>
+                                    <div class="mm-outcome-benefits">
+                                        <div class="benefit-item">
+                                            <span class="benefit-icon">✓</span>
+                                            <span id="mm-benefit-1">100% staatlich gefördert (Bildungsgutschein)</span>
+                                        </div>
+                                        <div class="benefit-item">
+                                            <span class="benefit-icon">✓</span>
+                                            <span id="mm-benefit-2">Dauer: Nur 50 Tage (Live-Online Unterricht)</span>
+                                        </div>
+                                        <div class="benefit-item">
+                                            <span class="benefit-icon">✓</span>
+                                            <span id="mm-benefit-3">Inklusive kostenfreiem Leih-Tablet (geht in Ihr Eigentum über)</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <form id="matchmaker-lead-form" class="mm-outcome-form">
+                                        <div class="form-row-calc">
+                                            <input type="text" id="mm-name" placeholder="Vollständiger Name" required class="input-calc">
+                                            <input type="tel" id="mm-phone" placeholder="Telefonnummer" required class="input-calc">
+                                        </div>
+                                        <button type="submit" class="btn btn-gold btn-full" data-translate="mm_submit_btn">Kostenfreie Ausbildungsplatz-Sicherung anfordern</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-sm mm-prev-btn" onclick="handleMatchmakerPrev(4)">&larr; Neustart</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -290,53 +396,49 @@
                         </div>
                     </div>
 
-                    <!-- Interactive Step Wizard -->
-                    <div class="academic-wizard">
-                        <div class="wizard-steps-indicator">
-                            <span class="w-step active" id="step-ind-1">1</span>
-                            <span class="w-step" id="step-ind-2">2</span>
-                            <span class="w-step" id="step-ind-3">3</span>
+                    <!-- Interactive Slider Calculator -->
+                    <div class="academic-slider-calculator">
+                        <h4 class="calc-card-title" data-translate="calc_card_title">Förderungs-Ersparnis-Rechner</h4>
+                        
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label" data-translate="calc_slider_label">Gewünschte Ausbildungsdauer:</span>
+                                <span class="slider-value" id="calc-duration-val">50 Tage</span>
+                            </div>
+                            <input type="range" id="calc-duration-slider" min="30" max="120" value="50" step="10" class="premium-slider" oninput="calculateFunding()">
                         </div>
 
-                        <!-- Step 1 -->
-                        <div class="wizard-step active" id="w-step-1">
-                            <h4 class="step-question" data-translate="wizard_q1">Wie stellt sich Ihr aktueller beruflicher Status dar?</h4>
-                            <div class="option-grid">
-                                <button class="option-btn" onclick="nextStep(1, 'arbeitssuchend')" data-translate="wizard_opt_q1_o1">Arbeitssuchend / Arbeitslos (ALG I oder Bürgergeld)</button>
-                                <button class="option-btn" onclick="nextStep(1, 'angestellt')" data-translate="wizard_opt_q1_o2">Berufstätig (und suche berufliche Neuorientierung)</button>
-                                <button class="option-btn" onclick="nextStep(1, 'selbststaendig')" data-translate="wizard_opt_q1_o3">Selbstständig / Sonstiges / Ausbildungsplatzsuchend</button>
+                        <div class="calc-results-sheet">
+                            <div class="result-row">
+                                <span class="result-label" data-translate="calc_res_fees">Lehrgangsgebühren:</span>
+                                <span class="result-value green-highlight" id="calc-fees-status" data-translate="calc_res_covered">100% Übernommen</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label" data-translate="calc_res_tablet">Leih-Tablet (Ihr Eigentum):</span>
+                                <span class="result-value text-gradient-gold" id="calc-tablet-status" data-translate="calc_res_tablet_val">Inklusive (€400 Wert)</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label" data-translate="calc_res_materials">Lernmittel & IHK-Gebühren:</span>
+                                <span class="result-value green-highlight" id="calc-materials-status" data-translate="calc_res_covered">100% Übernommen</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label" data-translate="calc_res_travel">Fahrtkosten & Verpflegung:</span>
+                                <span class="result-value green-highlight" id="calc-travel-status" data-translate="calc_res_covered">100% Übernommen</span>
+                            </div>
+                            <div class="result-divider"></div>
+                            <div class="result-row total-row">
+                                <span class="result-label" data-translate="calc_res_total">Ihre Netto-Investition:</span>
+                                <span class="result-value total-val text-gradient-navy" id="calc-total-status">€0,00</span>
                             </div>
                         </div>
 
-                        <!-- Step 2 -->
-                        <div class="wizard-step" id="w-step-2">
-                            <h4 class="step-question" data-translate="wizard_q2">Haben Sie bereits einen Beratungstermin bezüglich Förderung erhalten?</h4>
-                            <div class="option-grid">
-                                <button class="option-btn" onclick="nextStep(2, 'ja')" data-translate="wizard_opt_q2_o1">Ja, ich stehe bereits in Kontakt mit der Behörde</button>
-                                <button class="option-btn" onclick="nextStep(2, 'nein')" data-translate="wizard_opt_q2_o2">Nein, ich brauche Unterstützung bei der Vorbereitung</button>
-                                <button class="option-btn" onclick="nextStep(2, 'weissnicht')" data-translate="wizard_opt_q2_o3">Ich möchte mich erst allgemein über den Ablauf informieren</button>
+                        <form id="calculator-lead-form" class="calc-form">
+                            <div class="form-row-calc">
+                                <input type="text" id="calc-name" placeholder="Vollständiger Name" required class="input-calc">
+                                <input type="tel" id="calc-phone" placeholder="Telefonnummer für Rückfragen" required class="input-calc">
                             </div>
-                        </div>
-
-                        <!-- Step 3 (Result & Contact) -->
-                        <div class="wizard-step" id="w-step-3">
-                            <div class="success-result">
-                                <div class="success-icon-wrapper">
-                                    <svg width="40" height="40" viewBox="0 0 20 20" fill="none"><path d="M10 0C4.5 0 0 4.5 0 10C0 15.5 4.5 20 10 20C15.5 20 20 15.5 20 10C20 4.5 15.5 0 10 0ZM8 15L3 10L4.5 8.5L8 12L15.5 4.5L17 6L8 15Z" fill="#AA820A"/></svg>
-                                </div>
-                                <h4 class="step-result-title text-gradient-gold" data-translate="wizard_res_title">Hervorragende Aussichten</h4>
-                                <p class="step-result-text" data-translate="wizard_res_text">
-                                    Ihre Angaben deuten auf eine **vollständige Förderungsberechtigung** hin. Senden Sie uns Ihre Kontaktdaten. Ein Fachberater bespricht mit Ihnen die Antragstellung und stellt die Trägerunterlagen für Ihr Jobcenter aus.
-                                </p>
-                                <form id="calculator-lead-form" class="calc-form">
-                                    <div class="form-row-calc">
-                                        <input type="text" id="calc-name" placeholder="Vollständiger Name" required class="input-calc">
-                                        <input type="tel" id="calc-phone" placeholder="Telefonnummer für Rückfragen" required class="input-calc">
-                                    </div>
-                                    <button type="submit" class="btn btn-navy btn-full" data-translate="calc_btn_submit">Kostenfreie Ausbildungsberatung anfordern</button>
-                                </form>
-                            </div>
-                        </div>
+                            <button type="submit" class="btn btn-navy btn-full" data-translate="calc_btn_submit">Kostenfreie Ausbildungsberatung anfordern</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -510,6 +612,15 @@
                 <p class="section-subtitle" data-translate="faq_subtitle">Erfahren Sie mehr über die Zulassungsvoraussetzungen, den Erhalt von Bildungsgutscheinen und den Ablauf der IHK-Sachkundeprüfung.</p>
             </div>
 
+            <!-- Sleek Glassmorphic FAQ Search Bar -->
+            <div class="faq-search-wrapper">
+                <div class="faq-search-box">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="faq-search-input" placeholder="Fragen durchsuchen..." onkeyup="filterFaq()" data-translate="faq_search_placeholder">
+                    <button class="clear-search-btn" id="faq-clear-btn" onclick="clearFaqSearch()">&times;</button>
+                </div>
+            </div>
+
             <div class="faq-accordion-wrapper">
                 
                 <!-- FAQ 1 -->
@@ -577,6 +688,94 @@
                     </div>
                 </div>
 
+            </div>
+        </section>
+
+        <!-- Regional Graduate Success Map (Absolventen-Landkarte) -->
+        <section id="success-map" class="success-map-section container">
+            <div class="section-header">
+                <span class="section-tagline" data-translate="map_tagline">REGIONALE ABSOLVENTEN-ERFOLGE</span>
+                <h2 class="section-title" data-translate="map_title">Starke Partner in Ihrer <span class="text-gradient-gold">Region</span></h2>
+                <p class="section-subtitle" data-translate="map_subtitle">Entdecken Sie unsere Kooperationspartner und die hohe Anzahl erfolgreicher Vermittlungen in Ihrer Nähe.</p>
+            </div>
+
+            <div class="academic-map-container">
+                <div class="map-interactive-grid">
+                    <!-- Vector Map Graphic -->
+                    <div class="germany-map-vector">
+                        <svg viewBox="0 0 400 500" class="map-svg-base">
+                            <path d="M190 20 L210 30 L230 25 L250 40 L265 60 L290 80 L310 90 L300 120 L320 145 L340 180 L330 220 L350 250 L340 280 L320 310 L300 340 L315 380 L300 410 L280 430 L250 450 L230 440 L200 460 L180 480 L160 490 L140 480 L120 460 L100 450 L90 420 L75 390 L85 360 L70 330 L55 310 L60 280 L50 240 L65 210 L60 170 L75 140 L90 120 L80 90 L100 70 L120 60 L140 50 L165 40 Z" class="map-outline-path"></path>
+                        </svg>
+                    </div>
+
+                    <!-- Glowing Map Beacons representing key campuses / partner concentrations -->
+                    <!-- Berlin / Ost -->
+                    <div class="map-beacon active" data-region="east" style="top: 25%; left: 75%;" onclick="focusMapBeacon('east')">
+                        <div class="beacon-glow"></div>
+                        <div class="beacon-dot"></div>
+                        <div class="beacon-tooltip">
+                            <h4 class="tooltip-partner">Securitas & DRK Ost</h4>
+                            <p class="tooltip-text"><strong class="gold-highlight">410+</strong> <span data-translate="map_graduates">Absolventen vermittelt</span></p>
+                            <span class="tooltip-region" data-translate="map_region_east">Berlin & Brandenburg</span>
+                        </div>
+                    </div>
+                    <!-- Hamburg / Nord -->
+                    <div class="map-beacon" data-region="north" style="top: 15%; left: 45%;" onclick="focusMapBeacon('north')">
+                        <div class="beacon-glow"></div>
+                        <div class="beacon-dot"></div>
+                        <div class="beacon-tooltip">
+                            <h4 class="tooltip-partner">Kötter & Johanniter Nord</h4>
+                            <p class="tooltip-text"><strong class="gold-highlight">350+</strong> <span data-translate="map_graduates">Absolventen vermittelt</span></p>
+                            <span class="tooltip-region" data-translate="map_region_north">Hamburg & Schleswig-Holstein</span>
+                        </div>
+                    </div>
+                    <!-- Köln / West -->
+                    <div class="map-beacon" data-region="west" style="top: 45%; left: 25%;" onclick="focusMapBeacon('west')">
+                        <div class="beacon-glow"></div>
+                        <div class="beacon-dot"></div>
+                        <div class="beacon-tooltip">
+                            <h4 class="tooltip-partner">DRK & Wisag West</h4>
+                            <p class="tooltip-text"><strong class="gold-highlight">520+</strong> <span data-translate="map_graduates">Absolventen vermittelt</span></p>
+                            <span class="tooltip-region" data-translate="map_region_west">Nordrhein-Westfalen</span>
+                        </div>
+                    </div>
+                    <!-- Frankfurt / Mitte -->
+                    <div class="map-beacon" data-region="center" style="top: 55%; left: 38%;" onclick="focusMapBeacon('center')">
+                        <div class="beacon-glow"></div>
+                        <div class="beacon-dot"></div>
+                        <div class="beacon-tooltip">
+                            <h4 class="tooltip-partner">Prosegur & ASB Mitte</h4>
+                            <p class="tooltip-text"><strong class="gold-highlight">280+</strong> <span data-translate="map_graduates">Absolventen vermittelt</span></p>
+                            <span class="tooltip-region" data-translate="map_region_center">Hessen & RLP</span>
+                        </div>
+                    </div>
+                    <!-- München / Süd -->
+                    <div class="map-beacon" data-region="south" style="top: 78%; left: 60%;" onclick="focusMapBeacon('south')">
+                        <div class="beacon-glow"></div>
+                        <div class="beacon-dot"></div>
+                        <div class="beacon-tooltip">
+                            <h4 class="tooltip-partner">Securitas & Malteser Süd</h4>
+                            <p class="tooltip-text"><strong class="gold-highlight">380+</strong> <span data-translate="map_graduates">Absolventen vermittelt</span></p>
+                            <span class="tooltip-region" data-translate="map_region_south">Bayern & BaWü</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Map Info Sidebar Card -->
+                <div class="map-info-card">
+                    <h3 class="info-card-title text-gradient-gold" id="map-info-title" data-translate="map_info_default_title">Nationales Kooperations-Netzwerk</h3>
+                    <p class="info-card-desc" id="map-info-desc" data-translate="map_info_default_desc">Klicken Sie auf ein regionales Zentrum auf der Karte, um detaillierte Informationen über unsere Partner und Absolventen-Vermittlungen vor Ort anzuzeigen.</p>
+                    <div class="info-card-stats-grid">
+                        <div class="info-stat-item">
+                            <span class="info-stat-val text-gradient-navy" id="map-stat-placements">1.940+</span>
+                            <span class="info-stat-lbl" data-translate="map_stat_placements_lbl">Vermittlungen gesamt</span>
+                        </div>
+                        <div class="info-stat-item">
+                            <span class="info-stat-val text-gradient-gold" id="map-stat-partners">85+</span>
+                            <span class="info-stat-lbl" data-translate="map_stat_partners_lbl">Partner-Unternehmen</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -757,12 +956,13 @@
     <!-- Floating WhatsApp button widget -->
     <a href="https://wa.me/49431123456?text=Hallo%20Blue%20Light%20College,%20ich%20interessiere%20mich%20f%C3%BCr%20die%2050-t%C3%A4gige%20Ausbildung.%20K%C3%B6nnen%20Sie%20mir%20helfen?" class="direct-chat-float" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Direktberatung">
         <div class="chat-icon-bg">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.253-1.378a9.835 9.835 0 0 0 4.732 1.21h.004c5.454 0 9.907-4.448 9.912-9.91a9.83 9.83 0 0 0-2.89-6.914h-.008zM11.992 20.15h-.004a8.136 8.136 0 0 1-4.159-1.14l-.298-.177-3.096.812.827-3.018-.194-.309A8.135 8.135 0 0 1 3.82 11.908c.004-4.49 3.66-8.143 8.177-8.143a8.125 8.125 0 0 1 5.772 2.39 8.118 8.118 0 0 1 2.388 5.76c-.004 4.495-3.66 8.148-8.165 8.148v-.013zM16.47 13.69c-.245-.123-1.455-.718-1.68-.8-.225-.082-.39-.123-.553.123-.163.245-.633.8-.776.963-.143.163-.286.184-.53.061-.246-.122-1.037-.382-1.975-1.22-.73-.65-1.223-1.454-1.366-1.699-.143-.245-.015-.378.107-.5.11-.11.245-.286.368-.43.122-.142.163-.244.245-.407.082-.163.04-.306-.02-.429-.062-.122-.553-1.332-.757-1.822-.2-.48-.4-.41-.553-.418-.143-.008-.306-.008-.47-.008a.9.9 0 0 0-.653.306c-.224.245-.857.838-.857 2.046 0 1.207.878 2.373.999 2.536.123.163 1.73 2.642 4.19 3.704.585.253 1.04.404 1.398.518.588.188 1.123.162 1.547.098.473-.07 1.455-.593 1.66-1.165.204-.573.204-1.063.143-1.165-.062-.102-.225-.163-.47-.286z" fill="#FFFFFF"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.253-1.378a9.835 9.835 0 0 0 4.732 1.21h.004c5.454 0 9.907-4.448 9.912-9.91a9.83 9.83 0 0 0-2.89-6.914h-.008zM11.992 20.15h-.004a8.136 8.136 0 0 1-4.159-1.14l-.298-.177-3.096.812.827-3.018-.194-.309A8.135 8.135 0 0 1 3.82 11.908c.004-4.49 3.66-8.143 8.177-8.143a8.125 8.125 0 0 1 5.772 2.39 8.118 8.118 0 0 1 2.388 5.76c-.004 4.495-3.66 8.148-8.165 8.148v-.013zM16.47 13.69c-.245-.123-1.455-.718-1.68-.8-.225-.082-.39-.123-.553.123-.163.245-.633.8-.776.963-.143.163-.286.184-.53.061-.246-.122-1.037-.382-1.975-1.22-.73-.65-1.223-1.454-1.366-1.699-.143-.245-.015-.378.107-.5.11-.11.245-.286.368-.43.122-.142.163-.244.245-.407.082-.163.04-.306-.02-.429-.062-.122-.553-1.332-.757-1.822-.2-.48-.4-.41-.553-.418-.143-.008-.306-.008-.47-.008a.9.9 0 0 0-.653.306c-.224.245-.857.838-.857 2.046 0 1.207.878 2.373.999 2.536.123.163 1.73 2.642 4.19 3.704.585.253 1.04.404 1.398.518.588.188 1.123.162 1.547.098.473-.07 1.455-.593 1.66-1.165.204-.573.204-1.063.143-1.165-.062-.102-.225-.163-.47-.286z" fill="#FFFFFF"/></path></svg>
         </div>
         <span class="chat-badge-text" data-translate="wa_badge"> WhatsApp Beratung </span>
+        <div class="chat-status-bubble" data-translate="wa_status">Sekretariat besetzt – Antwort in < 5 Min 🟢</div>
     </a>
 
     <!-- Main JavaScript -->
-    <script src="index.js?v=2.7"></script>
+    <script src="index.js?v=3.0"></script>
 </body>
 </html>

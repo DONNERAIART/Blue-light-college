@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initMobileMenu();
     checkCookieConsent();
     initLanguage();
+    initWhatsAppStatus();
+    calculateFunding();
 });
 
 /* --------------------------------------------------------------------------
@@ -893,7 +895,52 @@ const translations = {
         
         // Legal Modal
         legal_modal_title: "Rechtliches",
-        legal_modal_btn_close: "Schließen"
+        legal_modal_btn_close: "Schließen",
+        wa_status: "Sekretariat besetzt – Antwort in < 5 Min 🟢",
+        mm_tag: "SCHNELLORIENTIERUNG",
+        mm_title: "Der 60-Sekunden <span class=\"text-gradient-gold\">Akademie-Matchmaker</span>",
+        mm_subtitle: "Finden Sie heraus, welcher Lehrgang perfekt zu Ihrer Lebenssituation passt und wie Sie die 100% Kostenübernahme erhalten.",
+        mm_q1: "Welches Berufsfeld interessiert Sie am meisten?",
+        mm_q1_o1_title: "Sicherheit & Schutz",
+        mm_q1_o1_desc: "Menschen & Objekte schützen. Krisensicherer Einstieg in die Sicherheitsbranche (§34a GewO).",
+        mm_q1_o2_title: "Pflege & Betreuung",
+        mm_q1_o2_desc: "Menschen helfen und pflegen. Hohe Sinnhaftigkeit und exzellente Karrierechancen als Pflegehelfer/in.",
+        mm_q2: "Wie ist Ihre aktuelle berufliche Situation?",
+        mm_q2_o1: "Arbeitslos / Arbeitssuchend (ALG I oder Bürgergeld)",
+        mm_q2_o2: "Berufstätig / Neuorientierung gesucht",
+        mm_q2_o3: "Schulabgänger / Ausbildungssuchend",
+        mm_q2_o4: "Sonstiges / Selbstständig",
+        mm_q3: "Was ist Ihnen bei Ihrer Ausbildung am wichtigsten?",
+        mm_q3_o1: "100% kostenfrei (über Bildungsgutschein)",
+        mm_q3_o2: "Flexibilität (Online-Live & Teilzeit-Option)",
+        mm_q3_o3: "Schneller Jobeinstieg & Jobgarantie",
+        mm_submit_btn: "Kostenfreie Ausbildungsplatz-Sicherung anfordern",
+        calc_card_title: "Förderungs-Ersparnis-Rechner",
+        calc_slider_label: "Gewünschte Ausbildungsdauer:",
+        calc_res_fees: "Lehrgangsgebühren:",
+        calc_res_tablet: "Leih-Tablet (Ihr Eigentum):",
+        calc_res_tablet_val: "Inklusive (€400 Wert)",
+        calc_res_materials: "Lernmittel & IHK-Gebühren:",
+        calc_res_travel: "Fahrtkosten & Verpflegung:",
+        calc_res_covered: "100% Übernommen",
+        calc_res_total: "Ihre Netto-Investition:",
+        calc_btn_submit: "Kostenfreie Ausbildungsberatung anfordern",
+        quiz_pass_status: "Prüfung bestanden! (Mind. 50% benötigt)",
+        quiz_fail_status: "Prüfung nicht bestanden. (50% benötigt)",
+        faq_search_placeholder: "Fragen durchsuchen...",
+        map_tagline: "REGIONALE ABSOLVENTEN-ERFOLGE",
+        map_title: "Starke Partner in Ihrer <span class=\"text-gradient-gold\">Region</span>",
+        map_subtitle: "Entdecken Sie unsere Kooperationspartner und die hohe Anzahl erfolgreicher Vermittlungen in Ihrer Nähe.",
+        map_graduates: "Absolventen vermittelt",
+        map_region_east: "Berlin & Brandenburg",
+        map_region_north: "Hamburg & Schleswig-Holstein",
+        map_region_west: "Nordrhein-Westfalen",
+        map_region_center: "Hessen & RLP",
+        map_region_south: "Bayern & BaWü",
+        map_info_default_title: "Nationales Kooperations-Netzwerk",
+        map_info_default_desc: "Klicken Sie auf ein regionales Zentrum auf der Karte, um detaillierte Informationen über unsere Partner und Absolventen-Vermittlungen vor Ort anzuzeigen.",
+        map_stat_placements_lbl: "Vermittlungen gesamt",
+        map_stat_partners_lbl: "Partner-Unternehmen"
     },
     en: {
         // Navigation & Buttons
@@ -1122,7 +1169,52 @@ const translations = {
         
         // Legal Modal
         legal_modal_title: "Legal Notice",
-        legal_modal_btn_close: "Close"
+        legal_modal_btn_close: "Close",
+        wa_status: "Secretariat online – Reply in < 5 min 🟢",
+        mm_tag: "FAST ORIENTATION",
+        mm_title: "The 60-Second <span class=\"text-gradient-gold\">Academy Matchmaker</span>",
+        mm_subtitle: "Find out which course perfectly fits your life situation and how to get 100% state funding.",
+        mm_q1: "Which field of interest appeals to you the most?",
+        mm_q1_o1_title: "Security & Protection",
+        mm_q1_o1_desc: "Protecting people & property. Crisis-safe entry into the security sector (§34a GewO).",
+        mm_q1_o2_title: "Care & Support",
+        mm_q1_o2_desc: "Helping and caring for people. High meaningfulness and excellent career opportunities as a nursing assistant.",
+        mm_q2: "What is your current occupational standing?",
+        mm_q2_o1: "Unemployed / Jobseeker (ALG I or Bürgergeld)",
+        mm_q2_o2: "Employed / Seeking career change",
+        mm_q2_o3: "School leaver / Seeking apprenticeship",
+        mm_q2_o4: "Other / Self-employed",
+        mm_q3: "What is most important to you during your training?",
+        mm_q3_o1: "100% free of charge (via education voucher)",
+        mm_q3_o2: "Flexibility (Online-Live & part-time option)",
+        mm_q3_o3: "Quick job entry & job guarantee",
+        mm_submit_btn: "Request Free Training Slot Booking",
+        calc_card_title: "Funding Savings Calculator",
+        calc_slider_label: "Desired Training Duration:",
+        calc_res_fees: "Course Fees:",
+        calc_res_tablet: "Study Tablet (Your Property):",
+        calc_res_tablet_val: "Included (€400 Value)",
+        calc_res_materials: "Learning Materials & IHK Fees:",
+        calc_res_travel: "Travel Costs & Subsistence:",
+        calc_res_covered: "100% Covered",
+        calc_res_total: "Your Net Investment:",
+        calc_btn_submit: "Request Free Training Consultation",
+        quiz_pass_status: "Exam passed! (Min. 50% required)",
+        quiz_fail_status: "Exam failed. (50% required)",
+        faq_search_placeholder: "Search questions...",
+        map_tagline: "REGIONAL GRADUATE SUCCESS",
+        map_title: "Strong Partners in Your <span class=\"text-gradient-gold\">Region</span>",
+        map_subtitle: "Explore our cooperation partners and high graduate placement counts near you.",
+        map_graduates: "Graduates Placed",
+        map_region_east: "Berlin & Brandenburg",
+        map_region_north: "Hamburg & Schleswig-Holstein",
+        map_region_west: "North Rhine-Westphalia",
+        map_region_center: "Hesse & RLP",
+        map_region_south: "Bavaria & Baden-Württemberg",
+        map_info_default_title: "National Cooperation Network",
+        map_info_default_desc: "Click on a regional center on the map to display detailed information on partners and local placements.",
+        map_stat_placements_lbl: "Total Placements",
+        map_stat_partners_lbl: "Partner Companies"
     },
     ua: {
         // Navigation & Buttons
@@ -1341,7 +1433,52 @@ const translations = {
         cookie_btn_nec: "Тільки необхідні",
         cookie_btn_cust: "Налаштувати вибір",
         legal_modal_title: "Правова інформація",
-        legal_modal_btn_close: "Закрити"
+        legal_modal_btn_close: "Закрити",
+        wa_status: "Секретаріат працює – Відповідь за < 5 хв 🟢",
+        mm_tag: "ШВИДКА ОРІЄНТАЦІЯ",
+        mm_title: "60-Секундний <span class=\"text-gradient-gold\">Академічний Матчмейкер</span>",
+        mm_subtitle: "Дізнайтеся, який курс ідеально підходить для вашої життєвої ситуації та як отримати 100% фінансування від держави.",
+        mm_q1: "Яка сфера інтересів вас найбільше приваблює?",
+        mm_q1_o1_title: "Безпека та Охорона",
+        mm_q1_o1_desc: "Захист людей та майна. Антикризовий вхід у сферу охорони та безпеки (§34a GewO).",
+        mm_q1_o2_title: "Догляд та Турбота",
+        mm_q1_o2_desc: "Допомога та догляд за людьми. Висока соціальна значущість та відмінна кар'єра асистента з догляду.",
+        mm_q2: "Яке ваше поточне професійне становище?",
+        mm_q2_o1: "Безробітний / Шукач роботи (ALG I або Bürgergeld)",
+        mm_q2_o2: "Працевлаштований / Шукаю зміну кар'єри",
+        mm_q2_o3: "Випускник школи / Шукаю навчання",
+        mm_q2_o4: "Інше / Самозайнятий",
+        mm_q3: "Що для вас найважливіше під час навчання?",
+        mm_q3_o1: "100% безкоштовно (через освітній ваучер)",
+        mm_q3_o2: "Гнучкість (онлайн-трансляції та неповний день)",
+        mm_q3_o3: "Швидкий початок роботи та гарантія працевлаштування",
+        mm_submit_btn: "Запросити безкоштовне бронювання місця",
+        calc_card_title: "Калькулятор державної допомоги",
+        calc_slider_label: "Бажана тривалість навчання:",
+        calc_res_fees: "Плата за навчання:",
+        calc_res_tablet: "Навчальний планшет (у вашій власності):",
+        calc_res_tablet_val: "Включено (вартість €400)",
+        calc_res_materials: "Навчальні матеріали та збори IHK:",
+        calc_res_travel: "Витрати на проїзд та харчування:",
+        calc_res_covered: "100% Покрито",
+        calc_res_total: "Ваші чисті інвестиції:",
+        calc_btn_submit: "Запитати безкоштовну консультацію",
+        quiz_pass_status: "Іспит складено! (Необхідно мін. 50%)",
+        quiz_fail_status: "Іспит не складено. (Необхідно 50%)",
+        faq_search_placeholder: "Шукати запитання...",
+        map_tagline: "РЕГІОНАЛЬНИЙ УСПІХ ВИПУСКНИКІВ",
+        map_title: "Сильні партнери у вашому <span class=\"text-gradient-gold\">Регіоні</span>",
+        map_subtitle: "Дізнайтеся про наших партнерів по співпраці та високі показники працевлаштування випускників поруч із вами.",
+        map_graduates: "Випускників працевлаштовано",
+        map_region_east: "Берлін та Бранденбург",
+        map_region_north: "Гамбург та Шлезвіг-Гольштейн",
+        map_region_west: "Північний Рейн-Вестфалія",
+        map_region_center: "Гессен та Рейнланд-Пфальц",
+        map_region_south: "Баварія та Баден-Вюртемберг",
+        map_info_default_title: "Національна мережа співпраці",
+        map_info_default_desc: "Клацніть на регіональний центр на карті, щоб показати детальну інформацію про партнерів та працевлаштування.",
+        map_stat_placements_lbl: "Всього працевлаштувань",
+        map_stat_partners_lbl: "Компаній-партнерів"
     },
     tr: {
         // Navigation & Buttons
@@ -1560,7 +1697,52 @@ const translations = {
         cookie_btn_nec: "Yalnızca Gerekli",
         cookie_btn_cust: "Seçimi Düzenle",
         legal_modal_title: "Yasal Bilgiler",
-        legal_modal_btn_close: "Kapat"
+        legal_modal_btn_close: "Kapat",
+        wa_status: "Sekreterlik aktif – Cevap süresi < 5 dk 🟢",
+        mm_tag: "HIZLI YÖNLENDİRME",
+        mm_title: "60 Saniyelik <span class=\"text-gradient-gold\">Akademi Eşleştirici</span>",
+        mm_subtitle: "Hangi kursun yaşam durumunuza en uygun olduğunu ve %100 devlet desteğini nasıl alacağınızı öğrenin.",
+        mm_q1: "En çok hangi alan ilginizi çekiyor?",
+        mm_q1_o1_title: "Güvenlik & Koruma",
+        mm_q1_o1_desc: "İnsanları ve mülkleri korumak. Güvenlik sektörüne krizlerden uzak garantili giriş (§34a GewO).",
+        mm_q1_o2_title: "Bakım & Destek",
+        mm_q1_o2_desc: "İnsanlara yardım etmek ve bakım sunmak. Yüksek sosyal değer ve hasta bakıcı olarak mükemmel kariyer fırsatları.",
+        mm_q2: "Mevcut profesyonel durumunuz nedir?",
+        mm_q2_o1: "İşsiz / İş Arayan (ALG I veya Bürgergeld)",
+        mm_q2_o2: "Çalışıyor / Kariyer değişikliği arıyor",
+        mm_q2_o3: "Okul mezunu / Staj yeri arıyor",
+        mm_q2_o4: "Diğer / Kendi işi",
+        mm_q3: "Eğitiminiz süresince sizin için en önemlisi nedir?",
+        mm_q3_o1: "%100 ücretsiz (Eğitim kuponu aracılığıyla)",
+        mm_q3_o2: "Esneklik (Canlı online ve yarı zamanlı seçeneği)",
+        mm_q3_o3: "Hızlı işe başlama ve iş garantisi",
+        mm_submit_btn: "Ücretsiz Kontenjan Rezervasyonu Talep Et",
+        calc_card_title: "Devlet Desteği Tasarruf Hesaplayıcı",
+        calc_slider_label: "İstenen Eğitim Süresi:",
+        calc_res_fees: "Kurs Ücretleri:",
+        calc_res_tablet: "Eğitim Tableti (Mülkiyetiniz Olur):",
+        calc_res_tablet_val: "Dahil (€400 Değerinde)",
+        calc_res_materials: "Ders Materyalleri ve IHK Sınav Harçları:",
+        calc_res_travel: "Ulaşım ve Yemek Giderleri:",
+        calc_res_covered: "%100 Karşılandı",
+        calc_res_total: "Net Yatırımınız:",
+        calc_btn_submit: "Ücretsiz Eğitim Danışmanlığı İsteyin",
+        quiz_pass_status: "Sınavı geçtiniz! (En az %50 gerekli)",
+        quiz_fail_status: "Sınavda başarısız oldunuz. (%50 gerekli)",
+        faq_search_placeholder: "Soruları arayın...",
+        map_tagline: "BÖLGESEL MEZUN BAŞARISI",
+        map_title: "Bölgenizdeki <span class=\"text-gradient-gold\">Güçlü Ortaklar</span>",
+        map_subtitle: "Size en yakın iş birliği ortaklarımızı ve yüksek mezun istihdam sayılarını keşfedin.",
+        map_graduates: "Yerleştirilen Mezunlar",
+        map_region_east: "Berlin & Brandenburg",
+        map_region_north: "Hamburg & Schleswig-Holstein",
+        map_region_west: "Kuzey Ren-Vestfalya",
+        map_region_center: "Hessen & RLP",
+        map_region_south: "Bavyera & Baden-Württemberg",
+        map_info_default_title: "Ulusal İş Birliği Ağı",
+        map_info_default_desc: "Ortaklar ve yerel istihdam hakkında detaylı bilgi görüntülemek için haritadaki bölgesel bir merkeze tıklayın.",
+        map_stat_placements_lbl: "Toplam İstihdam",
+        map_stat_partners_lbl: "Ortak Şirketler"
     },
     ar: {
         // Navigation & Buttons
@@ -1779,7 +1961,52 @@ const translations = {
         cookie_btn_nec: "الملفات الضرورية فقط",
         cookie_btn_cust: "تعديل الاختيارات",
         legal_modal_title: "معلومات قانونية",
-        legal_modal_btn_close: "إغلاق"
+        legal_modal_btn_close: "إغلاق",
+        wa_status: "الأمانة متصلة – الرد خلال < 5 دقائق 🟢",
+        mm_tag: "توجيه سريع",
+        mm_title: "مطابق الأكاديمية خلال <span class=\"text-gradient-gold\">60 ثانية</span>",
+        mm_subtitle: "اكتشف الدورة التدريبية التي تناسب وضعك الحياتي تماماً وكيفية الحصول على تمويل حكومي بنسبة 100%.",
+        mm_q1: "ما هو المجال المهني الذي يثير اهتمامك أكثر؟",
+        mm_q1_o1_title: "الأمن والحماية",
+        mm_q1_o1_desc: "حماية الأشخاص والممتلكات. دخول آمن وخالٍ من الأزمات إلى قطاع الأمن (§34a GewO).",
+        mm_q1_o2_title: "الرعاية والتمريض",
+        mm_q1_o2_desc: "مساعدة الناس ورعايتهم. معنى إنساني نبيل وفرص عمل ممتازة كمساعد تمريض.",
+        mm_q2: "ما هو وضعك المهني الحالي؟",
+        mm_q2_o1: "عاطل عن العمل / باحث عن عمل (ALG I أو Bürgergeld)",
+        mm_q2_o2: "موظف / أبحث عن تغيير مهني",
+        mm_q2_o3: "خريج مدرسة / أبحث عن تدريب مهني",
+        mm_q2_o4: "آخر / عمل خاص",
+        mm_q3: "ما هو الشيء الأكثر أهمية بالنسبة لك خلال تدريبك؟",
+        mm_q3_o1: "مجاني 100% (عبر قسيمة التعليم)",
+        mm_q3_o2: "المرونة (دروس مباشرة عبر الإنترنت وخيار دوام جزئي)",
+        mm_q3_o3: "دخول سريع إلى سوق العمل وضمان التوظيف",
+        mm_submit_btn: "طلب تأمين مقعد تدريبي مجاني",
+        calc_card_title: "حاسبة وفورات التمويل الحكومي",
+        calc_slider_label: "مدة التدريب المطلوبة:",
+        calc_res_fees: "رسوم الدورة التدريبية:",
+        calc_res_tablet: "جهاز لوحي للدراسة (يصبح ملكك):",
+        calc_res_tablet_val: "مضمّن (بقيمة 400 يورو)",
+        calc_res_materials: "المواد الدراسية ورسوم اختبار IHK:",
+        calc_res_travel: "تكاليف السفر والمعيشة:",
+        calc_res_covered: "مغطى بنسبة 100%",
+        calc_res_total: "صافي استثمارك المالي:",
+        calc_btn_submit: "طلب استشارة تعليمية مجانية",
+        quiz_pass_status: "لقد نجحت في الاختبار! (مطلوب 50% على الأقل)",
+        quiz_fail_status: "لم تنجح في الاختبار. (مطلوب 50%)",
+        faq_search_placeholder: "البحث في الأسئلة...",
+        map_tagline: "نجاح الخريجين الإقليمي",
+        map_title: "شركاء أقوياء في <span class=\"text-gradient-gold\">منطقتك</span>",
+        map_subtitle: "اكتشف شركاء التعاون لدينا وأعداد التوظيف المرتفعة للخريجين بالقرب منك.",
+        map_graduates: "الخريجين الذين تم توظيفهم",
+        map_region_east: "برلين وبراندنبورغ",
+        map_region_north: "هامبورغ وشليسفيغ هولشتاين",
+        map_region_west: "شمال الراين-وستفاليا",
+        map_region_center: "هسن وراينلاند بفالتس",
+        map_region_south: "بافاريا وبادن فورتمبيرغ",
+        map_info_default_title: "شبكة التعاون الوطنية",
+        map_info_default_desc: "انقر فوق أحد المراكز الإقليمية على الخريطة لعرض معلومات مفصلة عن الشركاء والتوظيف المحلي.",
+        map_stat_placements_lbl: "إجمالي عمليات التوظيف",
+        map_stat_partners_lbl: "الشركات الشريكة"
     },
     ru: {
         // Navigation & Buttons
@@ -1998,7 +2225,52 @@ const translations = {
         cookie_btn_nec: "Только необходимые",
         cookie_btn_cust: "Настроить выбор",
         legal_modal_title: "Правовая информация",
-        legal_modal_btn_close: "Закрыть"
+        legal_modal_btn_close: "Закрыть",
+        wa_status: "Секретариат на связи – Ответ в течение < 5 мин 🟢",
+        mm_tag: "БЫСТРЫЙ ВЫБОР ПО НАПРАВЛЕНИЮ",
+        mm_title: "60-Секундный <span class=\"text-gradient-gold\">Академический Подборщик</span>",
+        mm_subtitle: "Узнайте, какой курс идеально подходит вашей жизненной ситуации и как получить 100% госфинансирование.",
+        mm_q1: "Какая профессиональная сфера вас больше всего интересует?",
+        mm_q1_o1_title: "Безопасность и Охрана",
+        mm_q1_o1_desc: "Защита людей и объектов. Стабильный и перспективный старт в охранной сфере (§34a GewO).",
+        mm_q1_o2_title: "Уход и Забота",
+        mm_q1_o2_desc: "Помощь людям и уход за ними. Высокая социальная значимость и карьерный рост в качестве помощника по уходу.",
+        mm_q2: "Какова ваша текущая занятость?",
+        mm_q2_o1: "Безработный / Ищу работу (ALG I или Bürgergeld)",
+        mm_q2_o2: "Работаю / Ищу новую сферу деятельности",
+        mm_q2_o3: "Выпускник школы / Ищу место обучения",
+        mm_q2_o4: "Другое / Самозанятый",
+        mm_q3: "Что для вас важнее всего при обучении?",
+        mm_q3_o1: "100% бесплатно (через образовательный ваучер)",
+        mm_q3_o2: "Гибкость (онлайн-трансляции и неполный день)",
+        mm_q3_o3: "Быстрый старт карьеры и гарантия работы",
+        mm_submit_btn: "Запросить бронирование учебного места",
+        calc_card_title: "Калькулятор государственной субсидии",
+        calc_slider_label: "Желаемая длительность обучения:",
+        calc_res_fees: "Плата за обучение:",
+        calc_res_tablet: "Учебный планшет (в вашу собственность):",
+        calc_res_tablet_val: "Включено (стоимость €400)",
+        calc_res_materials: "Учебные материалы и сборы IHK:",
+        calc_res_travel: "Расходы на транспорт и питание:",
+        calc_res_covered: "100% Покрыто",
+        calc_res_total: "Ваши чистые инвестиции:",
+        calc_btn_submit: "Запросить бесплатную консультацию",
+        quiz_pass_status: "Экзамен сдан! (Требуется мин. 50%)",
+        quiz_fail_status: "Экзамен не сдан. (Требуется 50%)",
+        faq_search_placeholder: "Поиск вопросов...",
+        map_tagline: "РЕГИОНАЛЬНЫЙ УСПЕХ ВЫПУСКНИКОВ",
+        map_title: "Сильные партнеры в вашем <span class=\"text-gradient-gold\">Регионе</span>",
+        map_subtitle: "Познакомьтесь с нашими партнерами по сотрудничеству и высокими показателями трудоустройства рядом с вами.",
+        map_graduates: "Выпускников трудоустроено",
+        map_region_east: "Берлин и Бранденбург",
+        map_region_north: "Гамбург и Шлезвиг-Гольштейн",
+        map_region_west: "Северный Рейн-Вестфалия",
+        map_region_center: "Гессен и Рейнланд-Пфальц",
+        map_region_south: "Бавария и Баден-Вюртемберг",
+        map_info_default_title: "Национальная партнерская сеть",
+        map_info_default_desc: "Нажмите на региональный центр на карте, чтобы увидеть подробную информацию о партнерах и трудоустройстве.",
+        map_stat_placements_lbl: "Всего трудоустройств",
+        map_stat_partners_lbl: "Компаний-партнеров"
     },
     fa: {
         // Navigation & Buttons
@@ -2217,7 +2489,52 @@ const translations = {
         cookie_btn_nec: "فقط کوکی‌های ضروری",
         cookie_btn_cust: "تغییر انتخاب‌ها",
         legal_modal_title: "اطلاعات قانونی",
-        legal_modal_btn_close: "بستن"
+        legal_modal_btn_close: "بستن",
+        wa_status: "پشتیبانی فعال – پاسخگویی در < 5 دقیقه 🟢",
+        mm_tag: "راهنمای سریع انتخاب دوره",
+        mm_title: "مطابق آکادمی در <span class=\"text-gradient-gold\">۶۰ ثانیه</span>",
+        mm_subtitle: "کدام دوره کاملاً با شرایط زندگی شما سازگار است و چگونه می‌توان ۱۰۰٪ بودجه دولتی دریافت کرد.",
+        mm_q1: "کدام حوزه کاری بیشتر برای شما جذاب است؟",
+        mm_q1_o1_title: "امنیت و حفاظت",
+        mm_q1_o1_desc: "محافظت از افراد و اموال. ورود مطمئن و بدون بحران به بخش امنیت (§34a GewO).",
+        mm_q1_o2_title: "مراقبت و پرستاری",
+        mm_q1_o2_desc: "کمک و مراقبت از افراد. معنای انسانی عمیق و فرصت‌های شغلی عالی به عنوان دستیار پرستار.",
+        mm_q2: "وضعیت شغلی فعلی شما چیست؟",
+        mm_q2_o1: "بیکار / جویای کار (ALG I یا Bürgergeld)",
+        mm_q2_o2: "شاغل / به دنبال تغییر شغل",
+        mm_q2_o3: "فارغ‌التحصیل مدرسه / جویای کارآموزی",
+        mm_q2_o4: "دیگر / شغل آزاد",
+        mm_q3: "مهم‌ترین چیز برای شما در طول دوره چیست؟",
+        mm_q3_o1: "۱۰۰٪ رایگان (از طریق کوپن آموزش دولتی)",
+        mm_q3_o2: "انعطاف‌پذیری (کلاس‌های آنلاین زنده و گزینه‌های پاره‌وقت)",
+        mm_q3_o3: "ورود سریع به بازار کار و تضمین استخدام",
+        mm_submit_btn: "درخواست رزرو رایگان صندلی آموزشی",
+        calc_card_title: "محاسبه‌گر پس‌انداز بودجه دولتی",
+        calc_slider_label: "مدت زمان دوره درخواستی:",
+        calc_res_fees: "هزینه دوره آموزشی:",
+        calc_res_tablet: "تبلت مطالعه (مالکیت کامل شما):",
+        calc_res_tablet_val: "شامل می‌شود (به ارزش ۴۰۰ یورو)",
+        calc_res_materials: "کتاب‌های درسی و هزینه‌های آزمون IHK:",
+        calc_res_travel: "هزینه‌های ایاب و ذهاب و معیشت:",
+        calc_res_covered: "۱۰۰٪ پوشش داده شده",
+        calc_res_total: "خالص سرمایه‌گذاری مالی شما:",
+        calc_btn_submit: "درخواست مشاوره رایگان دوره",
+        quiz_pass_status: "در آزمون قبول شدید! (حداقل ۵۰٪ نیاز است)",
+        quiz_fail_status: "در آزمون قبول نشدید. (۵۰٪ نیاز است)",
+        faq_search_placeholder: "جستجو در سوالات...",
+        map_tagline: "موفقیت فارغ‌التحصیلان منطقه‌ای",
+        map_title: "شرکای قدرتمند در <span class=\"text-gradient-gold\">منطقه شما</span>",
+        map_subtitle: "شرکای همکاری ما و آمار بالای استخدام فارغ‌التحصیلان را در نزدیکی خود کشف کنید.",
+        map_graduates: "فارغ‌التحصیلان استخدام شده",
+        map_region_east: "برلین و براندنبورغ",
+        map_region_north: "هامبورغ و شلسویگ هولشتاین",
+        map_region_west: "نوردراين-وستفالن",
+        map_region_center: "هسن و راینلند-فالتس",
+        map_region_south: "باواریا و بادن فورتمیرگ",
+        map_info_default_title: "شبکه همکاری ملی",
+        map_info_default_desc: "برای مشاهده اطلاعات دقیق درباره شرکا و استخدام‌های محلی، روی یک مرکز منطقه‌ای در نقشه کلیک کنید.",
+        map_stat_placements_lbl: "کل فرآیندهای استخدام",
+        map_stat_partners_lbl: "شرکت‌های شریک"
     }
 };
 
@@ -2365,4 +2682,662 @@ window.switchLanguage = function(lang) {
     if (document.getElementById("quiz-q-num")) {
         renderQuizQuestion();
     }
+
+    // Recalculate funding to update labels in new language
+    calculateFunding();
+    
+    // Retranslate matchmaker if active
+    updateMatchmakerLanguage();
+    
+    // Update FAQ search placeholder if element exists
+    const faqSearchInput = document.getElementById("faq-search-input");
+    if (faqSearchInput && translations[lang] && translations[lang].faq_search_placeholder) {
+        faqSearchInput.placeholder = translations[lang].faq_search_placeholder;
+    }
+    
+    // Update map default text if not focused on custom region
+    const titleEl = document.getElementById("map-info-title");
+    const descEl = document.getElementById("map-info-desc");
+    if (titleEl && titleEl.getAttribute("data-focused-region") === null) {
+        if (translations[lang] && translations[lang].map_info_default_title) {
+            titleEl.innerHTML = translations[lang].map_info_default_title;
+        }
+        if (translations[lang] && translations[lang].map_info_default_desc) {
+            descEl.innerHTML = translations[lang].map_info_default_desc;
+        }
+    } else if (titleEl) {
+        // Refocus to update text in new language
+        const activeRegion = titleEl.getAttribute("data-focused-region");
+        if (activeRegion) {
+            focusMapBeacon(activeRegion);
+        }
+    }
 };
+
+/* --------------------------------------------------------------------------
+   12. INTERACTIVE PREMIUM FEATURES ENGINE
+   -------------------------------------------------------------------------- */
+
+// 1. Floating WhatsApp Status Live Countdown
+function initWhatsAppStatus() {
+    const bubble = document.querySelector(".chat-status-bubble");
+    if (!bubble) return;
+    
+    setTimeout(() => {
+        bubble.classList.add("show");
+    }, 2000);
+    
+    let totalSeconds = 4 * 60 + 52; // Start countdown from 4:52
+    setInterval(() => {
+        totalSeconds--;
+        if (totalSeconds < 60) {
+            totalSeconds = 4 * 60 + 52; // Reset timer when it gets close to 1 min to keep it realistic
+        }
+        const min = Math.floor(totalSeconds / 60);
+        const sec = totalSeconds % 60;
+        const secStr = sec < 10 ? "0" + sec : sec;
+        
+        const lang = localStorage.getItem("preferredLang") || "de";
+        
+        let statusText = `Sekretariat besetzt – Antwort in ${min}:${secStr} Min 🟢`;
+        if (lang === "en") statusText = `Secretariat online – Reply in ${min}:${secStr} min 🟢`;
+        else if (lang === "ua") statusText = `Секретаріат працює – Відповідь за ${min}:${secStr} хв 🟢`;
+        else if (lang === "tr") statusText = `Sekreterlik aktif – Cevap süresi < ${min}:${secStr} dk 🟢`;
+        else if (lang === "ar") statusText = `الأمانة متصلة – الرد خلال ${min}:${secStr} دقائق 🟢`;
+        else if (lang === "ru") statusText = `Секретариат на связи – Ответ в течение ${min}:${secStr} мин 🟢`;
+        else if (lang === "fa") statusText = `پشتیبانی فعال – پاسخگویی در ${min}:${secStr} دقیقه 🟢`;
+        
+        bubble.innerHTML = statusText;
+    }, 1000);
+}
+
+// 2. 60-Second Academy Matchmaker State Machine
+let mmState = {
+    step: 1,
+    field: "",      // "security" or "care"
+    status: "",     // "unemployed", "employed", "student", "other"
+    priority: ""    // "funding", "flexibility", "job"
+};
+
+window.handleMatchmakerNext = function(step, choice) {
+    if (step === 1) {
+        mmState.field = choice;
+        document.getElementById("mm-step-1").classList.remove("active");
+        document.getElementById("mm-step-2").classList.add("active");
+        document.getElementById("mm-progress").style.width = "50%";
+        mmState.step = 2;
+    } else if (step === 2) {
+        mmState.status = choice;
+        document.getElementById("mm-step-2").classList.remove("active");
+        document.getElementById("mm-step-3").classList.add("active");
+        document.getElementById("mm-progress").style.width = "75%";
+        mmState.step = 3;
+    } else if (step === 3) {
+        mmState.priority = choice;
+        document.getElementById("mm-step-3").classList.remove("active");
+        document.getElementById("mm-step-4").classList.add("active");
+        document.getElementById("mm-progress").style.width = "100%";
+        mmState.step = 4;
+        renderMatchmakerOutcome();
+    }
+};
+
+window.handleMatchmakerPrev = function(step) {
+    if (step === 2) {
+        document.getElementById("mm-step-2").classList.remove("active");
+        document.getElementById("mm-step-1").classList.add("active");
+        document.getElementById("mm-progress").style.width = "25%";
+        mmState.step = 1;
+    } else if (step === 3) {
+        document.getElementById("mm-step-3").classList.remove("active");
+        document.getElementById("mm-step-2").classList.add("active");
+        document.getElementById("mm-progress").style.width = "50%";
+        mmState.step = 2;
+    } else if (step === 4) {
+        // Reset and restart
+        mmState = { step: 1, field: "", status: "", priority: "" };
+        document.getElementById("mm-step-4").classList.remove("active");
+        document.getElementById("mm-step-1").classList.add("active");
+        document.getElementById("mm-progress").style.width = "25%";
+        
+        // Clear input values
+        const mmName = document.getElementById("mm-name");
+        const mmPhone = document.getElementById("mm-phone");
+        if (mmName) mmName.value = "";
+        if (mmPhone) mmPhone.value = "";
+    }
+};
+
+function renderMatchmakerOutcome() {
+    const lang = localStorage.getItem("preferredLang") || "de";
+    
+    // Select correct localized text values based on step answers
+    const badgeEl = document.getElementById("mm-recommendation-badge");
+    const titleEl = document.getElementById("mm-recommendation-title");
+    const descEl = document.getElementById("mm-recommendation-desc");
+    
+    const benefit1 = document.getElementById("mm-benefit-1");
+    const benefit2 = document.getElementById("mm-benefit-2");
+    const benefit3 = document.getElementById("mm-benefit-3");
+    
+    if (badgeEl) {
+        let badgeText = "EMPFOHLENER LEHRGANG";
+        if (lang === "en") badgeText = "RECOMMENDED COURSE";
+        else if (lang === "ua") badgeText = "РЕКОМЕНДОВАНИЙ КУРС";
+        else if (lang === "tr") badgeText = "ÖNERİLEN EĞİTİM PROGRAMI";
+        else if (lang === "ar") badgeText = "الدورة التدريبية الموصى بها";
+        else if (lang === "ru") badgeText = "РЕКОМЕНДУЕМЫЙ КУРС";
+        else if (lang === "fa") badgeText = "دوره آموزشی پیشنهادی";
+        badgeEl.innerText = badgeText;
+    }
+
+    if (mmState.field === "security") {
+        let title = "Geprüfte Sicherheitskraft (§34a GewO)";
+        let desc = "Basierend auf Ihren Angaben ist die **Ausbildung zur Geprüften Sicherheitskraft** der perfekte Hebel für Ihre berufliche Zukunft. Dank Ihres Status haben Sie **Anspruch auf 100% Förderung** inklusive kostenfreiem Leih-Tablet und garantierter Vermittlung.";
+        let b1 = "100% staatlich gefördert (Bildungsgutschein)";
+        let b2 = "Dauer: Nur 50 Tage (Live-Online Unterricht)";
+        let b3 = "Inklusive kostenfreiem Leih-Tablet (geht in Ihr Eigentum über)";
+        
+        if (lang === "en") {
+            title = "Certified Security Specialist (§34a GewO)";
+            desc = "Based on your inputs, the **Security Specialist training** is the perfect lever for your career future. Thanks to your status, you qualify for **100% state funding** including a free tablet and guaranteed placement.";
+            b1 = "100% state funded (education voucher)";
+            b2 = "Duration: Just 50 days (Live-Online classes)";
+            b3 = "Includes free study tablet (yours to keep afterwards)";
+        } else if (lang === "ua") {
+            title = "Сертифікований фахівець з безпеки (§34a GewO)";
+            desc = "На основі ваших відповідей, **навчання фахівця з безпеки** є ідеальним ричагом для вашої кар'єри. Завдяки вашому статусу ви маєте право на **100% державне фінансування**, включаючи безкоштовний планшет та гарантоване працевлаштування.";
+            b1 = "100% фінансується державою (освітній ваучер)";
+            b2 = "Тривалість: Всього 50 днів (онлайн-трансляції)";
+            b3 = "Включає безкоштовний навчальний планшет у вашу власність";
+        } else if (lang === "tr") {
+            title = "Sertifikalı Güvenlik Uzmanı (§34a GewO)";
+            desc = "Verdiğiniz bilgilere göre, **Güvenlik Uzmanlığı eğitimi** kariyeriniz için mükemmel bir adımdır. Mevcut durumunuz sayesinde, ücretsiz tablet ve iş garantisi dahil **%100 devlet desteğine** hak kazanmaktasınız.";
+            b1 = "%100 devlet destekli (eğitim kuponu)";
+            b2 = "Süre: Sadece 50 gün (Canlı online eğitim)";
+            b3 = "Ücretsiz eğitim tableti dahil (sonrasında sizin olur)";
+        } else if (lang === "ar") {
+            title = "أخصائي أمن معتمد (§34a GewO)";
+            desc = "بناءً على إجاباتك، فإن **التدريب المهني لأخصائي الأمن** هو الرافعة المثالية لمستقبلك المهني. بفضل وضعك الحالي، يحق لك الحصول على **تمويل بنسبة 100%** بما في ذلك جهاز لوحي مجاني وتوظيف مضمون.";
+            b1 = "تمويل حكومي 100% (قسيمة التعليم)";
+            b2 = "المدة: 50 يوماً فقط (دروس مباشرة عبر الإنترنت)";
+            b3 = "يتضمن جهازاً لوحياً مجانياً للدراسة (يصبح ملكك لاحقاً)";
+        } else if (lang === "ru") {
+            title = "Сертифицированный специалист по безопасности (§34a GewO)";
+            desc = "На основании ваших ответов, **обучение специалиста по безопасности** станет идеальным шагом для вашей карьеры. Благодаря вашему статусу вы имеете право на **100% госфинансирование**, включая бесплатный планшет и гарантированное трудоустройство.";
+            b1 = "100% финансируется государством (образовательный ваучер)";
+            b2 = "Длительность: Всего 50 дней (онлайн-трансляции)";
+            b3 = "Включает бесплатный учебный планшет в вашу собственность";
+        } else if (lang === "fa") {
+            title = "متخصص امنیت معتمد (§34a GewO)";
+            desc = "بر اساس پاسخ‌های شما، **دوره متخصص امنیت** بهترین اهرم برای آینده شغلی شماست. به لطف وضعیت فعلی، شما واجد شرایط **۱۰۰٪ بودجه دولتی** شامل تبلت رایگان و استخدام تضمینی هستید.";
+            b1 = "۱۰۰٪ بودجه دولتی (کوپن آموزش)";
+            b2 = "مدت دوره: فقط ۵۰ روز (کلاس‌های آنلاین زنده)";
+            b3 = "شامل تبلت مطالعه رایگان (پس از اتمام متعلق به شماست)";
+        }
+        
+        if (titleEl) titleEl.innerText = title;
+        if (descEl) descEl.innerHTML = desc;
+        if (benefit1) benefit1.innerText = b1;
+        if (benefit2) benefit2.innerText = b2;
+        if (benefit3) benefit3.innerText = b3;
+        
+    } else {
+        let title = "Qualifizierte/r Pflegehelfer/in";
+        let desc = "Basierend auf Ihren Angaben ist die **Ausbildung zum/zur qualifizierten Pflegehelfer/in** der ideale Weg für Ihren beruflichen Neustart. Menschen helfen, sichere Jobaussichten haben und **100% staatlich gefördert** durchstarten.";
+        let b1 = "100% staatlich gefördert (Bildungsgutschein)";
+        let b2 = "Praxisorientierte Ausbildung mit Fachzertifikat";
+        let b3 = "Inklusive kostenfreiem Leih-Tablet & direkter Jobgarantie";
+        
+        if (lang === "en") {
+            title = "Qualified Nursing Assistant";
+            desc = "Based on your inputs, the **Nursing Assistant training** is the ideal path for your professional restart. Helping people, enjoying absolute job security, and starting **100% state funded**.";
+            b1 = "100% state funded (education voucher)";
+            b2 = "Practice-oriented training with professional certificate";
+            b3 = "Includes free study tablet & direct job placement guarantee";
+        } else if (lang === "ua") {
+            title = "Кваліфікований асистент з догляду (Pflegehelfer)";
+            desc = "На основі ваших відповідей, **навчання асистента з догляду** є ідеальним шляхом для професійного рестарту. Допомагайте людям, отримуйте абсолютну безпеку роботи та розпочніть **100% фінансування від держави**.";
+            b1 = "100% фінансується державою (освітній ваучер)";
+            b2 = "Практико-орієнтоване навчання з сертифікатом фахівця";
+            b3 = "Включає безкоштовний планшет та пряму гарантію роботи";
+        } else if (lang === "tr") {
+            title = "Nitelikli Hasta Bakıcı (Pflegehelfer)";
+            desc = "Verdiğiniz bilgilere göre, **Nitelikli Hasta Bakıcılığı eğitimi** kariyerinizde yeni bir başlangıç için ideal yoldur. İnsanlara yardım edin, iş güvencesinin tadını çıkarın ve **%100 devlet desteğiyle** işe başlayın.";
+            b1 = "%100 devlet destekli (eğitim kuponu)";
+            b2 = "Mesleki sertifikalı pratik odaklı eğitim programı";
+            b3 = "Ücretsiz eğitim tableti ve doğrudan işe yerleştirme garantisi";
+        } else if (lang === "ar") {
+            title = "مساعد تمريض مؤهل (Pflegehelfer)";
+            desc = "بناءً على إجاباتك، فإن **التدريب المهني لمساعد التمريض** هو المسار المثالي لإعادة تشغيل حياتك المهنية. ساعد الناس، واستمتع بأمان وظيفي كامل، وابدأ **بتمويل حكومي 100%**.";
+            b1 = "تمويل حكومي 100% (قسيمة التعليم)";
+            b2 = "تدريب عملي وموجه نحو الممارسة مع شهادة تخصص";
+            b3 = "يتضمن جهازاً لوحياً مجانياً وضمان توظيف مباشر";
+        } else if (lang === "ru") {
+            title = "Квалифицированный помощник по уходу (Pflegehelfer)";
+            desc = "На основании ваших ответов, **обучение помощника по уходу** — идеальный путь для вашего профессионального перезапуска. Помогайте людям, наслаждайтесь полной надежностью работы и начните **100% госфинансирование**.";
+            b1 = "100% финансируется государством (образовательный ваучер)";
+            b2 = "Практико-ориентированное обучение с профессиональным сертификатом";
+            b3 = "Включаеться бесплатный планшет и прямую гарантию трудоустройства";
+        } else if (lang === "fa") {
+            title = "دستیار پرستار واجد شرایط (Pflegehelfer)";
+            desc = "بر اساس پاسخ‌های شما، **دوره دستیار پرستاری** بهترین مسیر برای راه‌اندازی مجدد حرفه شماست. به مردم کمک کنید، از امنیت شغلی کامل بهره‌مند شوید و با **۱۰۰٪ بودجه دولتی** کار خود را شروع کنید.";
+            b1 = "۱۰۰٪ بودجه دولتی (کوپن آموزش)";
+            b2 = "آموزش عمل‌گرا همراه با ارائه مدرک تخصصی";
+            b3 = "شامل تبلت مطالعه رایگان و تضمین استخدام مستقیم";
+        }
+        
+        if (titleEl) titleEl.innerText = title;
+        if (descEl) descEl.innerHTML = desc;
+        if (benefit1) benefit1.innerText = b1;
+        if (benefit2) benefit2.innerText = b2;
+        if (benefit3) benefit3.innerText = b3;
+    }
+}
+
+function updateMatchmakerLanguage() {
+    if (mmState.step === 4) {
+        renderMatchmakerOutcome();
+    }
+}
+
+// 3. Dynamic Funding Calculator Savings Slider
+window.calculateFunding = function() {
+    const slider = document.getElementById("calc-duration-slider");
+    if (!slider) return;
+    const days = parseInt(slider.value);
+    
+    const lang = localStorage.getItem("preferredLang") || "de";
+    
+    // Update days label text in the UI
+    const durationVal = document.getElementById("calc-duration-val");
+    if (durationVal) {
+        let dayText = "Tage";
+        if (lang === "en") dayText = days === 1 ? "day" : "days";
+        else if (lang === "ua") dayText = "днів";
+        else if (lang === "tr") dayText = "gün";
+        else if (lang === "ar") dayText = "أيام";
+        else if (lang === "ru") dayText = "дней";
+        else if (lang === "fa") dayText = "روز";
+        durationVal.innerText = `${days} ${dayText}`;
+    }
+    
+    // Standard AZAV Calculation Formulas:
+    // Course fee average €85/day, travel expenses average €12/day
+    const courseFeeValue = days * 85;
+    const travelValue = days * 12;
+    const tabletValue = 400;
+    const materialsValue = 250;
+    
+    // Write dynamic values to the results DOM sheet
+    const feesEl = document.getElementById("calc-fees-status");
+    if (feesEl) {
+        let coveredText = "100% Übernommen";
+        if (lang === "en") coveredText = "100% Covered";
+        else if (lang === "ua") coveredText = "100% Покрито";
+        else if (lang === "tr") coveredText = "100% Karşılandı";
+        else if (lang === "ar") coveredText = "مغطى بنسبة 100%";
+        else if (lang === "ru") coveredText = "100% Покрыто";
+        else if (lang === "fa") coveredText = "100% پوشش داده شده";
+        feesEl.innerHTML = `${coveredText} <span class="calc-saving-badge">(€${courseFeeValue.toLocaleString('de-DE')})</span>`;
+    }
+    
+    const tabletEl = document.getElementById("calc-tablet-status");
+    if (tabletEl) {
+        let tabText = "Inklusive";
+        if (lang === "en") tabText = "Included";
+        else if (lang === "ua") tabText = "Включено";
+        else if (lang === "tr") tabText = "Dahil";
+        else if (lang === "ar") tabText = "مضمّن";
+        else if (lang === "ru") tabText = "Включено";
+        else if (lang === "fa") tabText = "شامل می‌شود";
+        
+        let valText = "Wert";
+        if (lang === "en") valText = "Value";
+        else if (lang === "ua") valText = "вартість";
+        else if (lang === "tr") valText = "Değerinde";
+        else if (lang === "ar") valText = "بقيمة";
+        else if (lang === "ru") valText = "стоимость";
+        else if (lang === "fa") valText = "ارزش";
+        
+        tabletEl.innerText = `${tabText} (€${tabletValue} ${valText})`;
+    }
+    
+    const materialsEl = document.getElementById("calc-materials-status");
+    if (materialsEl) {
+        let coveredText = "100% Übernommen";
+        if (lang === "en") coveredText = "100% Covered";
+        else if (lang === "ua") coveredText = "100% Покрито";
+        else if (lang === "tr") coveredText = "100% Karşılandı";
+        else if (lang === "ar") coveredText = "مغطى بنسبة 100%";
+        else if (lang === "ru") coveredText = "100% Покрыто";
+        else if (lang === "fa") coveredText = "100% پوشش داده شده";
+        materialsEl.innerHTML = `${coveredText} <span class="calc-saving-badge">(€${materialsValue.toLocaleString('de-DE')})</span>`;
+    }
+    
+    const travelEl = document.getElementById("calc-travel-status");
+    if (travelEl) {
+        let coveredText = "100% Übernommen";
+        if (lang === "en") coveredText = "100% Covered";
+        else if (lang === "ua") coveredText = "100% Покрито";
+        else if (lang === "tr") coveredText = "100% Karşılandı";
+        else if (lang === "ar") coveredText = "مغطى بنسبة 100%";
+        else if (lang === "ru") coveredText = "100% Покрыто";
+        else if (lang === "fa") coveredText = "100% پوشش داده شده";
+        travelEl.innerHTML = `${coveredText} <span class="calc-saving-badge">(€${travelValue.toLocaleString('de-DE')})</span>`;
+    }
+};
+
+// 4. Overriding and Gamifying the IHK Mock Exam Quiz Results to draw circular SVG meter
+const originalRenderQuizResults = renderQuizResults;
+renderQuizResults = function() {
+    const container = document.getElementById("quiz-container");
+    const lang = localStorage.getItem("preferredLang") || "de";
+    
+    let resultMessage = "";
+    if (quizScore === quizQuestions.length) {
+        resultMessage = (translations[lang] && translations[lang].quiz_res_perf) || "Hervorragend gelöst! Sie besitzen bereits ein exzellentes juristisches Verständnis.";
+    } else if (quizScore >= 2) {
+        resultMessage = (translations[lang] && translations[lang].quiz_res_good) || "Sehr gut! Sie verfügen über solides juristisches Grundwissen.";
+    } else {
+        resultMessage = (translations[lang] && translations[lang].quiz_res_bad) || "Keine Sorge! Das Sicherheitsrecht ist komplex. Genau dafür sind wir da.";
+    }
+    
+    const titleText = (translations[lang] && translations[lang].quiz_res_title) || "Test abgeschlossen!";
+    const bodyLeadText = (translations[lang] && translations[lang].quiz_res_body) || "Unsere Absolventen erzielen dank unseres professionellen Vorbereitungskurses eine Bestehensquote von 98% vor der IHK. Nutzen Sie Ihre Chance.";
+    const btnCtaText = (translations[lang] && translations[lang].quiz_res_btn_cta) || "Kostenfreie Beratung buchen";
+    const btnRepeatText = (translations[lang] && translations[lang].quiz_res_btn_repeat) || "Test wiederholen";
+    
+    // Circular Gauge calculations:
+    const percentage = Math.round((quizScore / quizQuestions.length) * 100);
+    // SVG Circle Radius is 50, Circumference is 2 * PI * r = 314
+    const offset = 314 - (314 * percentage) / 100;
+    const passed = quizScore >= 2; // Passing threshold is 50%+ (2/3 correct)
+    
+    let thresholdLabel = "Prüfung bestanden! (Mind. 50% benötigt)";
+    let statusClass = "pass-green";
+    if (lang === "en") {
+        thresholdLabel = passed ? "Exam Passed! (Min. 50% required)" : "Exam Failed (50% required)";
+        statusClass = passed ? "pass-green" : "fail-red";
+    } else if (lang === "ua") {
+        thresholdLabel = passed ? "Іспит складено! (Необхідно мін. 50%)" : "Іспит не складено (Необхідно 50%)";
+        statusClass = passed ? "pass-green" : "fail-red";
+    } else if (lang === "tr") {
+        thresholdLabel = passed ? "Sınavı Geçtiniz! (En az %50 gerekli)" : "Sınavda Başarısız Oldunuz (%50 gerekli)";
+        statusClass = passed ? "pass-green" : "fail-red";
+    } else if (lang === "ar") {
+        thresholdLabel = passed ? "لقد نجحت في الاختبار! (مطلوب 50% على الأقل)" : "لم تنجح في الاختبار (مطلوب 50%)";
+        statusClass = passed ? "pass-green" : "fail-red";
+    } else if (lang === "ru") {
+        thresholdLabel = passed ? "Экзамен сдан! (Требуется мин. 50%)" : "Экзамен не сдан (Требуется 50%)";
+        statusClass = passed ? "pass-green" : "fail-red";
+    } else if (lang === "fa") {
+        thresholdLabel = passed ? "در آزمون قبول شدید! (حداقل ۵۰٪ نیاز است)" : "در آزمون قبول نشدید (۵۰٪ نیاز است)";
+        statusClass = passed ? "pass-green" : "fail-red";
+    }
+    
+    if (lang === "de") {
+        thresholdLabel = passed ? "Prüfung bestanden! (Mind. 50% benötigt)" : "Prüfung nicht bestanden. (50% benötigt)";
+        statusClass = passed ? "pass-green" : "fail-red";
+    }
+    
+    container.innerHTML = `
+        <div class="quiz-finished-box">
+            <!-- Premium SVG Circular Score Gauge -->
+            <div class="quiz-gauge-wrapper">
+                <svg class="quiz-gauge-svg" width="120" height="120" viewBox="0 0 120 120">
+                    <circle class="quiz-gauge-track" cx="60" cy="60" r="50" stroke-width="8"></circle>
+                    <circle class="quiz-gauge-threshold-line" cx="60" cy="60" r="50" stroke-width="8" stroke-dasharray="2 314" stroke-dashoffset="-157"></circle>
+                    <circle class="quiz-gauge-value" id="quiz-gauge-val-circle" cx="60" cy="60" r="50" stroke-width="8" stroke-dasharray="314" stroke-dashoffset="314" style="stroke: ${passed ? '#25D366' : '#DC3545'};"></circle>
+                </svg>
+                <div class="quiz-gauge-label">
+                    <span class="quiz-gauge-score" id="quiz-gauge-score-txt">${quizScore}/${quizQuestions.length}</span>
+                    <span class="quiz-gauge-percent" id="quiz-gauge-percent-txt">${percentage}%</span>
+                </div>
+            </div>
+            
+            <div class="quiz-threshold-indicator ${statusClass}">
+                ${thresholdLabel}
+            </div>
+
+            <h3 class="quiz-results-title text-gradient-gold">${titleText}</h3>
+            <p class="quiz-results-text">
+                ${resultMessage} ${bodyLeadText}
+            </p>
+            <div class="quiz-actions">
+                <a href="#contact" class="btn btn-gold" onclick="fillCourseInterest('sachkunde-34a')">${btnCtaText}</a>
+                <button class="btn btn-outline" onclick="resetQuiz()">${btnRepeatText}</button>
+            </div>
+        </div>
+    `;
+    
+    // Animate the SVG circular gauge stroke ring on render
+    setTimeout(() => {
+        const valCircle = document.getElementById("quiz-gauge-val-circle");
+        if (valCircle) {
+            valCircle.style.strokeDashoffset = offset;
+        }
+    }, 100);
+};
+
+// 5. FAQ Accordion Live Search Engine
+window.filterFaq = function() {
+    const query = document.getElementById("faq-search-input").value.toLowerCase().trim();
+    const clearBtn = document.getElementById("faq-clear-btn");
+    const items = document.querySelectorAll(".faq-academic-item");
+    
+    if (query.length > 0) {
+        if (clearBtn) clearBtn.style.display = "flex";
+    } else {
+        if (clearBtn) clearBtn.style.display = "none";
+    }
+    
+    items.forEach(item => {
+        const triggerText = item.querySelector(".faq-trigger").innerText.toLowerCase();
+        const contentText = item.querySelector(".faq-content").innerText.toLowerCase();
+        
+        if (triggerText.includes(query) || contentText.includes(query)) {
+            item.style.display = "block";
+            setTimeout(() => {
+                item.style.opacity = "1";
+                item.style.transform = "scale(1)";
+            }, 20);
+        } else {
+            item.style.opacity = "0";
+            item.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                // Double check to make sure search query has not changed in the meantime
+                if (item.style.opacity === "0") {
+                    item.style.display = "none";
+                }
+            }, 250);
+        }
+    });
+};
+
+window.clearFaqSearch = function() {
+    const input = document.getElementById("faq-search-input");
+    if (input) input.value = "";
+    filterFaq();
+};
+
+// 6. Regional Graduate Success Map Interaction Engine
+window.focusMapBeacon = function(region) {
+    // Remove active styling from all map beacons
+    document.querySelectorAll(".map-beacon").forEach(b => b.classList.remove("active"));
+    
+    // Add active styling onto target beacon
+    const targetBeacon = document.querySelector(`.map-beacon[data-region="${region}"]`);
+    if (targetBeacon) targetBeacon.classList.add("active");
+    
+    const lang = localStorage.getItem("preferredLang") || "de";
+    const data = regionalMapData[lang][region];
+    
+    if (data) {
+        const titleEl = document.getElementById("map-info-title");
+        const descEl = document.getElementById("map-info-desc");
+        if (titleEl) {
+            titleEl.innerHTML = data.title;
+            titleEl.setAttribute("data-focused-region", region); // Anchor focused region tag to prevent retranslating overrides
+        }
+        if (descEl) descEl.innerHTML = data.desc;
+    }
+};
+
+const regionalMapData = {
+    de: {
+        east: {
+            title: "Regionalzentrum Berlin & Brandenburg",
+            desc: "Unser Hauptkooperationspartner <strong>Securitas Ost</strong> und das <strong>Deutsche Rote Kreuz</strong> stellen jährlich über 400 Absolventen der Sicherheits- und Pflegelehrgänge direkt in feste Stellen ein. Vor-Ort-Unterstützung bei der IHK-Anmeldung."
+        },
+        north: {
+            title: "Regionalzentrum Hamburg & Nord",
+            desc: "Im Norden vermitteln wir unsere Absolventen direkt in unbefristete Arbeitsverhältnisse bei der <strong>Kötter Unternehmensgruppe</strong> sowie den <strong>Johannitern Nord</strong>. Tablet-Übergabe erfolgt vor Kursbeginn."
+        },
+        west: {
+            title: "Regionalzentrum Nordrhein-Westfalen",
+            desc: "Mit über 520 erfolgreichen Vermittlungen ist NRW unsere aktivste Region. Partnerschaften mit <strong>Wisag West</strong> und dem <strong>DRK Köln</strong> garantieren Spitzengehälter und krisensichere Verträge direkt nach der IHK-Sachkundeprüfung."
+        },
+        center: {
+            title: "Regionalzentrum Hessen & RLP",
+            desc: "Direkte Jobgarantien im Großraum Frankfurt durch Kooperationen mit <strong>Prosegur Deutschland</strong> und dem <strong>ASB Mitte</strong>. Flexible Online-Live-Kurse in Vollzeit und Teilzeit."
+        },
+        south: {
+            title: "Regionalzentrum Bayern & BaWü",
+            desc: "Hervorragende Verdienstmöglichkeiten in Süddeutschland bei <strong>Securitas Süd</strong> und den <strong>Maltesern Süd</strong>. 99% Bestehensquote im IHK-Vorbereitungsmodul."
+        }
+    },
+    en: {
+        east: {
+            title: "Berlin & Brandenburg Hub",
+            desc: "Our primary partners <strong>Securitas East</strong> and the <strong>German Red Cross</strong> employ over 400 graduates annually from our security and care programs. Local assistance with IHK exam registration is guaranteed."
+        },
+        north: {
+            title: "Hamburg & North Hub",
+            desc: "In northern Germany, we place graduates in permanent positions at <strong>Kötter Security</strong> and <strong>Johanniter Nord</strong>. Free study tablet delivered to your home before course start."
+        },
+        west: {
+            title: "North Rhine-Westphalia Hub",
+            desc: "With 520+ successful placements, NRW is our most active region. Direct partnerships with <strong>Wisag West</strong> and the <strong>DRK Cologne</strong> guarantee competitive wages and job safety post-exams."
+        },
+        center: {
+            title: "Hesse & Rhineland Hub",
+            desc: "Direct employment guarantees in the Frankfurt metropolitan area through contracts with <strong>Prosegur Germany</strong> and <strong>ASB Center</strong>. Part-time options available."
+        },
+        south: {
+            title: "Bavaria & South Hub",
+            desc: "Exceptional career outlook in southern Germany with <strong>Securitas South</strong> and <strong>Malteser South</strong>. 99% passing rate in the intensive IHK exam preparation module."
+        }
+    },
+    ua: {
+        east: {
+            title: "Регіональний центр Берлін та Бранденбург",
+            desc: "Наші головні партнери <strong>Securitas East</strong> та <strong>Німецький Червоний Хрест</strong> щорічно працевлаштовують понад 400 випускників курсів безпеки та охорони здоров'я. Надаємо локальну підтримку при реєстрації в IHK."
+        },
+        north: {
+            title: "Регіональний центр Гамбург та Північ",
+            desc: "На півночі ми працевлаштовуємо випускників на постійні посади в <strong>Kötter Security</strong> та <strong>Johanniter Nord</strong>. Планшет доставляється додому до початку курсу."
+        },
+        west: {
+            title: "Регіональний центр Північний Рейн-Вестфалія",
+            desc: "Понад 520 успішних працевлаштувань роблять NRW нашим найактивнішим регіоном. Партнерство з <strong>Wisag West</strong> та <strong>DRK Köln</strong> гарантує стабільну роботу після іспитів."
+        },
+        center: {
+            title: "Регіональний центр Гессен та Райнланд",
+            desc: "Прямі гарантії працевлаштування в районі Франкфурта завдяки кооперації з <strong>Prosegur Germany</strong> та <strong>ASB Center</strong>. Доступні гнучкі онлайн-курси."
+        },
+        south: {
+            title: "Регіональний центр Баварія та Південь",
+            desc: "Відмінні перспективи кар'єри на півдні Німеччини з <strong>Securitas South</strong> та <strong>Malteser South</strong>. 99% успішно складених іспитів IHK."
+        }
+    },
+    tr: {
+        east: {
+            title: "Berlin & Brandenburg Bölge Merkezi",
+            desc: "Ana ortaklarımız <strong>Securitas Doğu</strong> ve <strong>Alman Kızılhaçı (DRK)</strong>, her yıl güvenlik ve bakım eğitimlerimizden mezun olan 400'den fazla kişiyi doğrudan işe almaktadır."
+        },
+        north: {
+            title: "Hamburg & Kuzey Bölge Merkezi",
+            desc: "Kuzey Almanya'da mezunlarımızı <strong>Kötter Group</strong> ve <strong>Johanniter Nord</strong> bünyesinde kalıcı kadrolara yerleştiriyoruz. Ücretsiz eğitim tableti kurs başlamadan teslim edilir."
+        },
+        west: {
+            title: "Kuzey Ren-Vestfalya Bölge Merkezi",
+            desc: "520'den fazla başarılı yerleştirme ile NRW en aktif bölgemizdir. <strong>Wisag West</strong> ve <strong>DRK Köln</strong> ortaklıkları, IHK sınavı sonrası yüksek maaş ve iş garantisi sağlar."
+        },
+        center: {
+            title: "Hessen & RLP Bölge Merkezi",
+            desc: "Frankfurt bölgesinde <strong>Prosegur Almanya</strong> ve <strong>ASB Merkez</strong> iş birlikleriyle doğrudan istihdam garantisi. Tam zamanlı ve yarı zamanlı esnek kurs seçenekleri."
+        },
+        south: {
+            title: "Bavyera & Güney Bölge Merkezi",
+            desc: "Güney Almanya'da <strong>Securitas Güney</strong> ve <strong>Malteser Güney</strong> ile mükemmel kariyer fırsatları. IHK sınav hazırlık modülünde %99 başarı oranı."
+        }
+    },
+    ar: {
+        east: {
+            title: "مركز برلين وبراندنبورغ الإقليمي",
+            desc: "شركاؤنا الرئيسيون <strong>سيكوريتاس الشرق</strong> و<strong>الصليب الأحمر الألماني</strong> يوظفون سنوياً أكثر من 400 خريج من دورات الأمن والرعاية الصحية مباشرة في وظائف ثابتة."
+        },
+        north: {
+            title: "مركز هامبورغ والشمال الإقليمي",
+            desc: "في الشمال، نوظف خريجينا في وظائف دائمة لدى <strong>مجموعة كوتر</strong> و<strong>يوحنا الشمال</strong>. يتم تسليم الجهاز اللوحي للدراسة قبل بدء الدورة."
+        },
+        west: {
+            title: "مركز شمال الراين-وستفاليا الإقليمي",
+            desc: "مع أكثر من 520 حالة توظيف ناجحة، تعد الولاية أكثر مناطقنا نشاطاً. تضمن الشراكات مع <strong>فيزاغ الغرب</strong> و<strong>الصليب الأحمر في كولونيا</strong> رواتب ممتازة وعقوداً آمنة."
+        },
+        center: {
+            title: "مركز هسن وراينلاند الإقليمي",
+            desc: "ضمانات عمل مباشرة في منطقة فرانكفورت الكبرى من خلال التعاون مع <strong>بروسيغور ألمانيا</strong> و<strong>الجمعية الطبية للسامريين</strong>. دورات مرنة متوفرة."
+        },
+        south: {
+            title: "مركز بافاريا والجنوب الإقليمي",
+            desc: "فرص عمل ممتازة في جنوب ألمانيا مع <strong>سيكوريتاس الجنوب</strong> و<strong>مالتيزر الجنوب</strong>. نسبة نجاح تبلغ 99% في التحضير لاختبار غرفة التجارة والصناعة (IHK)."
+        }
+    },
+    ru: {
+        east: {
+            title: "Региональный центр Берлин и Бранденбург",
+            desc: "Наши главные партнеры <strong>Securitas East</strong> и <strong>Немецкий Красный Крест</strong> ежегодно принимают более 400 выпускников курсов безопасности и ухода напрямую в штат."
+        },
+        north: {
+            title: "Региональный центр Гамбург и Север",
+            desc: "На севере мы трудоустраиваем выпускников на постоянные должности в <strong>Kötter Security</strong> и <strong>Johanniter Nord</strong>. Учебный планшет доставляется на дом до старта курса."
+        },
+        west: {
+            title: "Региональный центр Северный Рейн-Вестфалия",
+            desc: "Более 520 успешных трудоустройств делают NRW нашим самым активным регионом. Партнерство с <strong>Wisag West</strong> и <strong>DRK Köln</strong> гарантирует стабильную работу после экзаменов."
+        },
+        center: {
+            title: "Региональный центр Гессен и Рейнланд",
+            desc: "Прямые гарантии занятости в районе Франкфурта благодаря кооперации с <strong>Prosegur Germany</strong> и <strong>ASB Center</strong>. Доступны гибкие онлайн-курсы."
+        },
+        south: {
+            title: "Региональный центр Бавария и Юг",
+            desc: "Отличные перспективы карьеры на юге Германии с <strong>Securitas South</strong> и <strong>Malteser South</strong>. Успешность сдачи экзаменов IHK составляет 99%."
+        }
+    },
+    fa: {
+        east: {
+            title: "مرکز منطقه‌ای برلین و براندنبورگ",
+            desc: "شریک اصلی ما <strong>سکوریتاس شرق</strong> و <strong>صلیب سرخ آلمان</strong> سالانه بیش از ۴۰۰ فارغ‌التحصیل دوره‌های امنیت و مراقبت را مستقیماً استخدام می‌کنند."
+        },
+        north: {
+            title: "مرکز منطقه‌ای هامبورگ و شمال",
+            desc: "در شمال آلمان، ما فارغ‌التحصیلان را در موقعیت‌های دائمی در <strong>گروه کوتر</strong> و <strong>یوهانیتر شمال</strong> مستقر می‌کنیم. تبلت قبل از شروع دوره تحویل می‌شود."
+        },
+        west: {
+            title: "مرکز منطقه‌ای نوردراین-وستفالن",
+            desc: "با بیش از ۵۲۰ استخدام موفق، این ایالت فعال‌ترین منطقه ماست. همکاری با <strong>ویزاگ غرب</strong> و <strong>صلیب سرخ کلن</strong> حقوق عالی و قراردادهای مطمئن را تضمین می‌کند."
+        },
+        center: {
+            title: "مرکز منطقه‌ای هسن و راینلند",
+            desc: "تضمین استخدام مستقیم در منطقه فرانکفورت از طریق همکاری با <strong>پروسگور آلمان</strong> و <strong>ASB مرکز</strong>. دوره‌های آنلاین انعطاف‌پذیر به صورت تمام‌وقت و پاره‌وقت."
+        },
+        south: {
+            title: "مرکز منطقه‌ای باواریا و جنوب",
+            desc: "فرصت‌های شغلی عالی در جنوب آلمان با <strong>سکوریتاس جنوب</strong> و <strong>مالتزر جنوب</strong>. ۹۹٪ درصد قبولی در ماژول آمادگی آزمون اتاق بازرگانی (IHK)."
+        }
+    }
+};
+

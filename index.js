@@ -943,7 +943,9 @@ const translations = {
         map_info_default_title: "Nationales Kooperations-Netzwerk",
         map_info_default_desc: "Klicken Sie auf ein regionales Zentrum auf der Karte, um detaillierte Informationen über unsere Partner und Absolventen-Vermittlungen vor Ort anzuzeigen.",
         map_stat_placements_lbl: "Vermittlungen gesamt",
-        map_stat_partners_lbl: "Partner-Unternehmen"
+        map_stat_partners_lbl: "Partner-Unternehmen",
+        advisor_title: "Leiter der Bildungsberatung",
+        advisor_online: "Online - Jetzt erreichbar"
     },
     en: {
         // Navigation & Buttons
@@ -1220,7 +1222,9 @@ const translations = {
         map_info_default_title: "National Cooperation Network",
         map_info_default_desc: "Click on a regional center on the map to display detailed information on partners and local placements.",
         map_stat_placements_lbl: "Total Placements",
-        map_stat_partners_lbl: "Partner Companies"
+        map_stat_partners_lbl: "Partner Companies",
+        advisor_title: "Head of Academic Advising",
+        advisor_online: "Online - Available Now"
     },
     ua: {
         // Navigation & Buttons
@@ -1487,7 +1491,9 @@ const translations = {
         map_info_default_title: "Національна мережа співпраці",
         map_info_default_desc: "Клацніть на регіональний центр на карті, щоб показати детальну інформацію про партнерів та працевлаштування.",
         map_stat_placements_lbl: "Всього працевлаштувань",
-        map_stat_partners_lbl: "Компаній-партнерів"
+        map_stat_partners_lbl: "Компаній-партнерів",
+        advisor_title: "Керівник відділу консультацій",
+        advisor_online: "В мережі - Доступний зараз"
     },
     tr: {
         // Navigation & Buttons
@@ -1754,7 +1760,9 @@ const translations = {
         map_info_default_title: "Ulusal İş Birliği Ağı",
         map_info_default_desc: "Ortaklar ve yerel istihdam hakkında detaylı bilgi görüntülemek için haritadaki bölgesel bir merkeze tıklayın.",
         map_stat_placements_lbl: "Toplam İstihdam",
-        map_stat_partners_lbl: "Ortak Şirketler"
+        map_stat_partners_lbl: "Ortak Şirketler",
+        advisor_title: "Akademik Danışmanlık Koordinatörü",
+        advisor_online: "Çevrimiçi - Şimdi Ulaşılabilir"
     },
     ar: {
         // Navigation & Buttons
@@ -2021,7 +2029,9 @@ const translations = {
         map_info_default_title: "شبكة التعاون الوطنية",
         map_info_default_desc: "انقر فوق أحد المراكز الإقليمية على الخريطة لعرض معلومات مفصلة عن الشركاء والتوظيف المحلي.",
         map_stat_placements_lbl: "إجمالي عمليات التوظيف",
-        map_stat_partners_lbl: "الشركات الشريكة"
+        map_stat_partners_lbl: "الشركات الشريكة",
+        advisor_title: "رئيس قسم الاستشارات الأكاديمية",
+        advisor_online: "متصل - متاح الآن"
     },
     ru: {
         // Navigation & Buttons
@@ -2288,7 +2298,9 @@ const translations = {
         map_info_default_title: "Национальная партнерская сеть",
         map_info_default_desc: "Нажмите на региональный центр на карте, чтобы увидеть подробную информацию о партнерах и трудоустройстве.",
         map_stat_placements_lbl: "Всего трудоустройств",
-        map_stat_partners_lbl: "Компаний-партнеров"
+        map_stat_partners_lbl: "Компаний-партнеров",
+        advisor_title: "Руководитель отдела консультаций",
+        advisor_online: "В сети - Доступен сейчас"
     },
     fa: {
         // Navigation & Buttons
@@ -2555,7 +2567,9 @@ const translations = {
         map_info_default_title: "شبکه همکاری ملی",
         map_info_default_desc: "برای مشاهده اطلاعات دقیق درباره شرکا و استخدام‌های محلی، روی یک مرکز منطقه‌ای در نقشه کلیک کنید.",
         map_stat_placements_lbl: "کل فرآیندهای استخدام",
-        map_stat_partners_lbl: "شرکت‌های شریک"
+        map_stat_partners_lbl: "شرکت‌های شریک",
+        advisor_title: "رئیس بخش مشاوره تحصیلی",
+        advisor_online: "آنلاین - هم‌اکنون در دسترس"
     }
 };
 

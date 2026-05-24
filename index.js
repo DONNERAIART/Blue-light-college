@@ -917,6 +917,9 @@ const translations = {
         mm_submit_btn: "Kostenfreie Ausbildungsplatz-Sicherung anfordern",
         calc_card_title: "Förderungs-Ersparnis-Rechner",
         calc_slider_label: "Gewünschte Ausbildungsdauer:",
+        calc_toggle_label: "Finanzierungsweg:",
+        calc_toggle_voucher: "Bildungsgutschein",
+        calc_toggle_self: "Selbstzahler",
         calc_res_fees: "Lehrgangsgebühren:",
         calc_res_tablet: "Leih-Tablet (Ihr Eigentum):",
         calc_res_tablet_val: "Inklusive (€400 Wert)",
@@ -1191,6 +1194,9 @@ const translations = {
         mm_submit_btn: "Request Free Training Slot Booking",
         calc_card_title: "Funding Savings Calculator",
         calc_slider_label: "Desired Training Duration:",
+        calc_toggle_label: "Funding Method:",
+        calc_toggle_voucher: "Education Voucher",
+        calc_toggle_self: "Self-Payer",
         calc_res_fees: "Course Fees:",
         calc_res_tablet: "Study Tablet (Your Property):",
         calc_res_tablet_val: "Included (€400 Value)",
@@ -1455,6 +1461,9 @@ const translations = {
         mm_submit_btn: "Запросити безкоштовне бронювання місця",
         calc_card_title: "Калькулятор державної допомоги",
         calc_slider_label: "Бажана тривалість навчання:",
+        calc_toggle_label: "Спосіб фінансування:",
+        calc_toggle_voucher: "Освітній ваучер",
+        calc_toggle_self: "Самооплата",
         calc_res_fees: "Плата за навчання:",
         calc_res_tablet: "Навчальний планшет (у вашій власності):",
         calc_res_tablet_val: "Включено (вартість €400)",
@@ -1719,6 +1728,9 @@ const translations = {
         mm_submit_btn: "Ücretsiz Kontenjan Rezervasyonu Talep Et",
         calc_card_title: "Devlet Desteği Tasarruf Hesaplayıcı",
         calc_slider_label: "İstenen Eğitim Süresi:",
+        calc_toggle_label: "Finansman Yöntemi:",
+        calc_toggle_voucher: "Eğitim Kuponu",
+        calc_toggle_self: "Bireysel Ödeme",
         calc_res_fees: "Kurs Ücretleri:",
         calc_res_tablet: "Eğitim Tableti (Mülkiyetiniz Olur):",
         calc_res_tablet_val: "Dahil (€400 Değerinde)",
@@ -1983,6 +1995,9 @@ const translations = {
         mm_submit_btn: "طلب تأمين مقعد تدريبي مجاني",
         calc_card_title: "حاسبة وفورات التمويل الحكومي",
         calc_slider_label: "مدة التدريب المطلوبة:",
+        calc_toggle_label: "طريقة التمويل:",
+        calc_toggle_voucher: "قسيمة التعليم",
+        calc_toggle_self: "الدفع الذاتي",
         calc_res_fees: "رسوم الدورة التدريبية:",
         calc_res_tablet: "جهاز لوحي للدراسة (يصبح ملكك):",
         calc_res_tablet_val: "مضمّن (بقيمة 400 يورو)",
@@ -2247,6 +2262,9 @@ const translations = {
         mm_submit_btn: "Запросить бронирование учебного места",
         calc_card_title: "Калькулятор государственной субсидии",
         calc_slider_label: "Желаемая длительность обучения:",
+        calc_toggle_label: "Способ оплаты:",
+        calc_toggle_voucher: "Учебный ваучер",
+        calc_toggle_self: "Самооплата",
         calc_res_fees: "Плата за обучение:",
         calc_res_tablet: "Учебный планшет (в вашу собственность):",
         calc_res_tablet_val: "Включено (стоимость €400)",
@@ -2511,6 +2529,9 @@ const translations = {
         mm_submit_btn: "درخواست رزرو رایگان صندلی آموزشی",
         calc_card_title: "محاسبه‌گر پس‌انداز بودجه دولتی",
         calc_slider_label: "مدت زمان دوره درخواستی:",
+        calc_toggle_label: "روش تامین مالی:",
+        calc_toggle_voucher: "بن آموزشی",
+        calc_toggle_self: "پرداخت شخصی",
         calc_res_fees: "هزینه دوره آموزشی:",
         calc_res_tablet: "تبلت مطالعه (مالکیت کامل شما):",
         calc_res_tablet_val: "شامل می‌شود (به ارزش ۴۰۰ یورو)",
@@ -2942,89 +2963,136 @@ function updateMatchmakerLanguage() {
 }
 
 // 3. Dynamic Funding Calculator Savings Slider
+let currentFundingType = 'voucher';
+
+window.setFundingType = function(type) {
+    currentFundingType = type;
+    const btnVoucher = document.getElementById("btn-funding-voucher");
+    const btnSelf = document.getElementById("btn-funding-self");
+    if (btnVoucher && btnSelf) {
+        if (type === 'voucher') {
+            btnVoucher.classList.add("active");
+            btnSelf.classList.remove("active");
+        } else {
+            btnSelf.classList.add("active");
+            btnVoucher.classList.remove("active");
+        }
+    }
+    window.calculateFunding();
+};
+
 window.calculateFunding = function() {
-    const slider = document.getElementById("calc-duration-slider");
-    if (!slider) return;
-    const days = parseInt(slider.value);
-    
     const lang = localStorage.getItem("preferredLang") || "de";
+    const days = 50; // Strictly fixed to 50 days (10 weeks course)
     
-    // Update days label text in the UI
-    const durationVal = document.getElementById("calc-duration-val");
-    if (durationVal) {
-        let dayText = "Tage";
-        if (lang === "en") dayText = days === 1 ? "day" : "days";
-        else if (lang === "ua") dayText = "днів";
-        else if (lang === "tr") dayText = "gün";
-        else if (lang === "ar") dayText = "أيام";
-        else if (lang === "ru") dayText = "дней";
-        else if (lang === "fa") dayText = "روز";
-        durationVal.innerText = `${days} ${dayText}`;
-    }
+    // AZAV Standard Values
+    const courseFeeValue = days * 85;      // €4.250
+    const travelValue = days * 12;         // €600
+    const tabletValue = 400;               // €400
+    const materialsValue = 250;            // €250
     
-    // Standard AZAV Calculation Formulas:
-    // Course fee average €85/day, travel expenses average €12/day
-    const courseFeeValue = days * 85;
-    const travelValue = days * 12;
-    const tabletValue = 400;
-    const materialsValue = 250;
-    
-    // Write dynamic values to the results DOM sheet
     const feesEl = document.getElementById("calc-fees-status");
-    if (feesEl) {
-        let coveredText = "100% Übernommen";
-        if (lang === "en") coveredText = "100% Covered";
-        else if (lang === "ua") coveredText = "100% Покрито";
-        else if (lang === "tr") coveredText = "100% Karşılandı";
-        else if (lang === "ar") coveredText = "مغطى بنسبة 100%";
-        else if (lang === "ru") coveredText = "100% Покрыто";
-        else if (lang === "fa") coveredText = "100% پوشش داده شده";
-        feesEl.innerHTML = `${coveredText} <span class="calc-saving-badge">(€${courseFeeValue.toLocaleString('de-DE')})</span>`;
-    }
-    
     const tabletEl = document.getElementById("calc-tablet-status");
-    if (tabletEl) {
-        let tabText = "Inklusive";
-        if (lang === "en") tabText = "Included";
-        else if (lang === "ua") tabText = "Включено";
-        else if (lang === "tr") tabText = "Dahil";
-        else if (lang === "ar") tabText = "مضمّن";
-        else if (lang === "ru") tabText = "Включено";
-        else if (lang === "fa") tabText = "شامل می‌شود";
-        
-        let valText = "Wert";
-        if (lang === "en") valText = "Value";
-        else if (lang === "ua") valText = "вартість";
-        else if (lang === "tr") valText = "Değerinde";
-        else if (lang === "ar") valText = "بقيمة";
-        else if (lang === "ru") valText = "стоимость";
-        else if (lang === "fa") valText = "ارزش";
-        
-        tabletEl.innerText = `${tabText} (€${tabletValue} ${valText})`;
-    }
-    
     const materialsEl = document.getElementById("calc-materials-status");
-    if (materialsEl) {
-        let coveredText = "100% Übernommen";
-        if (lang === "en") coveredText = "100% Covered";
-        else if (lang === "ua") coveredText = "100% Покрито";
-        else if (lang === "tr") coveredText = "100% Karşılandı";
-        else if (lang === "ar") coveredText = "مغطى بنسبة 100%";
-        else if (lang === "ru") coveredText = "100% Покрыто";
-        else if (lang === "fa") coveredText = "100% پوشش داده شده";
-        materialsEl.innerHTML = `${coveredText} <span class="calc-saving-badge">(€${materialsValue.toLocaleString('de-DE')})</span>`;
-    }
-    
     const travelEl = document.getElementById("calc-travel-status");
-    if (travelEl) {
-        let coveredText = "100% Übernommen";
-        if (lang === "en") coveredText = "100% Covered";
-        else if (lang === "ua") coveredText = "100% Покрито";
-        else if (lang === "tr") coveredText = "100% Karşılandı";
-        else if (lang === "ar") coveredText = "مغطى بنسبة 100%";
-        else if (lang === "ru") coveredText = "100% Покрыто";
-        else if (lang === "fa") coveredText = "100% پوشش داده شده";
-        travelEl.innerHTML = `${coveredText} <span class="calc-saving-badge">(€${travelValue.toLocaleString('de-DE')})</span>`;
+    const totalEl = document.getElementById("calc-total-status");
+    
+    if (currentFundingType === 'voucher') {
+        // 100% Free via Bildungsgutschein
+        if (feesEl) {
+            let coveredText = "100% Übernommen";
+            if (lang === "en") coveredText = "100% Covered";
+            else if (lang === "ua") coveredText = "100% Покрито";
+            else if (lang === "tr") coveredText = "100% Karşılandı";
+            else if (lang === "ar") coveredText = "مغطى بنسبة 100%";
+            else if (lang === "ru") coveredText = "100% Покрыто";
+            else if (lang === "fa") coveredText = "100% پوشش داده شده";
+            feesEl.innerHTML = `${coveredText} <span class="calc-saving-badge">(€${courseFeeValue.toLocaleString('de-DE')})</span>`;
+            feesEl.className = "result-value green-highlight";
+        }
+        if (tabletEl) {
+            let tabText = "Inklusive";
+            if (lang === "en") tabText = "Included";
+            else if (lang === "ua") tabText = "Включено";
+            else if (lang === "tr") tabText = "Dahil";
+            else if (lang === "ar") tabText = "مضمّن";
+            else if (lang === "ru") tabText = "Включено";
+            else if (lang === "fa") tabText = "شامل می‌شود";
+            
+            let valText = "Wert";
+            if (lang === "en") valText = "Value";
+            else if (lang === "ua") valText = "вартість";
+            else if (lang === "tr") valText = "Değerinde";
+            else if (lang === "ar") valText = "بقيمة";
+            else if (lang === "ru") valText = "стоимость";
+            else if (lang === "fa") valText = "ارزش";
+            
+            tabletEl.innerText = `${tabText} (€${tabletValue} ${valText})`;
+            tabletEl.className = "result-value text-gradient-gold";
+        }
+        if (materialsEl) {
+            let coveredText = "100% Übernommen";
+            if (lang === "en") coveredText = "100% Covered";
+            else if (lang === "ua") coveredText = "100% Покрито";
+            else if (lang === "tr") coveredText = "100% Karşılandı";
+            else if (lang === "ar") coveredText = "مغطى بنسبة 100%";
+            else if (lang === "ru") coveredText = "100% Покрыто";
+            else if (lang === "fa") coveredText = "100% پوشش داده شده";
+            materialsEl.innerHTML = `${coveredText} <span class="calc-saving-badge">(€${materialsValue.toLocaleString('de-DE')})</span>`;
+            materialsEl.className = "result-value green-highlight";
+        }
+        if (travelEl) {
+            let coveredText = "100% Übernommen";
+            if (lang === "en") coveredText = "100% Covered";
+            else if (lang === "ua") coveredText = "100% Покрито";
+            else if (lang === "tr") coveredText = "100% Karşılandı";
+            else if (lang === "ar") coveredText = "مغطى بنسبة 100%";
+            else if (lang === "ru") coveredText = "100% Покрыто";
+            else if (lang === "fa") coveredText = "100% پوشش داده شده";
+            travelEl.innerHTML = `${coveredText} <span class="calc-saving-badge">(€${travelValue.toLocaleString('de-DE')})</span>`;
+            travelEl.className = "result-value green-highlight";
+        }
+        if (totalEl) {
+            totalEl.innerText = "€0,00";
+            totalEl.className = "result-value total-val text-gradient-navy";
+        }
+    } else {
+        // Private financing self-payer
+        if (feesEl) {
+            feesEl.innerText = `€${courseFeeValue.toLocaleString('de-DE')},00`;
+            feesEl.className = "result-value text-gradient-navy";
+        }
+        if (tabletEl) {
+            let optText = "Optional (€400)";
+            if (lang === "en") optText = "Optional ($400)";
+            else if (lang === "ua") optText = "За бажанням (€400)";
+            else if (lang === "tr") optText = "İsteğe Bağlı (€400)";
+            else if (lang === "ar") optText = "اختياري (400 يورو)";
+            else if (lang === "ru") optText = "Необязательно (€400)";
+            else if (lang === "fa") optText = "اختیاری (۴۰۰ یورو)";
+            tabletEl.innerText = optText;
+            tabletEl.className = "result-value text-muted";
+        }
+        if (materialsEl) {
+            materialsEl.innerText = `€${materialsValue.toLocaleString('de-DE')},00`;
+            materialsEl.className = "result-value text-gradient-navy";
+        }
+        if (travelEl) {
+            let noRefText = "Keine Erstattung";
+            if (lang === "en") noRefText = "No Refund";
+            else if (lang === "ua") noRefText = "Без відшкодування";
+            else if (lang === "tr") noRefText = "Geri Ödemesiz";
+            else if (lang === "ar") noRefText = "لا يوجد استرداد";
+            else if (lang === "ru") noRefText = "Без возмещения";
+            else if (lang === "fa") noRefText = "بدون بازپرداخت";
+            travelEl.innerText = noRefText;
+            travelEl.className = "result-value text-muted";
+        }
+        if (totalEl) {
+            const totalCost = courseFeeValue + materialsValue; // Tablet is optional for private payers
+            totalEl.innerText = `€${totalCost.toLocaleString('de-DE')},00`;
+            totalEl.className = "result-value total-val text-gradient-gold";
+        }
     }
 };
 

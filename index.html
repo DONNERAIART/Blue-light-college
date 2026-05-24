@@ -400,12 +400,12 @@
                     <div class="academic-slider-calculator">
                         <h4 class="calc-card-title" data-translate="calc_card_title">Förderungs-Ersparnis-Rechner</h4>
                         
-                        <div class="slider-group">
-                            <div class="slider-header">
-                                <span class="slider-label" data-translate="calc_slider_label">Gewünschte Ausbildungsdauer:</span>
-                                <span class="slider-value" id="calc-duration-val">50 Tage</span>
+                        <div class="calculator-funding-toggle">
+                            <span class="slider-label" data-translate="calc_toggle_label">Finanzierungsweg:</span>
+                            <div class="funding-toggle-group">
+                                <button type="button" class="btn-toggle active" id="btn-funding-voucher" onclick="setFundingType('voucher')" data-translate="calc_toggle_voucher">Bildungsgutschein</button>
+                                <button type="button" class="btn-toggle" id="btn-funding-self" onclick="setFundingType('self')" data-translate="calc_toggle_self">Selbstzahler</button>
                             </div>
-                            <input type="range" id="calc-duration-slider" min="30" max="120" value="50" step="10" class="premium-slider" oninput="calculateFunding()">
                         </div>
 
                         <div class="calc-results-sheet">

@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initLeadForms();
     initMobileMenu();
     checkCookieConsent();
+    initLanguage();
 });
 
 /* --------------------------------------------------------------------------
@@ -640,4 +641,118 @@ window.closeLegalModal = function() {
         modal.style.display = "none";
         document.body.style.overflow = ""; // Restore background scrolling
     }
+};
+
+/* --------------------------------------------------------------------------
+   10. Multilingual Translation Engine (DE / EN / UA / TR)
+   -------------------------------------------------------------------------- */
+const translations = {
+    de: {
+        nav_courses: "Ausbildungen",
+        nav_calc: "Förderungs-Check",
+        nav_quiz: "IHK-Quiz",
+        nav_perks: "Vorteile",
+        nav_faq: "FAQ",
+        nav_cta: "Beratung buchen",
+        wa_badge: "WhatsApp Beratung",
+        testi_tagline: "ERFOLGSGESCHICHTEN UNSERER ABSOLVENTEN",
+        testi_title: 'Was unsere <span class="text-gradient-navy">Schüler sagen</span>',
+        testi_subtitle: "Erfahren Sie aus erster Hand, wie unsere praxisnahe Ausbildung den Einstieg in eine neue Karriere ermöglicht hat.",
+        testi_c1: "Absolvent §34a Sicherheitskraft",
+        testi_q1: "„Dank des kostenfreien Leih-Tablets konnte ich flexibel abends lernen. Die Dozenten im Live-Online-Unterricht haben mich perfekt vorbereitet. Die IHK-Sachkundeprüfung war direkt beim ersten Mal bestanden! Nun arbeite ich im Objektschutz.“",
+        testi_c2: "Absolventin Pflegehelfer/in",
+        testi_q2: "„Als alleinerziehende Mutter war es schwer, eine Weiterbildung zu finden. Das Blue Light College war ein Glücksfall. Mein persönlicher Kundenberater hat mir sogar bei den Anträgen für das Jobcenter geholfen. Jetzt arbeite ich glücklich in der Pflege.“",
+        testi_c3: "Absolvent §34a Sicherheitskraft",
+        testi_q3: "„Besonders das intensive Coaching vor der mündlichen Prüfung hat mir die Prüfungsangst genommen. Die 100% Kostenübernahme und die vermittelte Stelle direkt nach Kursende waren perfekt. Absolut empfehlenswerte Akademie!“"
+    },
+    en: {
+        nav_courses: "Courses",
+        nav_calc: "Funding Check",
+        nav_quiz: "IHK Quiz",
+        nav_perks: "Benefits",
+        nav_faq: "FAQ",
+        nav_cta: "Book Advice",
+        wa_badge: "WhatsApp Chat",
+        testi_tagline: "SUCCESS STORIES OF OUR GRADUATES",
+        testi_title: 'What our <span class="text-gradient-navy">students say</span>',
+        testi_subtitle: "Hear first-hand how our practical training enabled a smooth start into a new, secure career.",
+        testi_c1: "Graduate §34a Security Guard",
+        testi_q1: "“Thanks to the free loan tablet, I was able to study flexibly in the evening. The lecturers in live-online classes prepared me perfectly. I passed the IHK exam on the very first try! Now I work in object security.”",
+        testi_c2: "Graduate Nursing Assistant",
+        testi_q2: "“As a single mother, it was hard to find vocational training. Blue Light College was a stroke of luck. My advisor even helped me upload Jobcenter documents. Now I am happily working in nursing.”",
+        testi_c3: "Graduate §34a Security Guard",
+        testi_q3: "“Especially the intensive coaching before the oral examination took away my exam anxiety. 100% cost coverage and direct job placement after graduation were perfect. Truly recommended!”"
+    },
+    ua: {
+        nav_courses: "Курси",
+        nav_calc: "Оплата від держави",
+        nav_quiz: "IHK Тест",
+        nav_perks: "Переваги",
+        nav_faq: "Питання",
+        nav_cta: "Консультація",
+        wa_badge: "Чат у WhatsApp",
+        testi_tagline: "ІСТОРІЇ УСПІХУ НАШИХ ВИПУСКНИКІВ",
+        testi_title: 'Що кажуть наші <span class="text-gradient-navy">учні</span>',
+        testi_subtitle: "Дізнайтеся з перших вуст, як наше практичне навчання допомогло почати нову надійну кар'erу.",
+        testi_c1: "Випускник §34a Охорона",
+        testi_q1: "«Завдяки безкоштовному планшету я міг гнучко вчитися вечорами. Викладачі на живих онлайн-уроках підготували мене ідеально. Іспит IHK склав з першого разу! Тепер працюю в охороні об'єктів.»",
+        testi_c2: "Випускниця Помічник догляду",
+        testi_q2: "«Як мамі-одиначці, мені було важко знайти навчання. Коледж став справжньою знахідкою. Мій куратор допоміг мені завантажити документи для Джобцентру. Тепер я щаслива працювати в охороні здоров'я.»",
+        testi_c3: "Випускник §34a Охорона",
+        testi_q3: "«Інтенсивна підготовка до усної частини повністю позбавила мене страху перед іспитом. Повна оплата 100% витрат державою та працевлаштування відразу після курсу були супер. Рекомендую!»"
+    },
+    tr: {
+        nav_courses: "Kurslar",
+        nav_calc: "Destek Kontrolü",
+        nav_quiz: "IHK Sınavı",
+        nav_perks: "Avantajlar",
+        nav_faq: "SSS",
+        nav_cta: "Randevu Al",
+        wa_badge: "WhatsApp Destek",
+        testi_tagline: "MEZUNLARIMIZIN BAŞARI HİKAYELERİ",
+        testi_title: 'Öğrencilerimiz <span class="text-gradient-navy">ne diyor?</span>',
+        testi_subtitle: "Uygulamalı eğitimimizin yeni ve güvenli bir kariyere başlamayı nasıl sağladığını ilk ağızdan öğrenin.",
+        testi_c1: "Mezun §34a Güvenlik Görevlisi",
+        testi_q1: "“Ücretsiz ödünç tablet sayesinde akşamları esnekçe çalışabildim. Canlı çevrimiçi derslerdeki eğitmenler beni mükemmel hazırladı. IHK uzmanlık sınavını ilk denemede geçtim! Şimdi tesis korumada çalışıyorum.”",
+        testi_c2: "Mezun Hasta Bakıcı",
+        testi_q2: "“Yalnız bir anne olarak mesleki eğitim bulmak zordu. Blue Light College büyük bir şans oldu. Danışmanım Jobcenter evrak yüklemelerinde bile bana destek oldu. Şimdi sağlık sektöründe çok mutluyum.”",
+        testi_c3: "Mezun §34a Güvenlik Görevlisi",
+        testi_q3: "“Özellikle sözlü sınav öncesi birebir sınav simülasyonları kaygımı yok etti. %100 devlet finansmanı ve mezuniyet sonrası anında iş garantisi harikaydı. Kesinlikle tavsiye ederim!”"
+    }
+};
+
+window.initLanguage = function() {
+    const preferredLang = localStorage.getItem("preferredLang") || "de";
+    switchLanguage(preferredLang);
+};
+
+window.switchLanguage = function(lang) {
+    // Save to local storage
+    localStorage.setItem("preferredLang", lang);
+    
+    // Toggle active state in desktop header lang buttons
+    document.querySelectorAll(".lang-switcher .lang-btn").forEach(btn => {
+        btn.classList.remove("active");
+        const btnLang = btn.getAttribute("id").replace("lang-", "");
+        if (btnLang === lang) {
+            btn.classList.add("active");
+        }
+    });
+
+    // Toggle active state in mobile lang switcher
+    document.querySelectorAll(".mobile-lang-switcher .lang-btn").forEach(btn => {
+        btn.classList.remove("active");
+        const clickAttr = btn.getAttribute("onclick");
+        if (clickAttr && clickAttr.includes(`'${lang}'`)) {
+            btn.classList.add("active");
+        }
+    });
+    
+    // Switch all translated items
+    document.querySelectorAll("[data-translate]").forEach(el => {
+        const key = el.getAttribute("data-translate");
+        if (translations[lang] && translations[lang][key]) {
+            el.innerHTML = translations[lang][key];
+        }
+    });
 };

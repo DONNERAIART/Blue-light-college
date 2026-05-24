@@ -2117,3 +2117,298 @@ section {
         padding: 20px;
     }
 }
+
+/* Explicit styling for success notifications to prevent bottom clipping */
+.floating-academic-alert {
+    position: fixed !important;
+    bottom: 32px !important;
+    right: 32px !important;
+    left: auto !important;
+    top: auto !important;
+    z-index: 9999 !important;
+    max-width: 380px !important;
+    width: calc(100% - 64px) !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid rgba(14, 30, 54, 0.08) !important;
+    border-top: 4px solid var(--clr-gold) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 24px !important;
+    box-shadow: 0 10px 40px rgba(14, 30, 54, 0.15) !important;
+    box-sizing: border-box !important;
+    animation: alert-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    pointer-events: auto !important;
+}
+
+@keyframes alert-slide-up {
+    0% { transform: translateY(40px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes alert-slide-down {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(40px); opacity: 0; }
+}
+
+@media (max-width: 480px) {
+    .floating-academic-alert {
+        bottom: 16px !important;
+        right: 16px !important;
+        left: 16px !important;
+        width: calc(100% - 32px) !important;
+        max-width: 100% !important;
+        border-radius: var(--radius-md) !important;
+        padding: 16px !important;
+    }
+}
+
+/* Floating WhatsApp button widget styles */
+.whatsapp-float {
+    position: fixed;
+    bottom: 32px;
+    left: 32px;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #25D366;
+    color: #FFFFFF;
+    padding: 8px 16px 8px 8px;
+    border-radius: 40px;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 3.5px solid var(--clr-gold); /* Gold border element to blend in academic branding */
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: wa-breathing 3s infinite ease-in-out;
+}
+
+.whatsapp-float:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.45);
+    background-color: #20BA56;
+}
+
+.whatsapp-icon-bg {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #128C7E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.whatsapp-icon-bg svg {
+    display: block;
+}
+
+.whatsapp-badge-text {
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+@keyframes wa-breathing {
+    0% {
+        box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3), 0 0 0 0px rgba(212, 175, 55, 0.4);
+    }
+    70% {
+        box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3), 0 0 0 10px rgba(212, 175, 55, 0);
+    }
+    100% {
+        box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3), 0 0 0 0px rgba(212, 175, 55, 0);
+    }
+}
+
+@media (max-width: 768px) {
+    .whatsapp-float {
+        bottom: 20px;
+        left: 20px;
+        padding: 8px; /* Circular on smaller screens to preserve real estate */
+    }
+    .whatsapp-badge-text {
+        display: none; /* Hide text on small screens */
+    }
+}
+
+/* Testimonial Section & Card Styles */
+.testimonials-section {
+    background-color: var(--clr-bg-alt); /* Light gray backplate for visual hierarchy */
+    border-top: 1px solid var(--clr-border);
+    border-bottom: 1px solid var(--clr-border);
+    padding: 96px 0;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 56px;
+}
+
+.testimonial-card {
+    background-color: var(--clr-bg-card);
+    border: 1px solid var(--clr-border);
+    border-top: 4px solid var(--clr-navy);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-top-color: var(--clr-gold);
+}
+
+.testi-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.testi-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--clr-navy);
+    color: var(--clr-gold-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.15rem;
+    border: 1px solid var(--clr-gold-border);
+    flex-shrink: 0;
+}
+
+.testi-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.testi-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--clr-navy);
+}
+
+.testi-course {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--clr-txt-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.testi-stars {
+    color: #FBBF24; /* Warm yellow rating stars */
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.testi-quote {
+    font-size: 0.95rem;
+    color: var(--clr-txt-secondary);
+    font-style: italic;
+    line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .testimonials-section {
+        padding: 56px 0;
+    }
+}
+
+/* Minimalist Language Switcher in Floating Header */
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    margin-right: 12px;
+}
+
+.lang-btn {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #94A3B8; /* Muted nav link shade */
+    transition: var(--transition-fast);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    outline: none;
+}
+
+.lang-btn:hover {
+    color: #FFFFFF;
+}
+
+.lang-btn.active {
+    color: var(--clr-gold-light) !important;
+}
+
+.lang-divider {
+    color: rgba(255, 255, 255, 0.15);
+    font-size: 0.8rem;
+    user-select: none;
+}
+
+/* Mobile language switcher inside mobile menu drawer */
+.mobile-lang-li {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 12px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-lang-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.mobile-lang-switcher .lang-btn {
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.mobile-lang-switcher .lang-btn.active {
+    background-color: var(--clr-gold-bg);
+    border-color: var(--clr-gold-border);
+}
+

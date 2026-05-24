@@ -2354,7 +2354,7 @@ section {
 
 /* Minimalist Globe Language Switcher in Floating Header */
 .mobile-lang-li {
-    display: none; /* Hidden by default on desktop */
+    display: none !important; /* Hidden by default on desktop */
 }
 
 .nav-actions {

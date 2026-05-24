@@ -2644,13 +2644,11 @@ section {
 }
 
 .academic-matchmaker-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--clr-bg-card);
+    border: 1px solid var(--clr-border);
     border-radius: var(--radius-lg);
     padding: 40px;
-    box-shadow: var(--shadow-lg), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-lg);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -2674,7 +2672,7 @@ section {
     font-family: var(--font-heading);
     font-size: 0.8rem;
     font-weight: 700;
-    color: var(--clr-gold-light);
+    color: var(--clr-gold);
     letter-spacing: 1.5px;
     display: inline-block;
     margin-bottom: 8px;
@@ -2701,7 +2699,7 @@ section {
 
 .matchmaker-progress-bar-wrapper {
     height: 5px;
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(14, 30, 54, 0.08);
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 36px;
@@ -2743,7 +2741,7 @@ section {
 .mm-question {
     font-size: 1.35rem;
     font-weight: 700;
-    color: #FFFFFF;
+    color: var(--clr-navy);
     margin-bottom: 28px;
 }
 
@@ -2755,8 +2753,8 @@ section {
 }
 
 .mm-option-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--clr-bg-alt);
+    border: 1px solid var(--clr-border);
     border-radius: var(--radius-md);
     padding: 32px 24px;
     cursor: pointer;
@@ -2765,10 +2763,10 @@ section {
 }
 
 .mm-option-card:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--clr-bg-card);
     border-color: var(--clr-gold);
     transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-md);
 }
 
 .mm-option-icon {
@@ -2784,7 +2782,7 @@ section {
 .mm-option-title {
     font-size: 1.15rem;
     font-weight: 700;
-    color: #FFFFFF;
+    color: var(--clr-navy);
     margin-bottom: 8px;
 }
 
@@ -2803,11 +2801,11 @@ section {
 }
 
 .mm-btn-option {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--clr-bg-alt);
+    border: 1px solid var(--clr-border);
     border-radius: var(--radius-sm);
     padding: 16px 20px;
-    color: #FFFFFF;
+    color: var(--clr-navy);
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 0.95rem;
@@ -2817,8 +2815,9 @@ section {
 }
 
 .mm-btn-option:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: var(--clr-gold-light);
+    background: var(--clr-navy);
+    border-color: var(--clr-navy);
+    color: #FFFFFF;
     transform: translateX(4px);
 }
 
@@ -2837,8 +2836,8 @@ section {
 }
 
 .mm-option-card-pill {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--clr-bg-alt);
+    border: 1px solid var(--clr-border);
     border-radius: 30px;
     padding: 16px 20px;
     cursor: pointer;
@@ -2849,13 +2848,14 @@ section {
     gap: 10px;
     font-weight: 600;
     font-size: 0.92rem;
-    color: #FFFFFF;
+    color: var(--clr-navy);
 }
 
 .mm-option-card-pill:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--clr-bg-card);
     border-color: var(--clr-gold);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
 }
 
 .mm-pill-icon {
@@ -2870,7 +2870,7 @@ section {
 .mm-outcome-box {
     background: #FFFFFF;
     border-radius: var(--radius-md);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
     margin-bottom: 24px;
     text-align: left;
@@ -2882,7 +2882,7 @@ section {
 }
 
 .mm-outcome-header {
-    background: var(--clr-navy-light);
+    background: var(--clr-bg-alt);
     padding: 24px 32px;
     border-bottom: 1.5px solid rgba(184, 134, 11, 0.15);
 }
@@ -2897,6 +2897,7 @@ section {
 .mm-outcome-title {
     font-size: 1.55rem;
     font-weight: 800;
+    color: var(--clr-navy);
 }
 
 .mm-outcome-body {
@@ -2949,11 +2950,11 @@ section {
 
 /* 3. Interactive Funding Calculator Slider Track & Thumbs */
 .academic-slider-calculator {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--clr-bg-card);
+    border: 1px solid var(--clr-border);
     border-radius: var(--radius-md);
     padding: 32px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
     text-align: left;
 }
 
@@ -2964,7 +2965,7 @@ section {
 .calc-card-title {
     font-size: 1.25rem;
     font-weight: 800;
-    color: #FFFFFF;
+    color: var(--clr-navy);
     margin-bottom: 24px;
 }
 
@@ -2983,7 +2984,7 @@ section {
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 0.95rem;
-    color: #FFFFFF;
+    color: var(--clr-navy);
 }
 
 .slider-value {
@@ -3267,8 +3268,8 @@ section {
     grid-template-columns: 1.1fr 0.9fr;
     gap: 40px;
     align-items: center;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--clr-bg-card);
+    border: 1px solid var(--clr-border);
     border-radius: var(--radius-lg);
     padding: 40px;
     box-shadow: var(--shadow-lg);
@@ -3278,8 +3279,8 @@ section {
     position: relative;
     width: 100%;
     height: 480px;
-    background: rgba(14, 30, 54, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: var(--clr-bg-alt);
+    border: 1px solid var(--clr-border);
     border-radius: var(--radius-md);
     overflow: hidden;
 }
@@ -3297,14 +3298,20 @@ section {
     width: auto;
     height: 100%;
     max-height: 440px;
-    filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 8px 24px rgba(14, 30, 54, 0.15));
 }
 
-.map-outline-path {
-    fill: rgba(14, 30, 54, 0.85);
-    stroke: rgba(212, 175, 55, 0.15);
-    stroke-width: 1.5px;
+.map-state-path {
+    fill: var(--clr-navy);
+    stroke: rgba(212, 175, 55, 0.18);
+    stroke-width: 0.8px;
     transition: all var(--transition-normal);
+}
+
+.map-state-path:hover {
+    fill: var(--clr-gold);
+    stroke: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
 }
 
 /* Beacon Glowing Effects */

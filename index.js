@@ -944,7 +944,8 @@ const translations = {
         map_info_default_desc: "Klicken Sie auf ein regionales Zentrum auf der Karte, um detaillierte Informationen über unsere Partner und Absolventen-Vermittlungen vor Ort anzuzeigen.",
         map_stat_placements_lbl: "Vermittlungen gesamt",
         map_stat_partners_lbl: "Partner-Unternehmen",
-        advisor_title: "Leiter der Bildungsberatung",
+        advisor_name: "Frau Melanie Schmidt",
+        advisor_title: "Leiterin der Bildungsberatung",
         advisor_online: "Online - Jetzt erreichbar"
     },
     en: {
@@ -1223,6 +1224,7 @@ const translations = {
         map_info_default_desc: "Click on a regional center on the map to display detailed information on partners and local placements.",
         map_stat_placements_lbl: "Total Placements",
         map_stat_partners_lbl: "Partner Companies",
+        advisor_name: "Mrs. Melanie Schmidt",
         advisor_title: "Head of Academic Advising",
         advisor_online: "Online - Available Now"
     },
@@ -1492,8 +1494,9 @@ const translations = {
         map_info_default_desc: "Клацніть на регіональний центр на карті, щоб показати детальну інформацію про партнерів та працевлаштування.",
         map_stat_placements_lbl: "Всього працевлаштувань",
         map_stat_partners_lbl: "Компаній-партнерів",
-        advisor_title: "Керівник відділу консультацій",
-        advisor_online: "В мережі - Доступний зараз"
+        advisor_name: "Мелані Шмідт",
+        advisor_title: "Керівниця відділу консультацій",
+        advisor_online: "В мережі - Доступна зараз"
     },
     tr: {
         // Navigation & Buttons
@@ -1761,6 +1764,7 @@ const translations = {
         map_info_default_desc: "Ortaklar ve yerel istihdam hakkında detaylı bilgi görüntülemek için haritadaki bölgesel bir merkeze tıklayın.",
         map_stat_placements_lbl: "Toplam İstihdam",
         map_stat_partners_lbl: "Ortak Şirketler",
+        advisor_name: "Melanie Schmidt",
         advisor_title: "Akademik Danışmanlık Koordinatörü",
         advisor_online: "Çevrimiçi - Şimdi Ulaşılabilir"
     },
@@ -2030,8 +2034,9 @@ const translations = {
         map_info_default_desc: "انقر فوق أحد المراكز الإقليمية على الخريطة لعرض معلومات مفصلة عن الشركاء والتوظيف المحلي.",
         map_stat_placements_lbl: "إجمالي عمليات التوظيف",
         map_stat_partners_lbl: "الشركات الشريكة",
-        advisor_title: "رئيس قسم الاستشارات الأكاديمية",
-        advisor_online: "متصل - متاح الآن"
+        advisor_name: "ميلاني شميت",
+        advisor_title: "رئيسة قسم الاستشارات الأكاديمية",
+        advisor_online: "متصلة - متاحة الآن"
     },
     ru: {
         // Navigation & Buttons
@@ -2299,8 +2304,9 @@ const translations = {
         map_info_default_desc: "Нажмите на региональный центр на карте, чтобы увидеть подробную информацию о партнерах и трудоустройстве.",
         map_stat_placements_lbl: "Всего трудоустройств",
         map_stat_partners_lbl: "Компаний-партнеров",
-        advisor_title: "Руководитель отдела консультаций",
-        advisor_online: "В сети - Доступен сейчас"
+        advisor_name: "Мелани Шмидт",
+        advisor_title: "Руководительница отдела консультаций",
+        advisor_online: "В сети - Доступна сейчас"
     },
     fa: {
         // Navigation & Buttons
@@ -2568,6 +2574,7 @@ const translations = {
         map_info_default_desc: "برای مشاهده اطلاعات دقیق درباره شرکا و استخدام‌های محلی، روی یک مرکز منطقه‌ای در نقشه کلیک کنید.",
         map_stat_placements_lbl: "کل فرآیندهای استخدام",
         map_stat_partners_lbl: "شرکت‌های شریک",
+        advisor_name: "خانم ملانی اشمیت",
         advisor_title: "رئیس بخش مشاوره تحصیلی",
         advisor_online: "آنلاین - هم‌اکنون در دسترس"
     }

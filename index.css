@@ -151,7 +151,7 @@ section {
         90deg, 
         var(--clr-gold-dark) 0%, 
         var(--clr-gold) 20%, 
-        #FFFDE0 40%, 
+        var(--clr-gold-light) 40%, 
         var(--clr-gold) 60%, 
         var(--clr-gold-dark) 80%,
         var(--clr-gold) 100%
@@ -757,13 +757,18 @@ section {
 }
 
 .requirements-list {
-    list-style: none;
+    list-style: none !important;
+    list-style-type: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
 .requirements-list li {
+    list-style: none !important;
+    list-style-type: none !important;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -3168,21 +3173,21 @@ section {
 }
 
 .faq-search-box {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--clr-bg-card);
+    border: 1.5px solid var(--clr-border);
     border-radius: 30px;
     padding: 6px 20px;
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15), inset 0 1px 1px rgba(255,255,255,0.05);
+    box-shadow: 0 8px 24px rgba(14, 30, 54, 0.05);
     transition: all var(--transition-normal);
 }
 
 .faq-search-box:focus-within {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--clr-bg-card);
     border-color: var(--clr-gold-light);
-    box-shadow: 0 8px 30px rgba(184, 134, 11, 0.15), inset 0 1px 1px rgba(255,255,255,0.05);
+    box-shadow: 0 8px 30px rgba(184, 134, 11, 0.12);
 }
 
 .faq-search-box input {
@@ -3190,14 +3195,14 @@ section {
     background: none;
     border: none;
     outline: none;
-    color: #FFFFFF;
+    color: var(--clr-txt-primary);
     font-family: var(--font-body);
     font-size: 0.98rem;
     padding: 8px 0;
 }
 
 .faq-search-box input::placeholder {
-    color: var(--clr-txt-secondary);
+    color: var(--clr-txt-muted);
     opacity: 0.85;
 }
 
@@ -3224,7 +3229,7 @@ section {
 }
 
 .clear-search-btn:hover {
-    color: #FFFFFF;
+    color: var(--clr-gold);
 }
 
 .faq-academic-item {

@@ -599,10 +599,10 @@
             <div class="footer-links-col">
                 <h4 class="footer-title">Rechtliches</h4>
                 <ul class="footer-links">
-                    <li><a href="#">Impressum</a></li>
-                    <li><a href="#">Datenschutzerklärung</a></li>
-                    <li><a href="#">Trägerzertifikat</a></li>
-                    <li><a href="#">Allgemeine Geschäftsbedingungen</a></li>
+                    <li><a href="#" onclick="openLegalDoc('impressum'); return false;">Impressum</a></li>
+                    <li><a href="#" onclick="openLegalDoc('datenschutz'); return false;">Datenschutzerklärung</a></li>
+                    <li><a href="#" onclick="openLegalDoc('zertifikat'); return false;">Trägerzertifikat</a></li>
+                    <li><a href="#" onclick="openLegalDoc('agb'); return false;">Allgemeine Geschäftsbedingungen</a></li>
                 </ul>
             </div>
         </div>
@@ -635,6 +635,23 @@
                 <button class="btn btn-navy btn-sm" id="btn-cookie-accept-all">Alle akzeptieren</button>
                 <button class="btn btn-outline btn-sm" id="btn-cookie-necessary">Nur notwendige</button>
                 <button class="btn btn-link btn-sm" id="btn-cookie-customize" onclick="toggleCookieCustomization()">Auswahl anpassen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Academic Modal System for Legal Documents -->
+    <div id="legal-modal" class="legal-modal">
+        <div class="legal-modal-backdrop" onclick="closeLegalModal()"></div>
+        <div class="legal-modal-content">
+            <div class="legal-modal-header">
+                <h3 id="legal-modal-title" class="text-gradient-navy">Rechtliches</h3>
+                <button class="legal-modal-close" onclick="closeLegalModal()">&times;</button>
+            </div>
+            <div id="legal-modal-body" class="legal-modal-body">
+                <!-- Content will be injected dynamically via JS -->
+            </div>
+            <div class="legal-modal-footer">
+                <button class="btn btn-navy btn-sm" onclick="closeLegalModal()">Schließen</button>
             </div>
         </div>
     </div>

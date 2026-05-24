@@ -490,3 +490,154 @@ function hideCookieBanner() {
         }, 400);
     }
 }
+
+/* --------------------------------------------------------------------------
+   9. Academic Legal Modal Documents Database & Engine
+   -------------------------------------------------------------------------- */
+const legalDocs = {
+    impressum: {
+        title: "Impressum",
+        html: `
+            <h4>Angaben gemäß § 5 TMG</h4>
+            <p><strong>Blue Light College GmbH</strong><br>
+            Kieler Straße 104a<br>
+            24232 Schönkirchen (bei Kiel)</p>
+
+            <h4>Vertreten durch:</h4>
+            <p>Geschäftsführer: Dr. Adrian von Werder</p>
+
+            <h4>Kontakt:</h4>
+            <p>Telefon: +49 (0) 431 9904 345<br>
+            E-Mail: info@blue-light-college.de<br>
+            Web: www.blue-light-college.de</p>
+
+            <h4>Registereintrag:</h4>
+            <p>Eintragung im Handelsregister.<br>
+            Registergericht: Amtsgericht Kiel<br>
+            Registernummer: HRB 24896 B</p>
+
+            <h4>Umsatzsteuer-ID:</h4>
+            <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
+            DE 348 962 105</p>
+
+            <h4>Akkreditierung & Zulassung (AZAV):</h4>
+            <p>Das Blue Light College ist als zugelassener Träger für die Förderung der beruflichen Weiterbildung nach dem Recht der Arbeitsförderung (SGB III / AZAV) staatlich anerkannt und zertifiziert.<br>
+            Zertifizierungsstelle: CERTQUA GmbH (Zulassungsnummer: 2026-AZAV-89654).</p>
+
+            <h4>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h4>
+            <p>Dr. Adrian von Werder<br>
+            Kieler Straße 104a<br>
+            24232 Schönkirchen</p>
+        `
+    },
+    datenschutz: {
+        title: "Datenschutzerklärung",
+        html: `
+            <h4>1. Datenschutz auf einen Blick</h4>
+            <p>Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften (DSGVO) sowie dieser Datenschutzerklärung.</p>
+
+            <h4>2. Datenerfassung auf unserer Website</h4>
+            <p><strong>Wie erfassen wir Ihre Daten?</strong><br>
+            Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei handelt es sich z. B. um Daten, die Sie in unser Kontaktformular oder den Förderungs-Rechner eingeben (Name, Telefonnummer, E-Mail-Adresse, Wunschkurs).</p>
+            <p><strong>Wofür nutzen wir Ihre Daten?</strong><br>
+            Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse Ihres Nutzerverhaltens oder zur konkreten Kontaktaufnahme zur Ausbildungsberatung verwendet werden (Rechtsgrundlage Art. 6 Abs. 1 lit. b und f DSGVO).</p>
+
+            <h4>3. Ihre Rechte bezüglich Ihrer Daten</h4>
+            <p>Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten (Art. 15 DSGVO). Sie haben außerdem ein Recht, die Berichtigung, Sperrung oder Löschung dieser Daten zu verlangen (Art. 16, 17 DSGVO) sowie sich bei der zuständigen Aufsichtsbehörde zu beschweren.</p>
+
+            <h4>4. SSL- bzw. TLS-Verschlüsselung</h4>
+            <p>Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie zum Beispiel Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL-bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://“ auf „https://“ wechselt.</p>
+        `
+    },
+    zertifikat: {
+        title: "Trägerzertifikat (AZAV)",
+        html: `
+            <div style="border: 2px solid var(--clr-gold-border); background-color: var(--clr-gold-bg); padding: 32px 24px; border-radius: var(--radius-sm); text-align: center; box-shadow: inset 0 0 20px rgba(184,134,11,0.05); margin-bottom: 24px;">
+                <span style="font-family: var(--font-heading); font-size: 0.8rem; font-weight: 800; color: var(--clr-gold); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 8px;">Akkreditierungs- & Zulassungsverordnung Arbeitsförderung</span>
+                <h3 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; color: var(--clr-navy); margin-bottom: 4px;">ZERTIFIKAT ZUR TRÄGERZULASSUNG</h3>
+                <span style="font-size: 0.9rem; font-weight: 600; color: var(--clr-txt-secondary); display: block; margin-bottom: 24px;">Registrier-Nr.: CERT-AZAV-2026-89654</span>
+                
+                <div style="width: 80px; height: 1px; background-color: var(--clr-gold); margin: 0 auto 24px auto;"></div>
+                
+                <p style="font-size: 1rem; font-weight: 700; color: var(--clr-navy); margin-bottom: 8px;">Hiermit wird bescheinigt, dass der Bildungsträger</p>
+                <h4 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: var(--clr-gold); margin-bottom: 8px;">Blue Light College GmbH</h4>
+                <p style="font-size: 0.9rem; color: var(--clr-txt-secondary); margin-bottom: 24px;">Kieler Straße 104a, 24232 Schönkirchen (Kiel)</p>
+                
+                <p style="font-size: 0.92rem; line-height: 1.6; color: var(--clr-txt-secondary); max-width: 580px; margin: 0 auto 24px auto; text-align: justify;">
+                    ein Qualitätssicherungssystem nach den gesetzlichen Bestimmungen der <strong>Akkreditierungs- und Zulassungsverordnung Arbeitsförderung (AZAV)</strong> eingeführt hat und dieses erfolgreich anwendet. Der Träger ist berechtigt, Maßnahmen der Arbeitsförderung nach dem Dritten Buch Sozialgesetzbuch (SGB III) durchzuführen.
+                </p>
+
+                <div style="background-color: #FFFFFF; border: 1px solid var(--clr-border); padding: 16px; border-radius: var(--radius-sm); display: inline-grid; grid-template-columns: repeat(2, 1fr); gap: 20px; text-align: left; width: 100%; max-width: 480px; margin: 0 auto 20px auto;">
+                    <div>
+                        <span style="font-size: 0.72rem; font-weight: 700; color: var(--clr-txt-muted); text-transform: uppercase;">Zugelassen für Fachbereich:</span>
+                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--clr-navy); display: block;">Fb 1: Berufliche Aktivierung</span>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.72rem; font-weight: 700; color: var(--clr-txt-muted); text-transform: uppercase;">Zulassungsdauer:</span>
+                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--clr-gold); display: block;">Gültig bis 31.12.2029</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; padding-top: 24px; border-top: 1px solid rgba(184,134,11,0.15); max-width: 520px; margin: 0 auto;">
+                    <div style="text-align: left;">
+                        <span style="font-size: 0.75rem; color: var(--clr-txt-muted); display: block;">Bonn / Kiel, den 24.05.2026</span>
+                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--clr-navy); display: block; border-top: 1px solid var(--clr-border); margin-top: 12px; padding-top: 4px; width: 140px;">Zertifizierungsausschuss</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 0.75rem; color: var(--clr-txt-muted); display: block;">Prüfer ID: CERT-98654-2026</span>
+                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--clr-gold); display: block; border-top: 1px solid var(--clr-border); margin-top: 12px; padding-top: 4px; width: 140px;">Dr. M. Weichert</span>
+                    </div>
+                </div>
+            </div>
+            
+            <h4 style="text-align: center; margin-top: 32px;">Geltungsbereich der Maßnahmenzulassungen</h4>
+            <p>Zugelassene Weiterbildungsmaßnahmen zur 100% Förderung über die Agentur für Arbeit (Bildungsgutschein):</p>
+            <ul>
+                <li><strong>Maßnahme 1:</strong> Vorbereitung auf die Sachkundeprüfung im Bewachungsgewerbe nach § 34a GewO (IHK) inkl. Waffensachkunde nach § 7 WaffG - 50 Tage</li>
+                <li><strong>Maßnahme 2:</strong> Zertifizierte Fachausbildung zur/zum Pflegehelferin / Pflegehelfer (Basisqualifikation Pflegedienst) - 50 Tage</li>
+            </ul>
+        `
+    },
+    agb: {
+        title: "Allgemeine Geschäftsbedingungen",
+        html: `
+            <h4>1. Geltungsbereich und Vertragspartner</h4>
+            <p>Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge über die Teilnahme an Weiterbildungsmaßnahmen, Lehrgängen und Kursen der Blue Light College GmbH (nachfolgend „Akademie“ genannt).</p>
+
+            <h4>2. Vertragsschluss und Anmeldung</h4>
+            <p>Die Anmeldung zu unseren Lehrgängen erfolgt schriftlich oder elektronisch über unsere Beratungs- und Anmeldesysteme. Der Vertrag kommt mit der schriftlichen Zusage/Zulassungsbestätigung durch die Akademie zustande.</p>
+            
+            <h4>3. Kostenübernahme und Förderung (Bildungsgutschein)</h4>
+            <p>Die meisten Lehrgänge der Akademie sind nach AZAV zugelassen und können zu 100% über einen Bildungsgutschein der Agentur für Arbeit oder des Jobcenters gefördert werden. Bei Vorlage eines gültigen Bildungsgutscheins vor Kursbeginn erfolgt die Abrechnung der Lehrgangsgebühren direkt mit dem zuständigen Kostenträger. Für den Teilnehmenden entstehen in diesem Fall keinerlei Lehrgangs- oder Prüfungsgebühren.</p>
+
+            <h4>4. Bereitstellung von Unterrichtsmaterialien & Leih-Tablets</h4>
+            <p>Jedem Teilnehmenden wird für die Dauer des zertifizierten Lehrgangs ein hochwertiges Tablet kostenfrei als Leihgerät zur Verfügung gestellt. Mit dem erfolgreichen Abschluss der Maßnahme (Bestehen der Prüfung vor der IHK bzw. erfolgreicher Erhalt des akademischen Trägerzertifikats) geht das Leih-Tablet vollständig in das persönliche Eigentum des Teilnehmenden über.</p>
+
+            <h4>5. Rücktritt und Kündigung</h4>
+            <p>Ein Rücktritt vor Beginn des Lehrgangs ist jederzeit kostenfrei möglich. Im Falle einer Förderung durch einen Bildungsgutschein kann die Maßnahme bei Nichtbestehen oder Abbruch durch den Kostenträger ohne anfallende Kosten für den Teilnehmenden beendet werden.</p>
+        `
+    }
+};
+
+window.openLegalDoc = function(docType) {
+    const modal = document.getElementById("legal-modal");
+    const titleEl = document.getElementById("legal-modal-title");
+    const bodyEl = document.getElementById("legal-modal-body");
+    
+    const doc = legalDocs[docType];
+    if (modal && titleEl && bodyEl && doc) {
+        titleEl.innerText = doc.title;
+        bodyEl.innerHTML = doc.html;
+        
+        modal.style.display = "flex";
+        document.body.style.overflow = "hidden"; // Prevent background scrolling
+    }
+};
+
+window.closeLegalModal = function() {
+    const modal = document.getElementById("legal-modal");
+    if (modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = ""; // Restore background scrolling
+    }
+};

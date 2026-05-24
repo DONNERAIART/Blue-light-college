@@ -1574,29 +1574,236 @@ section {
     }
 }
 
+/* Mobile Menu Toggle Button (hidden on desktop) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    outline: none;
+}
+
+.menu-toggle .bar {
+    width: 100%;
+    height: 2px;
+    background-color: #F1F5F9; /* Off-white bar matching navbar text */
+    border-radius: var(--radius-full);
+    transition: all var(--transition-normal);
+}
+
+/* Active animation for hamburger to X */
+.menu-toggle.active .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
+    section {
+        padding: 56px 0; /* Tighter padding for a premium, scannable layout on mobile */
+    }
+
+    .section-title {
+        font-size: 1.9rem; /* Perfect balanced size for small screens */
+    }
+
+    .section-subtitle {
+        font-size: 0.98rem;
+    }
+
+    .menu-toggle {
+        display: flex; /* Show toggle on mobile */
+    }
+
     .nav-menu {
-        display: none;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 85px;
+        left: 16px;
+        right: 16px;
+        background-color: rgba(14, 30, 54, 0.98); /* Deep glass navy overlay */
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 3px solid var(--clr-gold-light);
+        border-radius: var(--radius-md);
+        padding: 28px 20px;
+        gap: 12px;
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-15px);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform var(--transition-normal), opacity var(--transition-normal);
+        z-index: 999;
+    }
+
+    .nav-menu.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 1.05rem;
+    }
+
+    .nav-link:last-child {
+        border-bottom: none;
     }
     
+    .nav-actions {
+        display: none; /* Hide secondary buttons to avoid nav crowding on mobile */
+    }
+
+    .hero {
+        padding-top: 120px;
+        gap: 36px;
+    }
+
     .hero-title {
-        font-size: 2.35rem;
+        font-size: 2.15rem;
+        line-height: 1.25;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
     }
     
+    /* Responsive stacking for trust items on mobile */
+    .hero-trust-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding-top: 24px;
+        width: 100%;
+    }
+    
+    .trust-divider {
+        display: none; /* Hide horizontal dividers on stack */
+    }
+    
+    .trust-item {
+        text-align: center;
+        width: 100%;
+    }
+
     .stats-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .academic-stat-box {
+        padding: 24px;
+    }
+
+    .course-meta {
+        flex-direction: column; /* Crucial to prevent horizontal scroll on mobile */
+        gap: 16px;
+        padding-top: 20px;
+    }
+
+    .academic-syllabus-box {
+        padding: 24px;
+    }
+
+    .academic-perks-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .academic-perk-card {
+        padding: 24px;
     }
     
     .form-row-calc, .form-row-2 {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
     
     .academic-calc-card, .academic-contact-box {
-        padding: 32px 24px;
+        padding: 28px 20px;
     }
     
     .footer-grid {
         grid-template-columns: 1fr;
         gap: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav {
+        padding: 8px 16px;
+    }
+    .logo-img {
+        height: 38px; /* Scale logo down slightly on small phones */
+    }
+    .hero-title {
+        font-size: 1.85rem;
+    }
+    .campus-card {
+        height: 280px; /* More compact on mobile phones */
+    }
+    .campus-title {
+        font-size: 1.15rem; /* Scale font size down nicely */
+    }
+    .campus-subtitle {
+        font-size: 0.6rem;
+    }
+    .course-tabs {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        flex-direction: row;
+        box-sizing: border-box;
+        margin-bottom: 36px;
+    }
+    .tab-btn {
+        flex: 1;
+        padding: 10px 8px;
+        font-size: 0.82rem;
+        text-align: center;
+    }
+    .option-btn, .quiz-option-item {
+        white-space: normal;
+        line-height: 1.4;
+        font-size: 0.88rem;
+        padding: 12px 16px;
+    }
+    .quiz-actions {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+    .quiz-actions .btn {
+        width: 100%;
+        justify-content: center;
     }
 }

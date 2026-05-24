@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initFAQ();
     initNavScroll();
     initLeadForms();
+    initMobileMenu();
 });
 
 /* --------------------------------------------------------------------------
@@ -391,4 +392,28 @@ function showSuccessNotification(title, message) {
             alertBox.remove();
         }, 400);
     }, 5500);
+}
+
+/* --------------------------------------------------------------------------
+   7. Mobile Menu Hamburger Engine
+   -------------------------------------------------------------------------- */
+function initMobileMenu() {
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("nav-menu");
+    const navLinks = document.querySelectorAll(".nav-link");
+    
+    if (toggle && menu) {
+        toggle.addEventListener("click", () => {
+            menu.classList.toggle("open");
+            toggle.classList.toggle("active");
+        });
+        
+        // Auto-close menu when clicking links
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                menu.classList.remove("open");
+                toggle.classList.remove("active");
+            });
+        });
+    }
 }

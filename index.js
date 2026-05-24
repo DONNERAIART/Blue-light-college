@@ -5,7 +5,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     initCourseTabs();
     initQuiz();
-    initFAQ();
     initNavScroll();
     initLeadForms();
     initMobileMenu();
@@ -128,7 +127,9 @@ let quizScore = 0;
 let quizOptionSelected = false;
 
 function initQuiz() {
-    renderQuizQuestion();
+    if (document.getElementById("quiz-q-num")) {
+        renderQuizQuestion();
+    }
 }
 
 function renderQuizQuestion() {

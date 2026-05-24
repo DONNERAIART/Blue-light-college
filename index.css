@@ -1868,3 +1868,123 @@ section {
         justify-content: center;
     }
 }
+
+/* GDPR Cookie Consent Banner Styling */
+.cookie-banner {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2000;
+    max-width: 440px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--clr-border);
+    border-top: 4px solid var(--clr-gold);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(14, 30, 54, 0.15);
+    display: none; /* Controlled dynamically by JS */
+    animation: cookie-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cookie-slide-in {
+    0% { transform: translateY(50px) scale(0.95); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes cookie-slide-out {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(50px) scale(0.95); opacity: 0; }
+}
+
+.cookie-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cookie-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cookie-icon {
+    font-size: 1.5rem;
+}
+
+.cookie-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--clr-navy);
+}
+
+.cookie-text {
+    font-size: 0.85rem;
+    color: var(--clr-txt-secondary);
+    line-height: 1.5;
+}
+
+.cookie-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--clr-bg-alt);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--clr-border);
+}
+
+.choice-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--clr-txt-secondary);
+}
+
+.choice-item input[type="checkbox"] {
+    accent-color: var(--clr-gold);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.cookie-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.cookie-actions .btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+}
+
+/* Smartphone optimization for GDPR Cookie Banner */
+@media (max-width: 480px) {
+    .cookie-banner {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        max-width: 100%;
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+        padding: 20px 16px;
+        box-sizing: border-box;
+    }
+    
+    .cookie-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+    
+    .cookie-actions .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 12px;
+    }
+}

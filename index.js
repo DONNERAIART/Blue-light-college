@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initNavScroll();
     initLeadForms();
     initMobileMenu();
+    checkCookieConsent();
 });
 
 /* --------------------------------------------------------------------------
@@ -416,5 +417,76 @@ function initMobileMenu() {
                 toggle.classList.remove("active");
             });
         });
+    }
+}
+
+/* --------------------------------------------------------------------------
+   8. GDPR Cookie Consent Banner Manager
+   -------------------------------------------------------------------------- */
+window.checkCookieConsent = function() {
+    const consent = localStorage.getItem("cookieConsent");
+    const banner = document.getElementById("cookie-banner");
+    
+    if (!consent && banner) {
+        // Delay display slightly for premium feel
+        setTimeout(() => {
+            banner.style.display = "block";
+        }, 1200);
+    }
+    
+    // Bind click events dynamically to bypass any inline onclick issues
+    const btnAcceptAll = document.getElementById("btn-cookie-accept-all");
+    const btnNecessary = document.getElementById("btn-cookie-necessary");
+    
+    if (btnAcceptAll) {
+        btnAcceptAll.addEventListener("click", acceptAllCookies);
+    }
+    if (btnNecessary) {
+        btnNecessary.addEventListener("click", acceptNecessaryCookies);
+    }
+};
+
+window.acceptAllCookies = function() {
+    localStorage.setItem("cookieConsent", "all");
+    hideCookieBanner();
+    showSuccessNotification("Einwilligung erteilt", "Vielen Dank. Wir haben Ihre Datenschutzeinstellungen wunschgemäß gespeichert.");
+};
+
+window.acceptNecessaryCookies = function() {
+    localStorage.setItem("cookieConsent", "necessary");
+    hideCookieBanner();
+    showSuccessNotification("Einstellungen gespeichert", "Es werden nur technisch notwendige Cookies verwendet.");
+};
+
+window.toggleCookieCustomization = function() {
+    const choices = document.getElementById("cookie-choices");
+    const customizeBtn = document.getElementById("btn-cookie-customize");
+    
+    if (choices && choices.style.display === "none") {
+        choices.style.display = "flex";
+        customizeBtn.innerText = "Auswahl bestätigen";
+        customizeBtn.onclick = confirmCustomCookies;
+    } else {
+        choices.style.display = "none";
+        customizeBtn.innerText = "Auswahl anpassen";
+    }
+};
+
+function confirmCustomCookies() {
+    const statsChecked = document.getElementById("cookie-stats").checked;
+    const consentVal = statsChecked ? "custom-stats" : "necessary";
+    
+    localStorage.setItem("cookieConsent", consentVal);
+    hideCookieBanner();
+    showSuccessNotification("Einstellungen gespeichert", "Ihre individuellen Datenschutzeinstellungen wurden übernommen.");
+}
+
+function hideCookieBanner() {
+    const banner = document.getElementById("cookie-banner");
+    if (banner) {
+        banner.style.animation = "cookie-slide-out 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards";
+        setTimeout(() => {
+            banner.style.display = "none";
+        }, 400);
     }
 }

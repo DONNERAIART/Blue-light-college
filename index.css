@@ -1731,6 +1731,15 @@ section {
     .nav-actions {
         display: none; /* Hide secondary buttons to avoid nav crowding on mobile */
     }
+    
+    .mobile-lang-li {
+        display: flex; /* Show language selector inside mobile menu drawer */
+        justify-content: center;
+        width: 100%;
+        margin-top: 12px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
 
     .hero {
         padding-top: 120px;
@@ -2161,8 +2170,8 @@ section {
     }
 }
 
-/* Floating WhatsApp button widget styles */
-.whatsapp-float {
+/* Floating direct chat button widget styles */
+.direct-chat-float {
     position: fixed;
     bottom: 32px;
     left: 32px;
@@ -2187,13 +2196,13 @@ section {
     animation: wa-breathing 3s infinite ease-in-out;
 }
 
-.whatsapp-float:hover {
+.direct-chat-float:hover {
     transform: translateY(-3px) scale(1.03);
     box-shadow: 0 12px 30px rgba(37, 211, 102, 0.45);
     background-color: #20BA56;
 }
 
-.whatsapp-icon-bg {
+.chat-icon-bg {
     width: 38px;
     height: 38px;
     border-radius: 50%;
@@ -2204,11 +2213,11 @@ section {
     flex-shrink: 0;
 }
 
-.whatsapp-icon-bg svg {
+.chat-icon-bg svg {
     display: block;
 }
 
-.whatsapp-badge-text {
+.chat-badge-text {
     color: #FFFFFF;
     white-space: nowrap;
 }
@@ -2226,12 +2235,12 @@ section {
 }
 
 @media (max-width: 768px) {
-    .whatsapp-float {
+    .direct-chat-float {
         bottom: 20px;
         left: 20px;
         padding: 8px; /* Circular on smaller screens to preserve real estate */
     }
-    .whatsapp-badge-text {
+    .chat-badge-text {
         display: none; /* Hide text on small screens */
     }
 }
@@ -2344,71 +2353,74 @@ section {
 }
 
 /* Minimalist Language Switcher in Floating Header */
+.mobile-lang-li {
+    display: none; /* Hidden by default on desktop */
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
 .lang-switcher {
     display: flex;
     align-items: center;
-    gap: 6px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
-    margin-right: 12px;
+    gap: 4px;
+    background-color: rgba(0, 0, 0, 0.25); /* Dark pill background */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 3px;
+    border-radius: 30px; /* Fully rounded pill shape */
 }
 
 .lang-btn {
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 0.8rem;
-    color: #94A3B8; /* Muted nav link shade */
-    transition: var(--transition-fast);
+    font-size: 0.75rem;
+    color: #94A3B8; /* Slate link gray */
+    transition: all var(--transition-fast);
     background: none;
     border: none;
     cursor: pointer;
-    padding: 2px 4px;
+    padding: 4px 10px;
+    border-radius: 30px; /* Rounded pill buttons */
     outline: none;
 }
 
 .lang-btn:hover {
     color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .lang-btn.active {
-    color: var(--clr-gold-light) !important;
-}
-
-.lang-divider {
-    color: rgba(255, 255, 255, 0.15);
-    font-size: 0.8rem;
-    user-select: none;
+    color: var(--clr-navy) !important;
+    background-color: var(--clr-gold-light) !important; /* Premium gold indicator pill */
+    box-shadow: 0 2px 6px rgba(184, 134, 11, 0.2);
 }
 
 /* Mobile language switcher inside mobile menu drawer */
-.mobile-lang-li {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 12px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
 .mobile-lang-switcher {
     display: flex;
     justify-content: center;
-    gap: 16px;
-    width: 100%;
+    gap: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4px;
+    border-radius: 30px;
+    width: max-content;
+    margin: 0 auto;
 }
 
 .mobile-lang-switcher .lang-btn {
-    font-size: 0.95rem;
-    padding: 8px 16px;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: rgba(255, 255, 255, 0.03);
+    font-size: 0.82rem;
+    padding: 6px 14px;
+    border-radius: 30px;
 }
 
 .mobile-lang-switcher .lang-btn.active {
-    background-color: var(--clr-gold-bg);
-    border-color: var(--clr-gold-border);
+    color: var(--clr-navy) !important;
+    background-color: var(--clr-gold-light) !important;
+    box-shadow: 0 2px 6px rgba(184, 134, 11, 0.2);
 }
+
 

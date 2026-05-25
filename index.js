@@ -777,6 +777,7 @@ const translations = {
         quiz_res_body: "Unsere Absolventen erzielen dank unseres professionellen Vorbereitungskurses eine Bestehensquote von 98% vor der IHK. Nutzen Sie Ihre Chance.",
         quiz_res_btn_cta: "Kostenfreie Beratung buchen",
         quiz_res_btn_repeat: "Test wiederholen",
+        quiz_seal_text: "IHK §34a ABSOLVENT",
         
         // Original quiz questions
         q1: "Welche der folgenden Befugnisse steht einem privaten Sicherheitsmitarbeiter im öffentlichen Raum grundsätzlich zu?",
@@ -1059,6 +1060,7 @@ const translations = {
         quiz_res_body: "Thanks to our professional preparation course, our graduates achieve a 98% pass rate before the IHK. Seize your chance.",
         quiz_res_btn_cta: "Book Free Consultation",
         quiz_res_btn_repeat: "Repeat Test",
+        quiz_seal_text: "IHK §34a GRADUATE",
         
         // Original quiz questions
         q1: "Which of the following powers does a private security employee generally have in public spaces?",
@@ -1341,6 +1343,7 @@ const translations = {
         quiz_res_body: "Завдяки професійній підготовці наші випускники досягають 98% успішності на іспитах IHK. Використовуйте свій шанс.",
         quiz_res_btn_cta: "Записатися на консультацію",
         quiz_res_btn_repeat: "Пройти тест знову",
+        quiz_seal_text: "ВИПУСКНИК IHK §34a",
         
         // Questions
         q1: "Які повноваження приватний охоронець має у громадських місцях?",
@@ -1613,6 +1616,7 @@ const translations = {
         quiz_res_body: "Profesyonel hazırlık kursumuz sayesinde mezunlarımız IHK sınavında %98 başarı oranı elde etmektedir. Şansınızı kullanın.",
         quiz_res_btn_cta: "Ücretsiz Randevu Al",
         quiz_res_btn_repeat: "Sınavı Tekrarla",
+        quiz_seal_text: "IHK §34a MEZUNU",
         
         // Questions
         q1: "Özel bir güvenlik görevlisinin kamusal alanda genel olarak hangi yetkisi vardır?",
@@ -1885,6 +1889,7 @@ const translations = {
         quiz_res_body: "بفضل برنامجنا التحضيري المتميز، يحقق خريجونا نسبة نجاح تبلغ 98% في اختبارات غرفة التجارة والصناعة (IHK). استغل فرصتك الآن.",
         quiz_res_btn_cta: "حجز استشارة مجانية",
         quiz_res_btn_repeat: "إعادة الاختبار",
+        quiz_seal_text: "خريج IHK §34a",
         
         // Questions
         q1: "ما هي الصلاحيات القانونية التي يتمتع بها حارس الأمن الخاص في الأماكن العامة؟",
@@ -2157,6 +2162,7 @@ const translations = {
         quiz_res_body: "Благодаря профессиональной подготовке наши выпускники достигают 98% успешности на экзаменах IHK. Используйте свой шанс.",
         quiz_res_btn_cta: "Записаться на консультацию",
         quiz_res_btn_repeat: "Пройти тест заново",
+        quiz_seal_text: "ВЫПУСКНИК IHK §34a",
         
         // Questions
         q1: "Какими полномочиями обладает частный охранник в общественных местах?",
@@ -2429,6 +2435,7 @@ const translations = {
         quiz_res_body: "به لطف دوره آمادگی متمایز ما، فارغ‌التحصیلان ما به نرخ قبولی ۹۸٪ در آزمون‌های اتاق بازرگانی (IHK) دست می‌یابند. از فرصت خود استفاده کنید.",
         quiz_res_btn_cta: "رزرو مشاوره رایگان",
         quiz_res_btn_repeat: "تکرار مجدد آزمون",
+        quiz_seal_text: "فارغ‌التحصیل IHK §34a",
         
         // Questions
         q1: "یک نیروی امنیتی خصوصی در محیط‌های عمومی چه اختیارات قانونی دارد؟",
@@ -3325,6 +3332,18 @@ renderQuizResults = function() {
             <div class="quiz-threshold-indicator ${statusClass}">
                 ${thresholdLabel}
             </div>
+            
+            ${passed ? `
+            <div class="quiz-badge-seal-wrapper">
+                <div class="quiz-badge-seal">
+                    <svg class="seal-svg" width="48" height="48" viewBox="0 0 64 64" fill="none">
+                        <circle cx="32" cy="32" r="28" fill="rgba(212, 175, 55, 0.12)" stroke="#AA820A" stroke-width="2" stroke-dasharray="4 2"></circle>
+                        <path d="M32 14L36.5 23.5L47 24.5L39.5 31.5L41.5 42L32 37L22.5 42L24.5 31.5L17 24.5L27.5 23.5L32 14Z" fill="#AA820A"></path>
+                    </svg>
+                    <span class="seal-badge-text">${translations[lang].quiz_seal_text || "IHK §34a ABSOLVENT"}</span>
+                </div>
+            </div>
+            ` : ''}
 
             <h3 class="quiz-results-title text-gradient-gold">${titleText}</h3>
             <p class="quiz-results-text">

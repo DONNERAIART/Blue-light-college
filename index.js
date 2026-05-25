@@ -682,7 +682,7 @@ const translations = {
         hero_badge_azav: "AZAV-Zugelassene Fachakademie",
         hero_badge_cost: "100% kostenfreie Ausbildung",
         hero_title: "Zertifizierte Ausbildungen für <span class=\"text-gradient-navy\">Sicherheit & Pflege</span>",
-        hero_description: "Starten Sie Ihre Karriere als <strong>Geprüfte Sicherheitskraft nach §34a</strong> oder als qualifizierte/r <strong>Pflegehelfer/in</strong>. 100% gefördert über die Agentur für Arbeit und Jobcenter – inklusive kostenfreiem Leih-Tablet und Jobgarantie.",
+        hero_description: "Starten Sie Ihre Karriere als <strong>Geprüfte Sicherheitskraft nach §34a</strong> oder als qualifizierte/r <strong>Pflegehelfer/in</strong> bei Ihrer zertifizierten Fachakademie für Schönkirchen, Kiel und ganz Deutschland. 100% gefördert über die Agentur für Arbeit und Jobcenter – inklusive kostenfreiem Leih-Tablet und Jobgarantie.",
         hero_btn_calc: "Förderung prüfen",
         hero_btn_courses: "Lehrgänge ansehen",
         hero_trust_quota_lbl: "Bestehensquote",

@@ -3743,12 +3743,11 @@ section {
 }
 
 .seal-badge-text {
-    font-family: var(--font-heading);
+    font-family: var(--font-body);
     font-size: 0.78rem;
     font-weight: 800;
     letter-spacing: 1.5px;
     color: var(--clr-gold);
-    text-transform: uppercase;
 }
 
 @keyframes rotate-slow {

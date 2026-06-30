@@ -338,6 +338,7 @@ function initNavScroll() {
 function initLeadForms() {
     const calcLeadForm = document.getElementById("calculator-lead-form");
     const mainContactForm = document.getElementById("main-contact-form");
+    const mmLeadForm = document.getElementById("matchmaker-lead-form");
     const webhookUrl = "https://hook.eu1.make.com/isl138qzilcinwa7b8t8qm3be97lwnn4";
     
     if (calcLeadForm) {
@@ -402,6 +403,34 @@ function initLeadForms() {
             
             showSuccessNotification("Anfrage registriert", `Vielen Dank, ${name}. Wir haben Ihre Anfrage erhalten. Eine Bestätigung wurde an ${email} gesendet.`);
             mainContactForm.reset();
+        });
+    }
+
+    if (mmLeadForm) {
+        mmLeadForm.addEventListener("submit", e => {
+            e.preventDefault();
+            const name = document.getElementById("mm-name").value;
+            const phone = document.getElementById("mm-phone").value;
+            
+            // Send lead to Make.com Webhook
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    formType: "Academy Matchmaker",
+                    name: name,
+                    phone: phone,
+                    matchmakerState: typeof mmState !== 'undefined' ? mmState : null,
+                    pageUrl: window.location.href,
+                    referrer: document.referrer,
+                    timestamp: new Date().toISOString()
+                })
+            }).catch(err => console.error("Error sending lead to webhook:", err));
+            
+            showSuccessNotification("Platz-Sicherung", `Vielen Dank, Herr/Frau ${name}. Wir haben Ihre Anfrage zur Platz-Sicherung erhalten und melden uns in Kürze unter ${phone}.`);
+            mmLeadForm.reset();
         });
     }
 }

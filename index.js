@@ -338,12 +338,33 @@ function initNavScroll() {
 function initLeadForms() {
     const calcLeadForm = document.getElementById("calculator-lead-form");
     const mainContactForm = document.getElementById("main-contact-form");
+    const webhookUrl = "https://hook.eu1.make.com/isl138qzilcinwa7b8t8qm3be97lwnn4";
     
     if (calcLeadForm) {
         calcLeadForm.addEventListener("submit", e => {
             e.preventDefault();
             const name = document.getElementById("calc-name").value;
             const phone = document.getElementById("calc-phone").value;
+            const fundingType = window.currentFundingType || 'voucher';
+            const calculatedTotal = document.getElementById("calc-total-status") ? document.getElementById("calc-total-status").innerText : "N/A";
+            
+            // Send lead to Make.com Webhook
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    formType: "Calculator Lead",
+                    name: name,
+                    phone: phone,
+                    fundingType: fundingType,
+                    calculatedTotal: calculatedTotal,
+                    pageUrl: window.location.href,
+                    referrer: document.referrer,
+                    timestamp: new Date().toISOString()
+                })
+            }).catch(err => console.error("Error sending lead to webhook:", err));
             
             showSuccessNotification("Ausbildungsberatung", `Vielen Dank, Herr/Frau ${name}. Unser Sekretariat wird Sie in Kürze unter ${phone} kontaktieren.`);
             calcLeadForm.reset();
@@ -355,6 +376,29 @@ function initLeadForms() {
             e.preventDefault();
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone") ? document.getElementById("phone").value : "N/A";
+            const courseSelect = document.getElementById("course-interest");
+            const courseInterest = courseSelect ? courseSelect.options[courseSelect.selectedIndex].text : "N/A";
+            const message = document.getElementById("message") ? document.getElementById("message").value : "";
+            
+            // Send lead to Make.com Webhook
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    formType: "Main Contact Form",
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    courseInterest: courseInterest,
+                    message: message,
+                    pageUrl: window.location.href,
+                    referrer: document.referrer,
+                    timestamp: new Date().toISOString()
+                })
+            }).catch(err => console.error("Error sending lead to webhook:", err));
             
             showSuccessNotification("Anfrage registriert", `Vielen Dank, ${name}. Wir haben Ihre Anfrage erhalten. Eine Bestätigung wurde an ${email} gesendet.`);
             mainContactForm.reset();

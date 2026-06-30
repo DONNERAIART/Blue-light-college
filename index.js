@@ -530,8 +530,8 @@ const legalDocs = {
 
             <h4>Kontakt:</h4>
             <p>Telefon: +49 (0) 431 9904 345<br>
-            E-Mail: info@blue-light-college.de<br>
-            Web: www.blue-light-college.de</p>
+            E-Mail: info@blue-light-college.com<br>
+            Web: www.blue-light-college.com</p>
 
             <h4>Registereintrag:</h4>
             <p>Eintragung im Handelsregister.<br>

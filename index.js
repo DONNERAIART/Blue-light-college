@@ -594,8 +594,8 @@ const legalDocs = {
         title: "Impressum",
         html: `
             <h4>Angaben gemäß § 5 TMG</h4>
-            <p><strong>Blue Light College GmbH</strong><br>
-            Kieler Straße 104a<br>
+            <p><strong>Blue Light College UG (haftungsbeschränkt)</strong><br>
+            Bürgermeister-Schade-Str. 18<br>
             24232 Schönkirchen (bei Kiel)</p>
 
             <h4>Vertreten durch:</h4>
@@ -609,7 +609,7 @@ const legalDocs = {
             <h4>Registereintrag:</h4>
             <p>Eintragung im Handelsregister.<br>
             Registergericht: Amtsgericht Kiel<br>
-            Registernummer: HRB 24896 B</p>
+            Registernummer: HRB 29183 KI</p>
 
             <h4>Umsatzsteuer-ID:</h4>
             <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
@@ -621,7 +621,7 @@ const legalDocs = {
 
             <h4>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h4>
             <p>Dr. Adrian von Werder<br>
-            Kieler Straße 104a<br>
+            Bürgermeister-Schade-Str. 18<br>
             24232 Schönkirchen</p>
         `
     },
@@ -655,8 +655,8 @@ const legalDocs = {
                 <div style="width: 80px; height: 1px; background-color: var(--clr-gold); margin: 0 auto 24px auto;"></div>
                 
                 <p style="font-size: 1rem; font-weight: 700; color: var(--clr-navy); margin-bottom: 8px;">Hiermit wird bescheinigt, dass der Bildungsträger</p>
-                <h4 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: var(--clr-gold); margin-bottom: 8px;">Blue Light College GmbH</h4>
-                <p style="font-size: 0.9rem; color: var(--clr-txt-secondary); margin-bottom: 24px;">Kieler Straße 104a, 24232 Schönkirchen (Kiel)</p>
+                <h4 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: var(--clr-gold); margin-bottom: 8px;">Blue Light College UG (haftungsbeschränkt)</h4>
+                <p style="font-size: 0.9rem; color: var(--clr-txt-secondary); margin-bottom: 24px;">Bürgermeister-Schade-Str. 18, 24232 Schönkirchen</p>
                 
                 <p style="font-size: 0.92rem; line-height: 1.6; color: var(--clr-txt-secondary); max-width: 580px; margin: 0 auto 24px auto; text-align: justify;">
                     ein Qualitätssicherungssystem nach den gesetzlichen Bestimmungen der <strong>Akkreditierungs- und Zulassungsverordnung Arbeitsförderung (AZAV)</strong> eingeführt hat und dieses erfolgreich anwendet. Der Träger ist berechtigt, Maßnahmen der Arbeitsförderung nach dem Dritten Buch Sozialgesetzbuch (SGB III) durchzuführen.
@@ -696,7 +696,7 @@ const legalDocs = {
         title: "Allgemeine Geschäftsbedingungen",
         html: `
             <h4>1. Geltungsbereich und Vertragspartner</h4>
-            <p>Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge über die Teilnahme an Weiterbildungsmaßnahmen, Lehrgängen und Kursen der Blue Light College GmbH (nachfolgend „Akademie“ genannt).</p>
+            <p>Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge über die Teilnahme an Weiterbildungsmaßnahmen, Lehrgängen und Kursen der Blue Light College UG (haftungsbeschränkt) (nachfolgend „Akademie“ genannt).</p>
 
             <h4>2. Vertragsschluss und Anmeldung</h4>
             <p>Die Anmeldung zu unseren Lehrgängen erfolgt schriftlich oder elektronisch über unsere Beratungs- und Anmeldesysteme. Der Vertrag kommt mit der schriftlichen Zusage/Zulassungsbestätigung durch die Akademie zustande.</p>
@@ -929,7 +929,7 @@ const translations = {
         contact_lbl_sec: "Bildungssekretariat",
         contact_lbl_mail: "E-Mail für Anfragen",
         contact_lbl_head: "Hauptsitz Schönkirchen",
-        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_val_addr: "Bürgermeister-Schade-Str. 18, 24232 Schönkirchen",
         contact_lbl_name: "Ihr vollständiger Name",
         contact_lbl_email: "E-Mail-Adresse",
         contact_lbl_phone: "Telefonnummer",
@@ -1212,7 +1212,7 @@ const translations = {
         contact_lbl_sec: "Academic Office",
         contact_lbl_mail: "E-mail for Queries",
         contact_lbl_head: "Headquarters Schönkirchen",
-        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_val_addr: "Bürgermeister-Schade-Str. 18, 24232 Schönkirchen",
         contact_lbl_name: "Your Full Name",
         contact_lbl_email: "E-mail Address",
         contact_lbl_phone: "Telephone Number",
@@ -1493,7 +1493,7 @@ const translations = {
         contact_lbl_sec: "Навчальна канцелярія",
         contact_lbl_mail: "Електронна пошта для запитів",
         contact_lbl_head: "Головний офіс Schönkirchen",
-        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_val_addr: "Bürgermeister-Schade-Str. 18, 24232 Schönkirchen",
         contact_lbl_name: "Ваше повне ім'я",
         contact_lbl_email: "Електронна адреса",
         contact_lbl_phone: "Номер телефону",
@@ -1766,7 +1766,7 @@ const translations = {
         contact_lbl_sec: "Öğrenci İşleri",
         contact_lbl_mail: "Sorularınız için E-posta",
         contact_lbl_head: "Schönkirchen Merkez Ofis",
-        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_val_addr: "Bürgermeister-Schade-Str. 18, 24232 Schönkirchen",
         contact_lbl_name: "Adınız ve Soyadınız",
         contact_lbl_email: "E-posta Adresiniz",
         contact_lbl_phone: "Telefon Numaranız",
@@ -2039,7 +2039,7 @@ const translations = {
         contact_lbl_sec: "مكتب التسجيل والقبول",
         contact_lbl_mail: "البريد الإلكتروني للطلبات",
         contact_lbl_head: "المقر الرئيسي Schönkirchen",
-        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_val_addr: "Bürgermeister-Schade-Str. 18, 24232 Schönkirchen",
         contact_lbl_name: "الاسم الكامل",
         contact_lbl_email: "البريد الإلكتروني",
         contact_lbl_phone: "رقم الهاتف",
@@ -2312,7 +2312,7 @@ const translations = {
         contact_lbl_sec: "Учебная канцелярия",
         contact_lbl_mail: "Почта для запросов",
         contact_lbl_head: "Головной офис Schönkirchen",
-        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_val_addr: "Bürgermeister-Schade-Str. 18, 24232 Schönkirchen",
         contact_lbl_name: "Ваше имя и фамилия",
         contact_lbl_email: "Адрес эл. почты",
         contact_lbl_phone: "Номер телефона",
@@ -2585,7 +2585,7 @@ const translations = {
         contact_lbl_sec: "دفتر ثبت‌نام و پذیرش",
         contact_lbl_mail: "ایمیل برای درخواست‌ها",
         contact_lbl_head: "دفتر مرکزی Schönkirchen",
-        contact_val_addr: "Dorfstraße 12, 24232 Schönkirchen",
+        contact_val_addr: "Bürgermeister-Schade-Str. 18, 24232 Schönkirchen",
         contact_lbl_name: "نام کامل شما",
         contact_lbl_email: "آدرس ایمیل",
         contact_lbl_phone: "شماره تلفن تماس",

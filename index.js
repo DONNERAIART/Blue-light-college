@@ -689,7 +689,6 @@ const legalDocs = {
             <p>Zugelassene Weiterbildungsmaßnahmen zur 100% Förderung über die Agentur für Arbeit (Bildungsgutschein):</p>
             <ul>
                 <li><strong>Maßnahme 1:</strong> Vorbereitung auf die Sachkundeprüfung im Bewachungsgewerbe nach § 34a GewO (IHK) inkl. Waffensachkunde nach § 7 WaffG - 50 Tage</li>
-                <li><strong>Maßnahme 2:</strong> Zertifizierte Fachausbildung zur/zum Pflegehelferin / Pflegehelfer (Basisqualifikation Pflegedienst) - 50 Tage</li>
             </ul>
         `
     },
@@ -754,8 +753,8 @@ const translations = {
         // Hero Section
         hero_badge_azav: "AZAV-Zugelassene Fachakademie",
         hero_badge_cost: "100% kostenfreie Ausbildung",
-        hero_title: "Zertifizierte Ausbildungen für <span class=\"text-gradient-navy\">Sicherheit & Pflege</span>",
-        hero_description: "Starten Sie Ihre Karriere als <strong>Geprüfte Sicherheitskraft nach §34a</strong> oder als qualifizierte/r <strong>Pflegehelfer/in</strong> bei Ihrer zertifizierten Fachakademie für Schönkirchen, Kiel und ganz Deutschland. 100% gefördert über die Agentur für Arbeit und Jobcenter – inklusive kostenfreiem Leih-Tablet und Jobgarantie.",
+        hero_title: "Zertifizierte Ausbildung für <span class=\"text-gradient-navy\">Sicherheit & Schutz</span>",
+        hero_description: "Starten Sie Ihre Karriere als <strong>Geprüfte Sicherheitskraft nach §34a</strong> bei Ihrer zertifizierten Fachakademie für Schönkirchen, Kiel und ganz Deutschland. 100% gefördert über die Agentur für Arbeit und Jobcenter – inklusive kostenfreiem Leih-Tablet und Jobgarantie.",
         hero_btn_calc: "Förderung prüfen",
         hero_btn_courses: "Lehrgänge ansehen",
         hero_trust_quota_lbl: "Bestehensquote",
@@ -773,7 +772,7 @@ const translations = {
         stats_format_text: "Flexibles Lernen bequem von zu Hause aus. Live-Interaktion mit Dozenten in Vollzeit oder Teilzeit – perfekt anpassbar.",
         stats_placement_title: "Jobvermittlung",
         stats_placement_val: "Garantie",
-        stats_placement_text: "Wir vermitteln Sie direkt nach erfolgreichem Abschluss an renommierte Kooperationspartner der Sicherheits- und Pflegebranche.",
+        stats_placement_text: "Wir vermitteln Sie direkt nach erfolgreichem Abschluss an renommierte Kooperationspartner der Sicherheitsbranche.",
         stats_equip_title: "Ausstattung",
         stats_equip_val: "Inklusive",
         stats_equip_text: "Wir stellen Ihnen für die gesamte Lehrgangsdauer ein hochwertiges Tablet kostenfrei zur Verfügung. Nach Abschluss gehört es Ihnen.",
@@ -903,8 +902,8 @@ const translations = {
         testi_subtitle: "Erfahren Sie aus erster Hand, wie unsere praxisnahe Ausbildung den Einstieg in eine neue Karriere ermöglicht hat.",
         testi_c1: "Absolvent §34a Sicherheitskraft",
         testi_q1: "„Dank des kostenfreien Leih-Tablets konnte ich flexibel abends lernen. Die Dozenten im Live-Online-Unterricht haben mich perfekt vorbereitet. Die IHK-Sachkundeprüfung war direkt beim ersten Mal bestanden! Nun arbeite ich im Objektschutz.“",
-        testi_c2: "Absolventin Pflegehelfer/in",
-        testi_q2: "„Als alleinerziehende Mutter war es schwer, eine Weiterbildung zu finden. Das Blue Light College war ein Glücksfall. Mein persönlicher Kundenberater hat mir sogar bei den Anträgen für das Jobcenter geholfen. Jetzt arbeite ich glücklich in der Pflege.“",
+        testi_c2: "Absolventin §34a Sicherheitskraft",
+        testi_q2: "„Als alleinerziehende Mutter war es schwer, eine passende Weiterbildung zu finden. Das Blue Light College war ein Glücksfall! Dank des flexiblen Online-Lernens konnte ich mein Kind betreuen und erfolgreich die Sachkundeprüfung ablegen. Heute arbeite ich im Empfangsdienst.“",
         testi_c3: "Absolvent §34a Sicherheitskraft",
         testi_q3: "„Besonders das intensive Coaching vor der mündlichen Prüfung hat mir die Prüfungsangst genommen. Die 100% Kostenübernahme und die vermittelte Stelle direkt nach Kursende waren perfekt. Absolut empfehlenswerte Akademie!“",
 
@@ -1037,8 +1036,8 @@ const translations = {
         // Hero Section
         hero_badge_azav: "AZAV-Certified Academy",
         hero_badge_cost: "100% Free Training",
-        hero_title: "Certified Training for <span class=\"text-gradient-navy\">Security & Care</span>",
-        hero_description: "Start your career as a <strong>Certified Security Guard under §34a</strong> or as a qualified <strong>Nursing Assistant</strong>. 100% funded via the Employment Agency and Jobcenter – including a free loan tablet and job guarantee.",
+        hero_title: "Certified Training for <span class=\"text-gradient-navy\">Security & Protection</span>",
+        hero_description: "Start your career as a <strong>Certified Security Guard under §34a</strong>. 100% funded via the Employment Agency and Jobcenter – including a free loan tablet and job guarantee.",
         hero_btn_calc: "Check Funding",
         hero_btn_courses: "View Courses",
         hero_trust_quota_lbl: "Pass Rate",
@@ -1056,7 +1055,7 @@ const translations = {
         stats_format_text: "Flexible learning from the comfort of your home. Live interaction with lecturers in full-time or part-time – perfectly adaptable.",
         stats_placement_title: "Job Placement",
         stats_placement_val: "Guarantee",
-        stats_placement_text: "We place you directly after successful completion with renowned cooperation partners in the security and care industry.",
+        stats_placement_text: "We place you directly after successful completion with renowned cooperation partners in the security industry.",
         stats_equip_title: "Equipment",
         stats_equip_val: "Included",
         stats_equip_text: "We provide you with a high-quality tablet free of charge for the entire duration of the course. It is yours to keep upon completion.",
@@ -1186,8 +1185,8 @@ const translations = {
         testi_subtitle: "Hear first-hand how our practical training enabled a smooth start into a new, secure career.",
         testi_c1: "Graduate §34a Security Guard",
         testi_q1: "“Thanks to the free loan tablet, I was able to study flexibly in the evening. The lecturers in live-online classes prepared me perfectly. I passed the IHK exam on the very first try! Now I work in object security.”",
-        testi_c2: "Graduate Nursing Assistant",
-        testi_q2: "“As a single mother, it was hard to find vocational training. Blue Light College was a stroke of luck. My advisor even helped me upload Jobcenter documents. Now I am happily working in nursing.”",
+        testi_c2: "Graduate §34a Security Guard",
+        testi_q2: "“As a single mother, it was hard to find a suitable training. Blue Light College was a stroke of luck! Thanks to flexible online learning, I could look after my child and successfully pass the security exam. Today I work in reception security.”",
         testi_c3: "Graduate §34a Security Guard",
         testi_q3: "“Especially the intensive coaching before the oral examination took away my exam anxiety. 100% cost coverage and direct job placement after graduation were perfect. Truly recommended!”",
 
@@ -1320,8 +1319,8 @@ const translations = {
         // Hero Section
         hero_badge_azav: "Академія сертифікована AZAV",
         hero_badge_cost: "100% безкоштовне навчання",
-        hero_title: "Сертифіковане навчання в галузі <span class=\"text-gradient-navy\">безпеки та догляду</span>",
-        hero_description: "Почніть кар'єру сертифікованого фахівця з безпеки відповідно до §34a або кваліфікованого помічника по догляду. На 100% фінансується Агентством зайнятості та Jobcenter – безкоштовний навчальний планшет та гарантія роботи.",
+        hero_title: "Сертифіковане навчання в галузі <span class=\"text-gradient-navy\">безпеки та охорони</span>",
+        hero_description: "Почніть кар'єру сертифікованого фахівця з безпеки відповідно до §34a. На 100% фінансується Агентством зайнятості та Jobcenter – безкоштовний навчальний планшет та гарантія роботи.",
         hero_btn_calc: "Перевірити фінансування",
         hero_btn_courses: "Переглянути курси",
         hero_trust_quota_lbl: "Рівень успішності",
@@ -1339,7 +1338,7 @@ const translations = {
         stats_format_text: "Гнучке навчання, не виходячи з дому. Жива взаємодія з викладачами на повний або неповний день – легко адаптується.",
         stats_placement_title: "Працевлаштування",
         stats_placement_val: "Гарантія",
-        stats_placement_text: "Після успішного завершення ми працевлаштуємо вас безпосередньо до провідних компаній у сфері охорони та догляду.",
+        stats_placement_text: "Після успішного завершення ми працевлаштуємо вас безпосередньо до провідних компаній у сфері охорони.",
         stats_equip_title: "Забезпечення",
         stats_equip_val: "Безкоштовно",
         stats_equip_text: "Ми надаємо вам планшет преміум-класу в безкоштовне користування на період курсу. Після завершення він залишається у вас.",
@@ -1467,8 +1466,8 @@ const translations = {
         testi_subtitle: "Дізнайтеся з перших вуст, як наше практичне навчання допомогло почати нову надійну кар'єру.",
         testi_c1: "Випускник §34a Охорона",
         testi_q1: "«Завдяки безкоштовному планшету я міг гнучко вчитися вечорами. Викладачі на живих онлайн-уроках підготували мене ідеально. Іспит IHK склав з першого разу! Тепер працюю в охороні об'єктів.»",
-        testi_c2: "Випускниця Помічник догляду",
-        testi_q2: "«Як мамі-одиначці, мені було важко знайти навчання. Коледж став справжньою знахідкою. Мій куратор допоміг мені завантажити документи для Джобцентру. Тепер я щаслива працювати в охороні здоров'я.»",
+        testi_c2: "Випускниця §34a Охоронець",
+        testi_q2: "«Як мамі-одиначці, мені було важко знайти підходяще навчання. Коледж став справжньою знахідкою! Завдяки гнучкому онлайн-навчанню я могла доглядати за дитиною і успішно склала іспит з безпеки. Сьогодні я працюю на рецепції в охороні.»",
         testi_c3: "Випускник §34a Охорона",
         testi_q3: "«Інтенсивна підготовка до усної частини повністю позбавила мене страху перед іспитом. Повна оплата 100% витрат державою та працевлаштування відразу після курсу були супер. Рекомендую!»",
 
@@ -1593,8 +1592,8 @@ const translations = {
         // Hero Section
         hero_badge_azav: "AZAV Onaylı Uzman Akademi",
         hero_badge_cost: "%100 Ücretsiz Eğitim",
-        hero_title: "<span class=\"text-gradient-navy\">Güvenlik & Bakım</span> Alanında Sertifikalı Eğitimler",
-        hero_description: "§34a onaylı Güvenlik Görevlisi veya kalifiye Hasta Bakıcı olarak kariyerinize başlayın. İş Ajansı (Arbeitsagentur) ve Jobcenter tarafından %100 finanse edilir – ücretsiz ödünç tablet ve iş garantisi dahildir.",
+        hero_title: "<span class=\"text-gradient-navy\">Güvenlik & Koruma</span> Alanında Sertifikalı Eğitimler",
+        hero_description: "§34a onaylı Güvenlik Görevlisi olarak kariyerinize başlayın. İş Ajansı (Arbeitsagentur) ve Jobcenter tarafından %100 finanse edilir – ücretsiz ödünç tablet ve iş garantisi dahildir.",
         hero_btn_calc: "Desteği Sorgula",
         hero_btn_courses: "Kursları İncele",
         hero_trust_quota_lbl: "Başarı Oranı",
@@ -1612,7 +1611,7 @@ const translations = {
         stats_format_text: "Evinizin konforunda esnek öğrenim. Tam zamanlı veya yarı zamanlı olarak eğitmenlerle canlı etkileşim – mükemmel uyum.",
         stats_placement_title: "İşe Yerleştirme",
         stats_placement_val: "Garantili",
-        stats_placement_text: "Eğitimi başarıyla tamamladıktan sonra sizi doğrudan güvenlik ve bakım sektörünün lider firmalarına yerleştiriyoruz.",
+        stats_placement_text: "Eğitimi başarıyla tamamladıktan sonra sizi doğrudan güvenlik sektörünün lider firmalarına yerleştiriyoruz.",
         stats_equip_title: "Ekipman",
         stats_equip_val: "Dahil",
         stats_equip_text: "Eğitim süresi boyunca size ücretsiz olarak yüksek kaliteli bir tablet veriyoruz. Eğitim sonunda tablet tamamen sizin olur.",
@@ -1740,8 +1739,8 @@ const translations = {
         testi_subtitle: "Uygulamalı eğitimimizin yeni ve güvenli bir kariyere başlamayı nasıl sağladığını ilk ağızdan öğrenin.",
         testi_c1: "Mezun §34a Güvenlik Görevlisi",
         testi_q1: "“Ücretsiz ödünç tablet sayesinde akşamları esnekçe çalışabildim. Canlı çevrimiçi derslerdeki eğitmenler beni mükemmel hazırladı. IHK uzmanlık sınavını ilk denemede geçtim! Şimdi tesis korumada çalışıyorum.”",
-        testi_c2: "Mezun Hasta Bakıcı",
-        testi_q2: "“Yalnız bir anne olarak mesleki eğitim bulmak zordu. Blue Light College büyük bir şans oldu. Danışmanım Jobcenter evrak yüklemelerinde bile bana destek oldu. Şimdi sağlık sektöründe çok mutluyum.”",
+        testi_c2: "Mezun §34a Güvenlik Görevlisi",
+        testi_q2: "“Yalnız bir anne olarak uygun bir eğitim bulmak zordu. Blue Light College büyük bir şans oldu! Esnek online eğitim sayesinde çocuğumla ilgilenebildim ve güvenlik sınavını başarıyla geçtim. Şimdi resepsiyon güvenliğinde çalışıyorum.”",
         testi_c3: "Mezun §34a Güvenlik Görevlisi",
         testi_q3: "“Özellikle sözlü sınav öncesi birebir sınav simülasyonları kaygımı yok etti. %100 devlet finansmanı ve mezuniyet sonrası anında iş garantisi harikaydı. Kesinlikle tavsiye ederim!”",
 
@@ -1866,8 +1865,8 @@ const translations = {
         // Hero Section
         hero_badge_azav: "أكاديمية تخصصية مرخصة من AZAV",
         hero_badge_cost: "تعليم مجاني 100%",
-        hero_title: "تدريب مهني معتمد في مجالات <span class=\"text-gradient-navy\">الأمن والرعاية الصحية</span>",
-        hero_description: "ابدأ مسيرتك المهنية كحارس أمن مرخص وفقاً للمادة §34a أو كمساعد رعاية صحية مؤهل. ممول بنسبة 100% من قبل وكالة العمل وJobcenter - بما في ذلك جهاز لوحي مجاني كإعارة وضمان الحصول على وظيفة.",
+        hero_title: "تدريب مهني معتمد في مجالات <span class=\"text-gradient-navy\">الأمن والحماية</span>",
+        hero_description: "ابدأ مسيرتك المهنية كحارس أمن مرخص وفقاً للمادة §34a. ممول بنسبة 100% من قبل وكالة العمل وJobcenter - بما في ذلك جهاز لوحي مجاني كإعارة وضمان الحصول على وظيفة.",
         hero_btn_calc: "فحص أهلية الدعم",
         hero_btn_courses: "عرض الدورات",
         hero_trust_quota_lbl: "نسبة النجاح",
@@ -1885,7 +1884,7 @@ const translations = {
         stats_format_text: "دراسة مرنة ومريحة من منزلك. تفاعل مباشر مع المحاضرين بدوام كامل أو جزئي - متوافق تماماً مع ظروفك.",
         stats_placement_title: "التوظيف",
         stats_placement_val: "مضمون",
-        stats_placement_text: "نقوم بتوظيفك مباشرة بعد التخرج لدى شركات رائدة شريكة في مجالات الأمن والرعاية الصحية.",
+        stats_placement_text: "نقوم بتوظيفك مباشرة بعد التخرج لدى شركات رائدة شريكة في مجالات الأمن.",
         stats_equip_title: "التجهيزات",
         stats_equip_val: "متضمنة مجاناً",
         stats_equip_text: "نوفر لك جهازاً لوحياً (تابلت) عالي الجودة مجاناً طوال فترة التدريب. ويصبح ملكك بالكامل فور التخرج.",
@@ -2013,8 +2012,8 @@ const translations = {
         testi_subtitle: "اكتشف بنفسك كيف ساعدهم تدريبنا العملي في بدء مسيرة مهنية جديدة وآمنة.",
         testi_c1: "خريج دورة §34a حارس أمن",
         testi_q1: "«بفضل الجهاز اللوحي المجاني، تمكنت من الدراسة بمرونة في المساء. لقد جهزني المحاضرون في الدروس المباشرة عبر الإنترنت بشكل ممتاز. واجتزت اختبار IHK من المحاولة الأولى! أعمل الآن في مجال حراسة المنشآت.»",
-        testi_c2: "خريجة دورة مساعد رعاية صحية",
-        testi_q2: "«كأم عزباء، كان من الصعب العثور على تدريب مناسب. كانت كلية بلو لايت هبة من السماء. لقد ساعدني مستشاري الخاص حتى في تقديم المستندات إلى جوب سنتر. الآن أعمل بسعادة في مجال الرعاية.»",
+        testi_c2: "خريجة دورة §34a حارس أمن",
+        testi_q2: "«كأم عزباء، كان من الصعب العثور على تدريب مناسب. كانت كلية بلو لايت هبة من السماء! بفضل التعلم المرن عبر الإنترنت، تمكنت من رعاية طفلي واجتياز امتحان الأمن بنجاح. اليوم أعمل في مجال أمن الاستقبال.»",
         testi_c3: "خريج دورة §34a حارس أمن",
         testi_q3: "«خاصة التدريب المكثف قبل الاختبار الشفهي أزال عني الخوف من الامتحانات. كان تغطية التكاليف بنسبة 100% والتوظيف المباشر بعد انتهاء الدورة أمراً ممتازاً. أكاديمية موصى بها بشدة!»",
 
@@ -2139,8 +2138,8 @@ const translations = {
         // Hero Section
         hero_badge_azav: "Сертифицированная академия AZAV",
         hero_badge_cost: "100% бесплатное обучение",
-        hero_title: "Сертифицированное обучение в сфере <span class=\"text-gradient-navy\">безопасности и ухода</span>",
-        hero_description: "Начните карьеру в качестве сертифицированного охранника (§34a) или квалифицированного помощника по уходу. Курсы полностью финансируются Агентством по труду и Jobcenter – бесплатный планшет и гарантия работы.",
+        hero_title: "Сертифицированное обучение в сфере <span class=\"text-gradient-navy\">безопасности и охраны</span>",
+        hero_description: "Начните карьеру в качестве сертифицированного охранника (§34a). Курсы полностью финансируются Агентством по труду и Jobcenter – бесплатный планшет и гарантия работы.",
         hero_btn_calc: "Проверить финансирование",
         hero_btn_courses: "Посмотреть курсы",
         hero_trust_quota_lbl: "Сдают экзамен",
@@ -2158,7 +2157,7 @@ const translations = {
         stats_format_text: "Гибкое обучение, не выходя из дома. Живое взаимодействие с преподавателями на полный или неполный день – легко подстраивается.",
         stats_placement_title: "Трудоустройство",
         stats_placement_val: "Гарантия",
-        stats_placement_text: "После успешного завершения мы напрямую трудоустраиваем вас в ведущие охранные и медицинские компании-партнеры.",
+        stats_placement_text: "После успешного завершения мы напрямую трудоустраиваем вас в ведущие охранные компании-партнеры.",
         stats_equip_title: "Оснащение",
         stats_equip_val: "Включено",
         stats_equip_text: "Мы бесплатно предоставляем вам планшет превосходного качества на период учебы. После окончания он остается у вас.",
@@ -2286,8 +2285,8 @@ const translations = {
         testi_subtitle: "Узнайте из первых уст, как наше практическое обучение помогло начать новую надежную карьеру.",
         testi_c1: "Выпускник §34a Охранник",
         testi_q1: "«Благодаря бесплатному планшету я мог гибко учиться по вечерам. Преподаватели на онлайн-занятиях подготовили меня идеально. Я сдал экзамен IHK с первого раза! Теперь работаю в охране объектов.»",
-        testi_c2: "Выпускница Помощник по уходу",
-        testi_q2: "«Как маме-одиночке, мне было трудно найти курсы. Колледж стал для меня спасением. Мой консультант помог мне собрать документы для Jobcenter. Теперь я счастлива работать в сфере ухода.»",
+        testi_c2: "Выпускница §34a Охранник",
+        testi_q2: "«Как маме-одиночке, мне было трудно найти подходящие курсы. Колледж стал для меня спасением! Благодаря гибкому онлайн-обучению я могла заботиться о ребенке и успешно сдала экзамен по безопасности. Теперь я работаю на ресепшене в охране.»",
         testi_c3: "Выпускник §34a Охранник",
         testi_q3: "«Особенно индивидуальная подготовка к устному экзамену избавила меня от страха. Полная оплата 100% расходов государством и трудоустройство сразу после курсов были идеальны. Рекомендую!»",
 
@@ -2412,8 +2411,8 @@ const translations = {
         // Hero Section
         hero_badge_azav: "آکادمی تخصصی دارای تاییدیه AZAV",
         hero_badge_cost: "آموزش ۱۰۰٪ رایگان و دولتی",
-        hero_title: "دوره‌های آموزشی معتبر در زمینه <span class=\"text-gradient-navy\">امنیت و مراقبت (پرستاری)</span>",
-        hero_description: "شغل خود را به عنوان نیروی امنیتی رسمی طبق ماده §34a یا به عنوان کمک پرستار واجد شرایط شروع کنید. هزینه دوره ۱۰۰٪ توسط اداره کار (Jobcenter) پرداخت می‌شود – همراه با تبلت رایگان امانتی و ضمانت استخدام.",
+        hero_title: "دوره‌های آموزشی معتبر در زمینه <span class=\"text-gradient-navy\">امنیت و حفاظت</span>",
+        hero_description: "شغل خود را به عنوان نیروی امنیتی رسمی طبق ماده §34a شروع کنید. هزینه دوره ۱۰۰٪ توسط اداره کار (Jobcenter) پرداخت می‌شود – همراه با تبلت رایگان امانتی و ضمانت استخدام.",
         hero_btn_calc: "بررسی شرایط حمایت مالی",
         hero_btn_courses: "مشاهده دوره‌ها",
         hero_trust_quota_lbl: "نرخ قبولی آزمون",
@@ -2431,7 +2430,7 @@ const translations = {
         stats_format_text: "آموزش منعطف از راحتی خانه شما. تعامل زنده با استادان به صورت تمام‌وقت یا پاره‌وقت – کاملاً سازگار با شرایط شما.",
         stats_placement_title: "معرفی به کار",
         stats_placement_val: "تضمینی",
-        stats_placement_text: "ما شما را بلافاصله پس از پایان موفقیت‌آمیز دوره به شرکت‌های همکار معتبر در بخش امنیت و مراقبت معرفی می‌کنیم.",
+        stats_placement_text: "ما شما را بلافاصله پس از پایان موفقیت‌آمیز دوره به شرکت‌های همکار معتبر در بخش امنیت معرفی می‌کنیم.",
         stats_equip_title: "تجهیزات",
         stats_equip_val: "شامل دوره",
         stats_equip_text: "ما یک تبلت باکیفیت بالا را به صورت کاملاً رایگان برای کل مدت دوره در اختیار شما قرار می‌دهیم. پس از پایان، تبلت متعلق به خودتان است.",
@@ -2559,8 +2558,8 @@ const translations = {
         testi_subtitle: "از زبان خودشان بشنوید که چگونه آموزش‌های عملی ما راه را برای ورود به یک شغل جدید و امن هموار کرد.",
         testi_c1: "فارغ‌التحصیل §34a نیروی امنیتی",
         testi_q1: "«به لطف تبلت رایگان، می‌توانستم شب‌ها با انعطاف درس بخوانم. استادان در کلاس‌های آنلاین زنده مرا عالی آماده کردند. در اولین تلاش در آزمون IHK قبول شدم! اکنون در بخش حفاظت فیزیکی کار می‌کنم.»",
-        testi_c2: "فارغ‌التحصیل کمک پرستار",
-        testi_q2: "«به عنوان یک مادر مجرد، پیدا کردن دوره آموزشی سخت بود. این کالج یک شانس بزرگ بود. مشاورم حتی در بارگذاری مدارک جاب‌سنتر به من کمک کرد. اکنون با شادی در بخش مراقبت کار می‌کنم.»",
+        testi_c2: "فارغ‌التحصیل §34a نیروی امنیتی",
+        testi_q2: "«به عنوان یک مادر مجرد، پیدا کردن دوره آموزشی مناسب سخت بود. این کالج یک شانس بزرگ بود! به لطف یادگیری آنلاین انعطاف‌پذیر، توانستم از فرزندم مراقبت کنم و آزمون امنیت را با موفقیت پشت سر بگذارم. امروز در بخش امنیت پذیرش کار می‌کنم.»",
         testi_c3: "فارغ‌التحصیل §34a نیروی امنیتی",
         testi_q3: "«به ویژه آمادگی فشرده برای آزمون شفاهی ترس مرا از امتحان از بین برد. پوشش ۱۰۰٪ هزینه‌ها توسط دولت و معرفی مستقیم به کار عالی بود. این آکادمی را کاملاً توصیه می‌کنم!»",
 
@@ -3012,24 +3011,18 @@ function initWhatsAppStatus() {
 
 // 2. 60-Second Academy Matchmaker State Machine
 let mmState = {
-    step: 1,
-    field: "",      // "security" or "care"
+    step: 2,
+    field: "security",
     status: "",     // "unemployed", "employed", "student", "other"
     priority: ""    // "funding", "flexibility", "job"
 };
 
 window.handleMatchmakerNext = function(step, choice) {
-    if (step === 1) {
-        mmState.field = choice;
-        document.getElementById("mm-step-1").classList.remove("active");
-        document.getElementById("mm-step-2").classList.add("active");
-        document.getElementById("mm-progress").style.width = "50%";
-        mmState.step = 2;
-    } else if (step === 2) {
+    if (step === 2) {
         mmState.status = choice;
         document.getElementById("mm-step-2").classList.remove("active");
         document.getElementById("mm-step-3").classList.add("active");
-        document.getElementById("mm-progress").style.width = "75%";
+        document.getElementById("mm-progress").style.width = "66.6%";
         mmState.step = 3;
     } else if (step === 3) {
         mmState.priority = choice;
@@ -3042,22 +3035,17 @@ window.handleMatchmakerNext = function(step, choice) {
 };
 
 window.handleMatchmakerPrev = function(step) {
-    if (step === 2) {
-        document.getElementById("mm-step-2").classList.remove("active");
-        document.getElementById("mm-step-1").classList.add("active");
-        document.getElementById("mm-progress").style.width = "25%";
-        mmState.step = 1;
-    } else if (step === 3) {
+    if (step === 3) {
         document.getElementById("mm-step-3").classList.remove("active");
         document.getElementById("mm-step-2").classList.add("active");
-        document.getElementById("mm-progress").style.width = "50%";
+        document.getElementById("mm-progress").style.width = "33.3%";
         mmState.step = 2;
     } else if (step === 4) {
         // Reset and restart
-        mmState = { step: 1, field: "", status: "", priority: "" };
+        mmState = { step: 2, field: "security", status: "", priority: "" };
         document.getElementById("mm-step-4").classList.remove("active");
-        document.getElementById("mm-step-1").classList.add("active");
-        document.getElementById("mm-progress").style.width = "25%";
+        document.getElementById("mm-step-2").classList.add("active");
+        document.getElementById("mm-progress").style.width = "33.3%";
         
         // Clear input values
         const mmName = document.getElementById("mm-name");
@@ -3506,7 +3494,7 @@ const regionalMapData = {
     de: {
         east: {
             title: "Regionalzentrum Berlin & Brandenburg",
-            desc: "Unser Hauptkooperationspartner <strong>Securitas Ost</strong> und das <strong>Deutsche Rote Kreuz</strong> stellen jährlich über 400 Absolventen der Sicherheits- und Pflegelehrgänge direkt in feste Stellen ein. Vor-Ort-Unterstützung bei der IHK-Anmeldung."
+            desc: "Unser Hauptkooperationspartner <strong>Securitas Ost</strong> stellt jährlich über 400 Absolventen der Sicherheitslehrgänge direkt in feste Stellen ein. Vor-Ort-Unterstützung bei der IHK-Anmeldung."
         },
         north: {
             title: "Regionalzentrum Hamburg & Nord",
@@ -3528,7 +3516,7 @@ const regionalMapData = {
     en: {
         east: {
             title: "Berlin & Brandenburg Hub",
-            desc: "Our primary partners <strong>Securitas East</strong> and the <strong>German Red Cross</strong> employ over 400 graduates annually from our security and care programs. Local assistance with IHK exam registration is guaranteed."
+            desc: "Our primary partner <strong>Securitas East</strong> employs over 400 graduates annually from our security programs. Local assistance with IHK exam registration is guaranteed."
         },
         north: {
             title: "Hamburg & North Hub",
@@ -3550,7 +3538,7 @@ const regionalMapData = {
     ua: {
         east: {
             title: "Регіональний центр Берлін та Бранденбург",
-            desc: "Наші головні партнери <strong>Securitas East</strong> та <strong>Німецький Червоний Хрест</strong> щорічно працевлаштовують понад 400 випускників курсів безпеки та охорони здоров'я. Надаємо локальну підтримку при реєстрації в IHK."
+            desc: "Наш головний партнер <strong>Securitas East</strong> щорічно працевлаштовує понад 400 випускників курсів безпеки. Надаємо локальну підтримку при реєстрації в IHK."
         },
         north: {
             title: "Регіональний центр Гамбург та Північ",
@@ -3572,7 +3560,7 @@ const regionalMapData = {
     tr: {
         east: {
             title: "Berlin & Brandenburg Bölge Merkezi",
-            desc: "Ana ortaklarımız <strong>Securitas Doğu</strong> ve <strong>Alman Kızılhaçı (DRK)</strong>, her yıl güvenlik ve bakım eğitimlerimizden mezun olan 400'den fazla kişiyi doğrudan işe almaktadır."
+            desc: "Ana ortağımız <strong>Securitas Doğu</strong>, her yıl güvenlik eğitimlerimizden mezun olan 400'den fazla kişiyi doğrudan işe almaktadır."
         },
         north: {
             title: "Hamburg & Kuzey Bölge Merkezi",
@@ -3594,7 +3582,7 @@ const regionalMapData = {
     ar: {
         east: {
             title: "مركز برلين وبراندنبورغ الإقليمي",
-            desc: "شركاؤنا الرئيسيون <strong>سيكوريتاس الشرق</strong> و<strong>الصليب الأحمر الألماني</strong> يوظفون سنوياً أكثر من 400 خريج من دورات الأمن والرعاية الصحية مباشرة في وظائف ثابتة."
+            desc: "شريكنا الرئيسي <strong>سيكوريتاس الشرق</strong> يوظف سنوياً أكثر من 400 خريج من دورات الأمن مباشرة في وظائف ثابتة."
         },
         north: {
             title: "مركز هامبورغ والشمال الإقليمي",
@@ -3616,7 +3604,7 @@ const regionalMapData = {
     ru: {
         east: {
             title: "Региональный центр Берлин и Бранденбург",
-            desc: "Наши главные партнеры <strong>Securitas East</strong> и <strong>Немецкий Красный Крест</strong> ежегодно принимают более 400 выпускников курсов безопасности и ухода напрямую в штат."
+            desc: "Наш главный партнер <strong>Securitas East</strong> ежегодно принимает более 400 выпускников курсов безопасности напрямую в штат."
         },
         north: {
             title: "Региональный центр Гамбург и Север",
@@ -3638,7 +3626,7 @@ const regionalMapData = {
     fa: {
         east: {
             title: "مرکز منطقه‌ای برلین و براندنبورگ",
-            desc: "شریک اصلی ما <strong>سکوریتاس شرق</strong> و <strong>صلیب سرخ آلمان</strong> سالانه بیش از ۴۰۰ فارغ‌التحصیل دوره‌های امنیت و مراقبت را مستقیماً استخدام می‌کنند."
+            desc: "شریک اصلی ما <strong>سکوریتاس شرق</strong> سالانه بیش از ۴۰۰ فارغ‌التحصیل دوره‌های امنیت را مستقیماً استخدام می‌کند."
         },
         north: {
             title: "مرکز منطقه‌ای هامبورگ و شمال",
